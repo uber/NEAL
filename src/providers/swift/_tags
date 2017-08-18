@@ -1,0 +1,3 @@
+"parsing": include
+
+true: package(neal, angstrom), debug, coverage, annot, bin_annot

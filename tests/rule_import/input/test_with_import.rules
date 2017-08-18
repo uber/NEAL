@@ -1,0 +1,5 @@
+// RUN: %test | %check
+
+import * from "./base.rules"
+
+// CHECK: ✓ 0 tests passed, ⅹ 0 tests failed, ! 0 tests errors

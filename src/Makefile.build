@@ -1,0 +1,28 @@
+SELF_DIR = $(dir $(lastword $(MAKEFILE_LIST)))
+
+include $(SELF_DIR)/Makefile.consts
+
+ifdef PROFILE
+	PROFILE=.p
+else
+	PROFILE=
+endif
+
+.PHONY: build
+build::
+	@true
+ifneq ($(MAIN_FILE),)
+	$(OCAMLBUILD) $(MAIN_FILE)$(PROFILE).$(EXEC_EXT)
+endif
+ifneq ($(LIBRARY),)
+	$(OCAMLBUILD) $(LIBRARY)$(PROFILE).$(LIB_EXT)
+	cp _build/$(LIBRARY)$(PROFILE).$(LIB_EXT) _build/$(LIBRARY).$(LIBRARY_EXPORT_PREFIX).$(LIB_EXT)
+endif
+
+.PHONY: clean
+clean::
+	ocamlbuild -clean
+
+.PHONY: test
+test:: $(NEAL)
+	@true

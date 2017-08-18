@@ -1,0 +1,6 @@
+// RUN: sed "s|__BASEDIR__|%p|;s| *//.*$||;/^$/d" < "%s" > "%t"
+// RUN: %not %neal -r %p/../rules --filelist %t | %check
+
+__BASEDIR__/error.swift // CHECK: error:\d+ No force unwrap
+__BASEDIR__/warning.swift // CHECK: warning:\d+ Don't call `print`
+__BASEDIR__/parse_error.swift

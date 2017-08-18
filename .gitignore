@@ -1,0 +1,9 @@
+*.native
+*.byte
+_build/
+*.pyc
+_book
+node_modules
+.DS_Store
+env*
+*.pickle

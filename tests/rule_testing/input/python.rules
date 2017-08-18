@@ -1,0 +1,20 @@
+// RUN: %test | %check
+rule public_foo {
+  Python::Call where Func == "foo" {
+    Keyword where Arg == "visibility" {
+      Str where S == "PUBLIC" {
+        fail("Must use visibility = PRIVATE instead.")
+      }
+    }
+  }
+
+  tests {
+    // CHECK: Test `visibility_public' of rule `public_foo' passed
+    visibility_public: expect_fail("foo(visibility=['PUBLIC'])")
+
+    // CHECK: Test `visibility_private' of rule `public_foo' passed
+    visibility_private: expect_ok(from_file("../fixtures/visibility_private.python"))
+  }
+}
+
+// CHECK-L: ✓ 2 tests passed, ⅹ 0 tests failed, ! 0 tests errors

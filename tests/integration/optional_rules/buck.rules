@@ -1,0 +1,10 @@
+// similar to visibility in BUCK files
+rule public_apple_library {
+  Python::Call where Func == "apple_library" {
+    Keyword where Arg == "visibility" {
+      Str where S == "PUBLIC" {
+        fail("Must use visibility = PRIVATE instead.")
+      }
+    }
+  }
+}

@@ -1,0 +1,12 @@
+description = "Not Exactly A Linter"
+version = "0.1.0"
+
+package "fs" (
+  requires = "core str"
+  archive(byte) = "fs.cmo"
+)
+
+package "prabsyn" (
+  requires = "neal"
+  archive(byte) = "prabsyn.cmo"
+)

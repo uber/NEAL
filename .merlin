@@ -1,0 +1,30 @@
+S src
+S src/core
+S src/core/directives
+S src/core/driver
+S src/core/provider
+S src/core/rule
+S src/providers
+S src/providers/helpers
+S src/providers/python
+S src/providers/swift
+S src/providers/swift/parsing
+S src/reporters
+S src/reporters/arc
+S src/reporters/cli
+
+B src/core/_build
+B src/core/_build/coverage
+B src/core/_build/directives
+B src/core/_build/driver
+B src/core/_build/provider
+B src/core/_build/rule
+B src/providers/python/_build
+B src/providers/swift/_build
+B src/providers/swift/_build/parsing
+B src/reporters/arc/_build
+B src/reporters/cli/_build
+
+PKG findlib menhirLib core yojson cmdliner camlp4
+
+EXT camlp4

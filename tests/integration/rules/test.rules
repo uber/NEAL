@@ -1,0 +1,21 @@
+rule Bang {
+  Swift::ForcedValueExpression {
+    fail("No force unwrap")
+  }
+
+  tests {
+    test1: expect_ok("x")
+    test2: expect_fail("x!")
+  }
+}
+
+rule Print {
+  Swift::CallExpression where Callee == "print" {
+    warn("Don't call `print`")
+  }
+
+  tests {
+    test1: expect_ok("printf()")
+    test2: expect_warn("print()")
+  }
+}

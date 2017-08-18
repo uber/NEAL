@@ -1,0 +1,5 @@
+rule no_bar {
+  Swift::CallExpression where Callee == "bar" {
+    fail("Call foo instead")
+  }
+}

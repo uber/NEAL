@@ -1,0 +1,5 @@
+// RUN: %not %neal-fixture | %check
+import * from "./base.rules"
+
+// CHECK: warning:\d+ No random numbers
+// CHECK: error:\d+ No force unwrap

@@ -1,0 +1,3 @@
+// RUN: %not %neal %p | %check
+
+// CHECK: error:\d+ Call foo instead

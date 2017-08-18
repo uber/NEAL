@@ -1,0 +1,10 @@
+bin: [
+  "core/_build/main.native" { "neal" }
+]
+lib: [
+  "providers/swift/_build/swift.provider.cmxs" { "providers/swift.provider.cmxs" }
+  "providers/python/_build/python.provider.cmxs" { "providers/python.provider.cmxs" }
+
+  "reporters/cli/_build/cli.cmxs" { "reporters/cli/cli.reporter.cmxs" }
+  "reporters/arc/_build/arc.cmxs" { "reporters/arc/arc.reporter.cmxs" }
+]

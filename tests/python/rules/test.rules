@@ -1,0 +1,39 @@
+// similar to visibility in BUCK files
+rule public_foo {
+  Python::Call where Func == "foo" {
+    Keyword where Arg == "visibility" {
+      Str where S == "PUBLIC" {
+        fail("Must use visibility = PRIVATE instead.")
+      }
+    }
+  }
+}
+
+rule no_test_host_app {
+  Python::Call where match(Func, /.*_test/) {
+    var test_host_app := false
+    var is_ui_test := false
+
+    condition (test_host_app && is_ui_test) {
+      fail("Only UI tests should have test host apps")
+    }
+
+    Keyword where Arg == "test_host_app" {
+      test_host_app := true
+    }
+
+    Keyword where Arg == "labels" {
+      Str where S == "ui" {
+        is_ui_test := true
+      }
+    }
+  }
+}
+
+rule should_not_work {
+  Python::Keyword where Arg == "labels" {
+    Str where S == "ui" && is_ui_test {
+      fail("WAT?!")
+    }
+  }
+}

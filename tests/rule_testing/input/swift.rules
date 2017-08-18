@@ -1,0 +1,238 @@
+// RUN: %not %test | %check
+rule SyntaxError {
+  Swift::Identifier {
+    fail("_")
+  }
+
+  tests {
+    // CHECK: ! Failed to parse input of test `testSyntaxError' from rule `SyntaxError':
+    // CHECK: input string `10x'
+    testSyntaxError: expect_ok("10x")
+
+    // CHECK: ! Failed to parse input of test `testFixtureSyntaxError' from rule `SyntaxError':
+    // CHECK: input file `.*rule_testing/fixtures/syntax_error.swift'
+    testFixtureSyntaxError:
+      expect_ok(from_file("../fixtures/syntax_error.swift"))
+  }
+}
+
+rule ExpectOk {
+  Swift::Identifier {
+    fail("_")
+  }
+
+  tests {
+    // CHECK: ✓ Test `testExpectOk' of rule `ExpectOk' passed
+    testExpectOk: expect_ok("1")
+  }
+}
+
+rule ExpectFail {
+  Swift::Identifier {
+    fail("_")
+  }
+
+  tests {
+    // CHECK: ✓ Test `testExpectFail' of rule `ExpectFail' passed
+    testExpectFail: expect_fail("x")
+  }
+}
+
+rule ExpectWarn {
+  Swift::Identifier {
+    warn("_")
+  }
+
+  tests {
+    // CHECK: ✓ Test `testExpectWarn' of rule `ExpectWarn' passed
+    testExpectWarn: expect_warn("x")
+  }
+}
+
+rule ExpectWarnGotFail {
+  Swift::Identifier {
+    fail("_")
+  }
+
+  tests {
+    // CHECK: ⅹ Test `testExpectWarnGotFail' of rule `ExpectWarnGotFail' failed:
+    // CHECK: Expected to find `warning', but found `error'
+    testExpectWarnGotFail: expect_warn("x")
+  }
+}
+
+rule ExpectWarnGotOk {
+  Swift::Identifier {
+    warn("_")
+  }
+
+  tests {
+    // CHECK: ⅹ Test `testExpectWarnGotOk' of rule `ExpectWarnGotOk' failed:
+    // CHECK: Expected 1 violations, but found 0
+    testExpectWarnGotOk: expect_warn("1")
+  }
+}
+
+rule ExpectFailGotWarn {
+  Swift::Identifier {
+    warn("_")
+  }
+
+  tests {
+    // CHECK: ⅹ Test `testExpectFailGotWarn' of rule `ExpectFailGotWarn' failed:
+    // CHECK:	Expected to find `error', but found `warning'
+    testExpectFailGotWarn: expect_fail("x")
+  }
+}
+
+rule ExpectFailGotOk {
+  Swift::Identifier {
+    fail("_")
+  }
+
+  tests {
+    // CHECK: ⅹ Test `testExpectFailGotOk' of rule `ExpectFailGotOk' failed:
+    // CHECK:	Expected 1 violations, but found 0
+    testExpectFailGotOk: expect_fail("1")
+  }
+}
+
+rule ExpectOkGotFail {
+  Swift::Identifier {
+    fail("_")
+  }
+
+  tests {
+    // CHECK: ⅹ Test `testExpectOkGotFail' of rule `ExpectOkGotFail' failed:
+    // CHECK: Expected 0 violations, but found 1
+    testExpectOkGotFail: expect_ok("x")
+  }
+}
+
+rule ExpectOkGotWarn {
+  Swift::Identifier {
+    warn("_")
+  }
+
+  tests {
+    // CHECK: ⅹ Test `testExpectOkGotWarn' of rule `ExpectOkGotWarn' failed:
+    // CHECK:	Expected 0 violations, but found 1
+    testExpectOkGotWarn: expect_ok("x")
+  }
+}
+
+
+rule ExpectMismatchedFailMessage {
+  Swift::ForcedValueExpression {
+    fail("no forced values")
+  }
+
+  tests {
+    // CHECK: ⅹ Test `testExpectMismatchedFailMessage' of rule `ExpectMismatchedFailMessage' failed:
+    // CHECK: Expected violation with message `other message', but found `no forced values'
+    testExpectMismatchedFailMessage: expect_fail("x!", "other message")
+  }
+}
+
+rule ExpectMismatchedWarnMessage {
+  Swift::ForcedValueExpression {
+    warn("no forced values")
+  }
+
+  tests {
+    // CHECK: ⅹ Test `testExpectMismatchedWarnMessage' of rule `ExpectMismatchedWarnMessage' failed:
+    // CHECK: Expected violation with message `other message', but found `no forced values'
+    testExpectMismatchedWarnMessage: expect_warn("x!", "other message")
+  }
+}
+
+rule ExpectMatchingFailMessage {
+  Swift::ForcedValueExpression {
+    fail("no forced values")
+  }
+
+  tests {
+    // CHECK: ✓ Test `testExpectMatchingFailMessage' of rule `ExpectMatchingFailMessage' passed
+    testExpectMatchingFailMessage: expect_fail("x!", "no forced values")
+  }
+}
+
+rule ExpectMatchingWarnMessage {
+  Swift::ForcedValueExpression {
+    warn("no forced values")
+  }
+
+  tests {
+    // CHECK: ✓ Test `testExpectMatchingWarnMessage' of rule `ExpectMatchingWarnMessage' passed
+    testExpectMatchingWarnMessage: expect_warn("x!", "no forced values")
+  }
+}
+
+rule ExpectFailGotWarnWithMismatchedMessage {
+  Swift::ForcedValueExpression {
+    warn("no forced values")
+  }
+
+  tests {
+    // CHECK: ⅹ Test `testExpectFailGotWarnWithMismatchedMessage' of rule `ExpectFailGotWarnWithMismatchedMessage' failed:
+    // CHECK: Expected to find `error', but found `warning'
+    testExpectFailGotWarnWithMismatchedMessage:
+      expect_fail("x!", "other message")
+  }
+}
+
+rule ExpectFailFixture {
+  Swift::ForcedValueExpression {
+    fail("no forced values")
+  }
+
+  tests {
+    // CHECK: ✓ Test `testExpectFailFixture' of rule `ExpectFailFixture' passed
+    testExpectFailFixture:
+      expect_fail(from_file("../fixtures/forced_value.swift"))
+
+    // CHECK: ⅹ Test `testExpectFailMessageMismatch' of rule `ExpectFailFixture' failed:
+    // CHECK: violation with message `other message', but found `no forced values'
+    testExpectFailMessageMismatch:
+      expect_fail(from_file("../fixtures/forced_value.swift"), "other message")
+
+    // CHECK: ✓ Test `testExpectFailMatchingMessage' of rule `ExpectFailFixture' passed
+    testExpectFailMatchingMessage:
+      expect_fail(from_file("../fixtures/forced_value.swift"), "no forced values")
+  }
+}
+
+rule ExpectOkFixture {
+  Swift::CallExpression {
+    warn("no function calls")
+  }
+
+  tests {
+    // CHECK: ✓ Test `testExpectOkFixture' of rule `ExpectOkFixture' passed
+    testExpectOkFixture:
+      expect_ok(from_file("../fixtures/forced_value.swift"))
+  }
+}
+
+rule MissingFixture {
+  Swift::Identifier { fail("_") }
+  tests {
+    // CHECK: ! Failed to parse input of test `testMissingFixture' from rule `MissingFixture':
+    // CHECK:  such file: `../fixtures/non_existing_fixture.swift'
+    testMissingFixture: expect_ok(from_file("../fixtures/non_existing_fixture.swift"))
+  }
+}
+
+rule TwoMatchers {
+  Swift::Identifier where Value == "a" { fail("a") }
+  Swift::Identifier where Value == "b" { fail("b") }
+
+  tests {
+    // CHECK-NEXT-L: ✓ Test `test_a' of rule `TwoMatchers' passed
+    test_a: expect_fail("a")
+    // CHECK-NEXT-L: ✓ Test `test_b' of rule `TwoMatchers' passed
+    test_b: expect_fail("b")
+  }
+}
+
+// CHECK: ✓ 10 tests passed, ⅹ 10 tests failed, ! 3 tests errors

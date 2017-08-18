@@ -1,0 +1,4 @@
+// RUN: %neal-fixture | %check
+import { no_random } from "./base.rules"
+
+// CHECK: warning:\d+ No random numbers

@@ -1,0 +1,18 @@
+// RUN: %not %neal-fixture | %check
+
+rule no_random {
+  Swift::CallExpression where Callee == "arc4random" {
+    warn("No random numbers") // CHECK: warning:\d+ No random numbers
+  }
+
+  tests {
+    // this should fail for testing how imports affect testing
+    failing_test: expect_ok("arc4random()")
+  }
+}
+
+rule bang {
+  Swift::ForcedValueExpression {
+    fail("No force unwrap") // CHECK: error:\d+ No force unwrap
+  }
+}

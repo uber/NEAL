@@ -1,0 +1,54 @@
+/*
+multiline
+comment
+*/
+rule no_dispose_bag {
+  Swift::ClassDeclaration where inheritsFrom("ViewableRouter") {
+    CallExpression where Callee == "DisposeBag" {
+      fail("Explanation")
+    }
+  }
+}
+
+rule no_random {
+  Swift::CallExpression where Callee == "arc4random" {
+    fail("Explanation")
+  }
+}
+
+rule no_strong_listeners {
+  Swift::VariableDeclaration where not(Weak) {
+    IdentifierPattern {
+      Identifier where match(Value, /listener$/i) {
+        fail("All listeners should be weak. Add `weak` before `var`.")
+      }
+    }
+  }
+}
+
+rule no_created_by {
+  Swift::Comment where match(Value, /Created By/) {
+    fail("Do not include 'created by' comments")
+  }
+}
+
+rule header_doc_typo {
+  Swift::Comment where match(Value, /\/\/\/[^\n]*\n\/\//) {
+    fail("Header doc typo")
+  }
+}
+
+// Test precedence of logic operators
+rule call_a_b {
+  Swift::ExplicitMemberExpression where Object == "a" && Member == "b" {
+    fail("Don't access property b of a")
+  }
+}
+
+rule alternative_inheritance {
+  Swift::ClassDeclaration where TypeInheritanceClause.TypeName == "Bar" {
+    CallExpression where Callee == "foo" {
+      fail("Explanation")
+    }
+  }
+}

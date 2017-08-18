@@ -1,0 +1,2 @@
+// RUN: %neal-swift
+\.contentOffset

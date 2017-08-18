@@ -1,0 +1,7 @@
+description = "Swift Provider for Neal"
+version = "0.1.0"
+
+package "parser" (
+  requires = "neal angstrom"
+  archive(byte) = "combinators.cmo parser.cmo"
+)

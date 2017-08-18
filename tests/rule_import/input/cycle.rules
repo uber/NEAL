@@ -1,0 +1,5 @@
+// RUN: %not %neal-fixture | %check
+import * from "../fixtures/helper.rules"
+
+// CHECK: Error: Cycle found in rule imports:
+// CHECK: .*/input/cycle.rules -> .*/fixtures/helper.rules -> .*/input/cycle.rules

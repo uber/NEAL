@@ -1,0 +1,21 @@
+{
+  "provider-map": {
+    "Python": [ "BUCK$" ]
+  },
+  "rule-map": [{
+    "rules": [
+      "../../optional_rules/test_bar.rules"
+    ],
+    "glob": [
+      ".*bar.*"
+    ],
+    "exclude": [
+      "bar_fail2.swift"
+    ]
+  }, {
+    "rules": [
+      "../../optional_rules/test_foo.rules",
+      "../../optional_rules/buck.rules"
+    ]
+  }]
+}
