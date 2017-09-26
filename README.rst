@@ -57,7 +57,7 @@ After that you can get the same result by simply running:
 
   $ neal .
 
-For a more comprehensive guide to writing your own rules check out `Writing a new rule <rules.html>`_.
+For a more comprehensive guide to writing your own rules check out `Writing a new rule <docs//rules.rst>`_.
 
 Installation
 ------------
