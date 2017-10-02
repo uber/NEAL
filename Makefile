@@ -1,9 +1,11 @@
 include src/Makefile.propagate
 
-setup:
+setup-buildonly:
 	opam update
 	opam pin add neal src -n -y
 	opam install --deps-only neal -y
+
+setup: setup-buildonly
 	virtualenv env
 	source $$PWD/env/bin/activate; \
 	pip install -r tests/requirements.txt
