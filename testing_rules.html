@@ -1,0 +1,242 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Testing your rules &mdash; NEAL 1.0.0 documentation</title>
+  
+
+  
+  
+
+  
+  <link rel="stylesheet" href="_static/css/main.css" type="text/css" />
+  
+
+  
+  
+    
+
+  
+    <link rel="top" title="NEAL 1.0.0 documentation" href="index.html"/>
+        <link rel="next" title="Rule Language Reference" href="reference.html"/>
+        <link rel="prev" title="Tutorial: Writing a new rule" href="rules.html"/>
+  
+    <script type="text/javascript" src="https://use.typekit.net/jem5umq.js"></script>
+    <script>try{Typekit.load();}catch(e){}</script>
+   
+</head>
+
+<body role="document">
+  <input type="checkbox" id="navbar-checkbox" class="navbar-checkbox"> <!-- TOGGLE Nav bar -->
+  <nav class="doc-dashboard-drawer dashboard-drawer">
+    <div class="dashboard-search">
+      
+        <a href="index.html" class="dashboard-search__title fa fa-home"> NEAL</a>
+      
+      <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input class="text-input" type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+    </div>
+
+    <div class="dashboard-nav" role="navigation" aria-label="main navigation">
+      
+      
+        <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="index.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rules.html">Tutorial: Writing a new rule</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Testing your rules</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="reference.html">Rule Language Reference</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="basics.html">How it works?</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="components/index.html">Writing your own components</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="components/index.html">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="components/reporters.html">Writing a custom Reporter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="components/providers.html">Writing a custom AST Provider</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="developing.html">Contributing</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a><ul class="simple">
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+    &nbsp;
+     <label for="navbar-checkbox" class="navbar-handle"></label>
+  </nav>
+
+  
+  <nav class="dashboard-nav-header" role="navigation" aria-label="top navigation">
+    <i class="fa fa-bars"></i>
+    <a href="index.html">NEAL</a>
+  </nav>
+
+  
+  <div class="layout doc-content-container soft-large">
+    <div class="layout__item doc-content-nav" role="navigation" aria-label="breadcrumbs navigation">
+  <ul>
+    <li class="toplinks"><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li class="toplinks">Testing your rules</li>
+      <li class="breadcrumb__aside toplinks">
+        
+          <a href="_sources/testing_rules.txt" rel="nofollow"> View page source</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+    <div role="main" class="layout__item document">
+      
+  <div class="section" id="testing-your-rules">
+<h1>Testing your rules<a class="headerlink" href="#testing-your-rules" title="Permalink to this headline">¶</a></h1>
+<p>When writing rules, it&#8217;s good to be sure that they&#8217;ll actually match what you expect, and sometimes also good to check that they won&#8217;t report false positives in some edge cases. In order to validate that, NEAL provides some builtin facilities for testing rules.</p>
+<div class="section" id="example">
+<h2>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h2>
+<p>Let&#8217;s write a couple tests for one of the rules we wrote in the <a class="reference external" href="rules">tutorial</a>.</p>
+<div class="section" id="forcedvalueexpression">
+<h3>ForcedValueExpression<a class="headerlink" href="#forcedvalueexpression" title="Permalink to this headline">¶</a></h3>
+<p>Here&#8217;s the rule that we wrote:</p>
+<div class="highlight-swift"><div class="highlight"><pre><span></span><span class="n">rule</span> <span class="n">NoForcedValues</span> <span class="p">{</span>
+  <span class="n">Swift</span><span class="p">::</span><span class="n">ForcedValueExpression</span> <span class="p">{</span>
+    <span class="n">fail</span><span class="p">(</span><span class="s">&quot;Force unwrapping optionals is not allowed. Please refactor your code to use `?` instead of `!`&quot;</span><span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The first thing that we need to do is add a <code class="code docutils literal"><span class="pre">tests</span></code> block to our rule.</p>
+<div class="highlight-swift"><div class="highlight"><pre><span></span><span class="n">rule</span> <span class="n">NoForcedValues</span> <span class="p">{</span>
+  <span class="n">Swift</span><span class="p">::</span><span class="n">ForcedValueExpression</span> <span class="p">{</span>
+    <span class="n">fail</span><span class="p">(</span><span class="s">&quot;Force unwrapping optionals is not allowed. Please refactor your code to use `?` instead of `!`&quot;</span><span class="p">)</span>
+  <span class="p">}</span>
+
+  <span class="n">tests</span> <span class="p">{</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Now let&#8217;s write a simple test, in order to make sure that it reports violations correctly.</p>
+<div class="highlight-swift"><div class="highlight"><pre><span></span><span class="n">rule</span> <span class="n">NoForcedValues</span> <span class="p">{</span>
+  <span class="n">Swift</span><span class="p">::</span><span class="n">ForcedValueExpression</span> <span class="p">{</span>
+    <span class="n">fail</span><span class="p">(</span><span class="s">&quot;Force unwrapping optionals is not allowed. Please refactor your code to use `?` instead of `!`&quot;</span><span class="p">)</span>
+  <span class="p">}</span>
+
+  <span class="n">tests</span> <span class="p">{</span>
+    <span class="n">should_report</span><span class="p">:</span> <span class="n">expect_fail</span><span class="p">(</span><span class="s">&quot;x!&quot;</span><span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>We give the test a name, <code class="code docutils literal"><span class="pre">should_report</span></code>, and write a expectation that the test should report a failure for the input <code class="code docutils literal"><span class="pre">&quot;x!&quot;</span></code>.</p>
+<p>We can also add a positive test:</p>
+<div class="highlight-swift"><div class="highlight"><pre><span></span><span class="n">rule</span> <span class="n">NoForcedValues</span> <span class="p">{</span>
+  <span class="n">Swift</span><span class="p">::</span><span class="n">ForcedValueExpression</span> <span class="p">{</span>
+    <span class="n">fail</span><span class="p">(</span><span class="s">&quot;Force unwrapping optionals is not allowed. Please refactor your code to use `?` instead of `!`&quot;</span><span class="p">)</span>
+  <span class="p">}</span>
+
+  <span class="n">tests</span> <span class="p">{</span>
+    <span class="n">should_report</span><span class="p">:</span> <span class="n">expect_fail</span><span class="p">(</span><span class="s">&quot;x!&quot;</span><span class="p">)</span>
+    <span class="n">should_pass</span><span class="p">:</span> <span class="n">expect_ok</span><span class="p">(</span><span class="s">&quot;x != y&quot;</span><span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Here, again, we give a name to the test, <code class="code docutils literal"><span class="pre">should_pass</span></code>, and this time we use <code class="code docutils literal"><span class="pre">expect_ok</span></code> to check that no violation will be reported for the input <code class="code docutils literal"><span class="pre">&quot;x</span> <span class="pre">!=</span> <span class="pre">y&quot;</span></code>.</p>
+</div>
+</div>
+<div class="section" id="running-the-tests">
+<h2>Running the tests<a class="headerlink" href="#running-the-tests" title="Permalink to this headline">¶</a></h2>
+<p>You can save the file rule above in a file name, e.g. <code class="code docutils literal"><span class="pre">Swift.rules</span></code>, and then you can run the tests with:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>neal <span class="nb">test</span> Swift.rules
+</pre></div>
+</div>
+<p>And the result should look something like the following.</p>
+<div class="highlight-text"><div class="highlight"><pre><span></span>✓ Test `should_report&#39; of rule `NoForcedValues&#39; passed
+✓ Test `should_pass&#39; of rule `NoForcedValues&#39; passed
+
+✓ 2 tests passed, ⅹ 0 tests failed, ! 0 tests errors
+</pre></div>
+</div>
+<p>If we change the input in the <code class="code docutils literal"><span class="pre">should_report</span></code> test from <code class="code docutils literal"><span class="pre">&quot;x!&quot;</span></code> to <code class="code docutils literal"><span class="pre">&quot;x&quot;</span></code> and re-run the test, it should now report an error as following.</p>
+<div class="highlight-text"><div class="highlight"><pre><span></span>ⅹ Test `should_report&#39; of rule `NoForcedValues&#39; failed:
+        Expected 1 violations, but found 0
+✓ Test `should_pass&#39; of rule `NoForcedValues&#39; passed
+
+✓ 1 test passed, ⅹ 1 test failed, ! 0 tests errors
+</pre></div>
+</div>
+</div>
+</div>
+
+
+    </div>
+    <footer class="layout">
+  <div class="layout__item">
+    
+      <div class="footer-navigation" role="navigation" aria-label="footer navigation">
+        
+          <a href="reference.html" class="btn btn--small float-right" title="Rule Language Reference">Next <span class="fa fa-arrow-circle-right"></span></a>
+        
+        
+          <a href="rules.html" class="btn btn--small" title="Tutorial: Writing a new rule"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        
+      </div>
+    
+
+    <hr/>
+
+    <div role="contentinfo">
+      <p>
+          &copy; Copyright 2017, Uber Technologies, Inc.
+      </p>
+    </div>
+
+    <div class="footer-attribution">
+      Built with <a href="http://sphinx-doc.org/">Sphinx</a>
+      using <a href="https://web-platform.uberinternal.com/docs/superfine">Superfine</a>.
+    </div>
+  </div>
+</footer>
+  </div>
+
+  
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1.0.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+   
+
+
+</body>
+</html>

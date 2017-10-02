@@ -1,0 +1,306 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Configuration &mdash; NEAL 1.0.0 documentation</title>
+  
+
+  
+  
+
+  
+  <link rel="stylesheet" href="_static/css/main.css" type="text/css" />
+  
+
+  
+  
+    
+
+  
+    <link rel="top" title="NEAL 1.0.0 documentation" href="index.html"/>
+        <link rel="next" title="How it works?" href="basics.html"/>
+        <link rel="prev" title="Rule Language Reference" href="reference.html"/>
+  
+    <script type="text/javascript" src="https://use.typekit.net/jem5umq.js"></script>
+    <script>try{Typekit.load();}catch(e){}</script>
+   
+</head>
+
+<body role="document">
+  <input type="checkbox" id="navbar-checkbox" class="navbar-checkbox"> <!-- TOGGLE Nav bar -->
+  <nav class="doc-dashboard-drawer dashboard-drawer">
+    <div class="dashboard-search">
+      
+        <a href="index.html" class="dashboard-search__title fa fa-home"> NEAL</a>
+      
+      <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input class="text-input" type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+    </div>
+
+    <div class="dashboard-nav" role="navigation" aria-label="main navigation">
+      
+      
+        <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="index.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rules.html">Tutorial: Writing a new rule</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="testing_rules.html">Testing your rules</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="reference.html">Rule Language Reference</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Configuration</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="basics.html">How it works?</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="components/index.html">Writing your own components</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="components/index.html">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="components/reporters.html">Writing a custom Reporter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="components/providers.html">Writing a custom AST Provider</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="developing.html">Contributing</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a><ul class="simple">
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+    &nbsp;
+     <label for="navbar-checkbox" class="navbar-handle"></label>
+  </nav>
+
+  
+  <nav class="dashboard-nav-header" role="navigation" aria-label="top navigation">
+    <i class="fa fa-bars"></i>
+    <a href="index.html">NEAL</a>
+  </nav>
+
+  
+  <div class="layout doc-content-container soft-large">
+    <div class="layout__item doc-content-nav" role="navigation" aria-label="breadcrumbs navigation">
+  <ul>
+    <li class="toplinks"><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li class="toplinks">Configuration</li>
+      <li class="breadcrumb__aside toplinks">
+        
+          <a href="_sources/configuration.txt" rel="nofollow"> View page source</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+    <div role="main" class="layout__item document">
+      
+  <div class="section" id="configuration">
+<h1>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="configuration-file">
+<h2>Configuration File<a class="headerlink" href="#configuration-file" title="Permalink to this headline">¶</a></h2>
+<p>NEAL allows to put all the configuration for your project in one by using a configuration file, <cite>neal.json</cite>. The options available for the configuration file are:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="14%" />
+<col width="86%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Flag</th>
+<th class="head">Value</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><cite>rules</cite></td>
+<td>A list of paths to NEAL files</td>
+</tr>
+<tr class="row-odd"><td><cite>glob</cite></td>
+<td>A list of strings containing regular expressions that will match the files that should be analysed by NEAL</td>
+</tr>
+<tr class="row-even"><td><cite>exclude</cite></td>
+<td>A list of strings containing regular expressions that will match the files that should be ignored by NEAL</td>
+</tr>
+<tr class="row-odd"><td><cite>provider-map</cite></td>
+<td>A object where the keys are the names of the providers and the values is like <cite>glob</cite>, matching files that should be handled by that provider</td>
+</tr>
+<tr class="row-even"><td><cite>rule-map</cite></td>
+<td>A list of objects containing <cite>rules</cite>, <cite>glob</cite> and <cite>exclude</cite>. It allows for multiple configurations in a single file. Each file to be analysed will be tested against each <cite>glob</cite> of each entry. The rules of the first entry to have a matching <cite>glob</cite> will be used.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="example-configuration-files">
+<h2>Example Configuration files<a class="headerlink" href="#example-configuration-files" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="basic">
+<h3>Basic<a class="headerlink" href="#basic" title="Permalink to this headline">¶</a></h3>
+<p>Only specify the set of rules used in your project and some files to ignore:</p>
+<div class="highlight-json"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="nt">&quot;rules&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="s2">&quot;./neal/Python.rules&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;./neal/Swift.rules&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;./neal/directory/with/many/rules&quot;</span>
+  <span class="p">],</span>
+  <span class="nt">&quot;exclude&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="s2">&quot;./vendor&quot;</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="complete">
+<h3>Complete<a class="headerlink" href="#complete" title="Permalink to this headline">¶</a></h3>
+<p>Using <cite>rule-map</cite> and <cite>provider-map</cite>:</p>
+<div class="highlight-json"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="nt">&quot;provider-map&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;Python&quot;</span><span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;BUCK$&quot;</span> <span class="p">]</span>
+  <span class="p">},</span>
+  <span class="nt">&quot;rule-map&quot;</span><span class="p">:</span> <span class="p">[{</span>
+    <span class="nt">&quot;glob&quot;</span><span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;folder/with/libraries&quot;</span> <span class="p">],</span>
+    <span class="nt">&quot;rules&quot;</span><span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;./neal/Libraries.rules&quot;</span> <span class="p">],</span>
+    <span class="nt">&quot;ignores&quot;</span><span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;folder/with/libraries/vendor/*.py&quot;</span> <span class="p">]</span>
+  <span class="p">},</span> <span class="p">{</span>
+    <span class="nt">&quot;glob&quot;</span><span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;./app&quot;</span><span class="p">,</span> <span class="s2">&quot;./framework&quot;</span> <span class="p">],</span>
+    <span class="nt">&quot;rules&quot;</span><span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;./neal/App.rules&quot;</span> <span class="p">]</span>
+  <span class="p">},</span> <span class="p">{</span>
+    <span class="nt">&quot;rules&quot;</span><span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;./neal/Default.rules&quot;</span> <span class="p">]</span>
+  <span class="p">}]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="disabling-rules-inline">
+<h2>Disabling rules inline<a class="headerlink" href="#disabling-rules-inline" title="Permalink to this headline">¶</a></h2>
+<p>You can use comments to disable NEAL rules. The comments must have the prefix <code class="docutils literal"><span class="pre">NEAL:</span></code> and can specify the rules to be disabled (or all the rules), the context (the whole file or a given line) and must provide an explanation.</p>
+<div class="section" id="examples">
+<h3>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Disabling a specific set of rules for a given line</li>
+</ul>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="c1">// NEAL: skip RuleA, RuleB and RuleC on the next line because it will be fixed in #123</span>
+<span class="n">TriggerRuleA</span><span class="p">();</span> <span class="n">TriggerRuleB</span><span class="p">();</span> <span class="n">TriggerRuleC</span><span class="p">();</span>
+
+<span class="n">TriggerRuleA</span><span class="p">();</span> <span class="n">TriggerRuleC</span><span class="p">();</span> <span class="c1">// NEAL: skip RuleA and RuleC on this line because it will be fixed in #412</span>
+
+<span class="n">TriggerRuleB</span><span class="p">();</span>
+<span class="c1">// NEAL: skip RuleB on the previous line because it will be fixed on #705</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>Disabling all rules for a given line: (all of the following are equivalent)</li>
+</ul>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="c1">// NEAL: skip all rules on the next line because it will be fixed on #123</span>
+<span class="n">lint_error</span><span class="p">();</span> <span class="c1">// NEAL: skip all rules on this line because it will be fixed on #123</span>
+<span class="c1">// NEAL: skip all rules on the previous line line because it will be fixed on #123</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>Disabling a set of rules for a given file</li>
+</ul>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="c1">// NEAL: skip RuleA, RuleB and RuleC on this file because this file is auto generated.</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>Disabling all rules for a given file</li>
+</ul>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="c1">// NEAL: skip all rules on this file because this file is auto generated.</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="runtime-flags">
+<h2>Runtime flags<a class="headerlink" href="#runtime-flags" title="Permalink to this headline">¶</a></h2>
+<p>To enable any of the following flags just set the environment variable with the name of the flag preceded by <code class="docutils literal"><span class="pre">NEAL_</span></code> on your process or when you run NEAL, e.g.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ <span class="nv">NEAL_STATS</span><span class="o">=</span><span class="m">1</span> neal <span class="nb">test</span>
+</pre></div>
+</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="13%" />
+<col width="87%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Flag</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>DEBUG</td>
+<td>Turn on debug logs (e.g. AST traversal logs, provider selection, etc.)</td>
+</tr>
+<tr class="row-odd"><td>STATS</td>
+<td>Output statistics for the run once it finishes (e.g. Number of files parsed, number of  parsing failures, etc.)</td>
+</tr>
+<tr class="row-even"><td>PARSING_FAILURES</td>
+<td>Print all the path of all the files that failed to parse</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+    </div>
+    <footer class="layout">
+  <div class="layout__item">
+    
+      <div class="footer-navigation" role="navigation" aria-label="footer navigation">
+        
+          <a href="basics.html" class="btn btn--small float-right" title="How it works?">Next <span class="fa fa-arrow-circle-right"></span></a>
+        
+        
+          <a href="reference.html" class="btn btn--small" title="Rule Language Reference"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        
+      </div>
+    
+
+    <hr/>
+
+    <div role="contentinfo">
+      <p>
+          &copy; Copyright 2017, Uber Technologies, Inc.
+      </p>
+    </div>
+
+    <div class="footer-attribution">
+      Built with <a href="http://sphinx-doc.org/">Sphinx</a>
+      using <a href="https://web-platform.uberinternal.com/docs/superfine">Superfine</a>.
+    </div>
+  </div>
+</footer>
+  </div>
+
+  
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1.0.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+   
+
+
+</body>
+</html>

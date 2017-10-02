@@ -1,0 +1,271 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Advanced Example &mdash; NEAL 1.0.0 documentation</title>
+  
+
+  
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/main.css" type="text/css" />
+  
+
+  
+  
+    
+
+  
+    <link rel="top" title="NEAL 1.0.0 documentation" href="../index.html"/>
+        <link rel="up" title="Tutorial: Writing a new rule" href="index.html"/>
+        <link rel="next" title="Configuration" href="../configuration.html"/>
+        <link rel="prev" title="Simple Example" href="simple.html"/>
+  
+    <script type="text/javascript" src="https://use.typekit.net/jem5umq.js"></script>
+    <script>try{Typekit.load();}catch(e){}</script>
+   
+</head>
+
+<body role="document">
+  <input type="checkbox" id="navbar-checkbox" class="navbar-checkbox"> <!-- TOGGLE Nav bar -->
+  <nav class="doc-dashboard-drawer dashboard-drawer">
+    <div class="dashboard-search">
+      
+        <a href="../index.html" class="dashboard-search__title fa fa-home"> NEAL</a>
+      
+      <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input class="text-input" type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+    </div>
+
+    <div class="dashboard-nav" role="navigation" aria-label="main navigation">
+      
+      
+        <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Getting Started</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Tutorial: Writing a new rule</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="index.html">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="simple.html">Simple Example</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="">Advanced Example</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../configuration.html">Configuration</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../basics.html">How it works?</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../components/index.html">Writing your own components</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../components/index.html">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../components/reporters.html">Writing a custom Reporter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../components/providers.html">Writing a custom AST Provider</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../developing.html">Contributing</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a><ul class="simple">
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+    &nbsp;
+     <label for="navbar-checkbox" class="navbar-handle"></label>
+  </nav>
+
+  
+  <nav class="dashboard-nav-header" role="navigation" aria-label="top navigation">
+    <i class="fa fa-bars"></i>
+    <a href="../index.html">NEAL</a>
+  </nav>
+
+  
+  <div class="layout doc-content-container soft-large">
+    <div class="layout__item doc-content-nav" role="navigation" aria-label="breadcrumbs navigation">
+  <ul>
+    <li class="toplinks"><a href="../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="index.html">Tutorial: Writing a new rule</a> &raquo;</li>
+      
+    <li class="toplinks">Advanced Example</li>
+      <li class="breadcrumb__aside toplinks">
+        
+          <a href="../_sources/rules/advanced.txt" rel="nofollow"> View page source</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+    <div role="main" class="layout__item document">
+      
+  <div class="section" id="advanced-example">
+<h1>Advanced Example<a class="headerlink" href="#advanced-example" title="Permalink to this headline">¶</a></h1>
+<p>Given the following snippet:</p>
+<div class="highlight-swift"><div class="highlight"><pre><span></span><span class="kd">func</span> <span class="nf">expensive</span><span class="p">()</span> <span class="p">{</span>
+  <span class="cm">/* ... */</span>
+<span class="p">}</span>
+
+<span class="kd">class</span> <span class="nc">B</span> <span class="p">{</span> <span class="cm">/* ... */</span> <span class="p">}</span>
+
+<span class="kd">class</span> <span class="nc">A</span> <span class="p">:</span> <span class="n">B</span> <span class="p">{</span>
+  <span class="kr">override</span> <span class="kd">init</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">expensive</span><span class="p">()</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Let&#8217;s create a rule that checks for subclasses of <cite>B</cite> that make to calls to <cite>expensive</cite> from initialisers.</p>
+<p>Just like in our simpler example, we start by inspecting the AST of a snippet that violates our rule-to-be:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ <span class="nb">echo</span> <span class="s1">&#39;class A : B { override init() { expensive() } }&#39;</span> <span class="p">|</span> neal --stdin swift --print-ast
+</pre></div>
+</div>
+<div class="highlight-swift"><div class="highlight"><pre><span></span><span class="n">ClassDeclaration</span> <span class="p">{</span>
+  <span class="n">ClassName</span> <span class="p">=</span> <span class="n">Identifier</span> <span class="p">{</span> <span class="n">Value</span> <span class="p">=</span> <span class="s">&quot;A&quot;</span> <span class="p">}</span>
+  <span class="n">TypeInheritanceClause</span> <span class="p">=</span> <span class="p">[</span>
+    <span class="n">TypeIdentifier</span> <span class="p">{</span>
+      <span class="n">TypeName</span> <span class="p">=</span> <span class="n">Identifier</span> <span class="p">{</span> <span class="n">Value</span> <span class="p">=</span> <span class="s">&quot;B&quot;</span> <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">]</span>
+  <span class="n">ClassBody</span> <span class="p">=</span> <span class="p">[</span>
+    <span class="n">InitializerDeclaration</span> <span class="p">{</span>
+      <span class="n">Override</span> <span class="p">=</span> <span class="kc">true</span>
+      <span class="n">InitializerBody</span> <span class="p">=</span> <span class="p">[</span>
+        <span class="n">CallExpression</span> <span class="p">{</span>
+          <span class="n">Callee</span> <span class="p">=</span> <span class="n">Identifier</span> <span class="p">{</span> <span class="n">Value</span> <span class="p">=</span> <span class="s">&quot;expensive&quot;</span> <span class="p">}</span>
+          <span class="n">Arguments</span> <span class="p">=</span> <span class="p">[]</span>
+        <span class="p">}]}]}</span>
+</pre></div>
+</div>
+<p>Based on the names in the AST, what we want is: A <code class="docutils literal"><span class="pre">ClassDeclaration</span></code>, with a <code class="docutils literal"><span class="pre">TypeInheritanceClause</span></code> that contains <code class="docutils literal"><span class="pre">B</span></code>, and which has an <code class="docutils literal"><span class="pre">InitializerDeclaration</span></code> that contains <code class="docutils literal"><span class="pre">CallExpression</span></code> whose <code class="docutils literal"><span class="pre">Callee</span></code> is <code class="docutils literal"><span class="pre">expensive</span></code>.</p>
+<p>Let&#8217;s start writing our rule: again we start by giving it a name and choosing a provider:</p>
+<div class="highlight-rust"><div class="highlight"><pre><span></span><span class="n">rule</span><span class="w"> </span><span class="n">NoExpensiveSubclassesOfB</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">Swift</span>::
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Now, from looking at a notes above, the top node in our rule needs to be a <cite>ClassDeclaration</cite> that inherits from <cite>B</cite>:</p>
+<div class="highlight-rust"><div class="highlight"><pre><span></span><span class="n">rule</span><span class="w"> </span><span class="n">NoExpensiveSubclassesOfB</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">Swift</span>::<span class="n">ClassDeclaration</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="cm">/* inherits from B */</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>We could write this condition in terms of the nodes of <code class="docutils literal"><span class="pre">ClassDeclaration</span></code>, but luckily the Swift provider gives us an <code class="docutils literal"><span class="pre">inheritsFrom</span></code> helper that does just that:</p>
+<div class="highlight-rust"><div class="highlight"><pre><span></span><span class="n">rule</span><span class="w"> </span><span class="n">NoExpensiveSubclassesOfB</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">Swift</span>::<span class="n">ClassDeclaration</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">inheritsFrom</span><span class="p">(</span><span class="s">&quot;B&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Next we need to look inside the <code class="docutils literal"><span class="pre">InitializerDeclaration</span></code>, so we add it to our rule:</p>
+<div class="highlight-rust"><div class="highlight"><pre><span></span><span class="n">rule</span><span class="w"> </span><span class="n">NoExpensiveSubclassesOfB</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">Swift</span>::<span class="n">ClassDeclaration</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">inheritsFrom</span><span class="p">(</span><span class="s">&quot;B&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">InitializerDeclaration</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Now, to the part that actually violates our rule, we check that there exists a call to <cite>expensive</cite>:</p>
+<div class="highlight-rust"><div class="highlight"><pre><span></span><span class="n">rule</span><span class="w"> </span><span class="n">NoExpensiveSubclassesOfB</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">Swift</span>::<span class="n">ClassDeclaration</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">inheritsFrom</span><span class="p">(</span><span class="s">&quot;B&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">InitializerDeclaration</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="n">CallExpression</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">Callee</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;expensive&quot;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>And last but not least, we trigger an error with some helpful message:</p>
+<div class="highlight-rust"><div class="highlight"><pre><span></span><span class="n">rule</span><span class="w"> </span><span class="n">NoExpensiveSubclassesOfB</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">Swift</span>::<span class="n">ClassDeclaration</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">inheritsFrom</span><span class="p">(</span><span class="s">&quot;B&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">InitializerDeclaration</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="n">CallExpression</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">Callee</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;expensive&quot;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">fail</span><span class="p">(</span><span class="s">&quot;Don&#39;t call `expensive` from initialisers of subclasses of `B` because &lt;...&gt;. Use &lt;...&gt; instead.&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Now we can test our rule:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ neal --rules test.rules test.swift
+[1 of 1]: Analysing test.swift
+On file test.swift: (NoExpensiveSubclassesOfB)
+
+   7 | class A : B {
+   8 |   override init() {
+   9 |     expensive()
+   ~ |               ^
+  10 |   }
+  11 | }
+
+error: Don&#39;t call `expensive` from initialisers of subclasses of `B` because &lt;...&gt;. Use &lt;...&gt; instead.
+</pre></div>
+</div>
+<p>Done, now your code base is safe from expensive subclass of <cite>B</cite>!</p>
+</div>
+
+
+    </div>
+    <footer class="layout">
+  <div class="layout__item">
+    
+      <div class="footer-navigation" role="navigation" aria-label="footer navigation">
+        
+          <a href="../configuration.html" class="btn btn--small float-right" title="Configuration">Next <span class="fa fa-arrow-circle-right"></span></a>
+        
+        
+          <a href="simple.html" class="btn btn--small" title="Simple Example"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        
+      </div>
+    
+
+    <hr/>
+
+    <div role="contentinfo">
+      <p>
+          &copy; Copyright 2017, Uber Technologies, Inc.
+      </p>
+    </div>
+
+    <div class="footer-attribution">
+      Built with <a href="http://sphinx-doc.org/">Sphinx</a>
+      using <a href="https://web-platform.uberinternal.com/docs/superfine">Superfine</a>.
+    </div>
+  </div>
+</footer>
+  </div>
+
+  
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'1.0.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+   
+
+
+</body>
+</html>

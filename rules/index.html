@@ -1,0 +1,182 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Tutorial: Writing a new rule &mdash; NEAL 1.0.0 documentation</title>
+  
+
+  
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/main.css" type="text/css" />
+  
+
+  
+  
+    
+
+  
+    <link rel="top" title="NEAL 1.0.0 documentation" href="../index.html"/>
+        <link rel="next" title="Simple Example" href="simple.html"/>
+        <link rel="prev" title="NEAL" href="../index.html"/>
+  
+    <script type="text/javascript" src="https://use.typekit.net/jem5umq.js"></script>
+    <script>try{Typekit.load();}catch(e){}</script>
+   
+</head>
+
+<body role="document">
+  <input type="checkbox" id="navbar-checkbox" class="navbar-checkbox"> <!-- TOGGLE Nav bar -->
+  <nav class="doc-dashboard-drawer dashboard-drawer">
+    <div class="dashboard-search">
+      
+        <a href="../index.html" class="dashboard-search__title fa fa-home"> NEAL</a>
+      
+      <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input class="text-input" type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+    </div>
+
+    <div class="dashboard-nav" role="navigation" aria-label="main navigation">
+      
+      
+        <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Getting Started</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Tutorial: Writing a new rule</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="simple.html">Simple Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced.html">Advanced Example</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../configuration.html">Configuration</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../basics.html">How it works?</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../components/index.html">Writing your own components</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../components/index.html">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../components/reporters.html">Writing a custom Reporter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../components/providers.html">Writing a custom AST Provider</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../developing.html">Contributing</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a><ul class="simple">
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+    &nbsp;
+     <label for="navbar-checkbox" class="navbar-handle"></label>
+  </nav>
+
+  
+  <nav class="dashboard-nav-header" role="navigation" aria-label="top navigation">
+    <i class="fa fa-bars"></i>
+    <a href="../index.html">NEAL</a>
+  </nav>
+
+  
+  <div class="layout doc-content-container soft-large">
+    <div class="layout__item doc-content-nav" role="navigation" aria-label="breadcrumbs navigation">
+  <ul>
+    <li class="toplinks"><a href="../index.html">Docs</a> &raquo;</li>
+      
+    <li class="toplinks">Tutorial: Writing a new rule</li>
+      <li class="breadcrumb__aside toplinks">
+        
+          <a href="../_sources/rules/index.txt" rel="nofollow"> View page source</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+    <div role="main" class="layout__item document">
+      
+  <div class="section" id="tutorial-writing-a-new-rule">
+<h1>Tutorial: Writing a new rule<a class="headerlink" href="#tutorial-writing-a-new-rule" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="structure">
+<h2>Structure<a class="headerlink" href="#structure" title="Permalink to this headline">¶</a></h2>
+<p>NEAL&#8217;s <a class="reference external" href="https://en.wikipedia.org/wiki/Domain-specific_language">Domain Specific Language (DSL)</a> is designed to match the <a class="reference external" href="https://en.wikipedia.org/wiki/Abstract_syntax_tree">Abstract Syntax Tree (AST)</a> of the program being analysed as closely as possible.</p>
+<p>The rules have the following format:</p>
+<div class="highlight-rust"><div class="highlight"><pre><span></span><span class="n">rule</span><span class="w"> </span><span class="n">RuleName</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">ProviderName</span>::<span class="n">AstNode</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">Condition</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">AnotherAstNode</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">Condition</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="n">action</span><span class="p">()</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">  </span><span class="cm">/* ... */</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>To make it more concrete, take a look at the couple examples that follows.</p>
+<div class="toctree-wrapper compound">
+</div>
+</div>
+</div>
+
+
+    </div>
+    <footer class="layout">
+  <div class="layout__item">
+    
+      <div class="footer-navigation" role="navigation" aria-label="footer navigation">
+        
+          <a href="simple.html" class="btn btn--small float-right" title="Simple Example">Next <span class="fa fa-arrow-circle-right"></span></a>
+        
+        
+          <a href="../index.html" class="btn btn--small" title="NEAL"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        
+      </div>
+    
+
+    <hr/>
+
+    <div role="contentinfo">
+      <p>
+          &copy; Copyright 2017, Uber Technologies, Inc.
+      </p>
+    </div>
+
+    <div class="footer-attribution">
+      Built with <a href="http://sphinx-doc.org/">Sphinx</a>
+      using <a href="https://web-platform.uberinternal.com/docs/superfine">Superfine</a>.
+    </div>
+  </div>
+</footer>
+  </div>
+
+  
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'1.0.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+   
+
+
+</body>
+</html>

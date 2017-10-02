@@ -1,0 +1,244 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Writing a custom AST Provider &mdash; NEAL 1.0.0 documentation</title>
+  
+
+  
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/main.css" type="text/css" />
+  
+
+  
+  
+    
+
+  
+    <link rel="top" title="NEAL 1.0.0 documentation" href="../index.html"/>
+        <link rel="up" title="Writing your own components" href="index.html"/>
+        <link rel="next" title="Contributing" href="../developing.html"/>
+        <link rel="prev" title="Writing a custom Reporter" href="reporters.html"/>
+  
+    <script type="text/javascript" src="https://use.typekit.net/jem5umq.js"></script>
+    <script>try{Typekit.load();}catch(e){}</script>
+   
+</head>
+
+<body role="document">
+  <input type="checkbox" id="navbar-checkbox" class="navbar-checkbox"> <!-- TOGGLE Nav bar -->
+  <nav class="doc-dashboard-drawer dashboard-drawer">
+    <div class="dashboard-search">
+      
+        <a href="../index.html" class="dashboard-search__title fa fa-home"> NEAL</a>
+      
+      <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input class="text-input" type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+    </div>
+
+    <div class="dashboard-nav" role="navigation" aria-label="main navigation">
+      
+      
+        <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../rules.html">Tutorial: Writing a new rule</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../testing_rules.html">Testing your rules</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../reference.html">Rule Language Reference</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../configuration.html">Configuration</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../basics.html">How it works?</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Writing your own components</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="index.html">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reporters.html">Writing a custom Reporter</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="">Writing a custom AST Provider</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../developing.html">Contributing</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a><ul class="simple">
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+    &nbsp;
+     <label for="navbar-checkbox" class="navbar-handle"></label>
+  </nav>
+
+  
+  <nav class="dashboard-nav-header" role="navigation" aria-label="top navigation">
+    <i class="fa fa-bars"></i>
+    <a href="../index.html">NEAL</a>
+  </nav>
+
+  
+  <div class="layout doc-content-container soft-large">
+    <div class="layout__item doc-content-nav" role="navigation" aria-label="breadcrumbs navigation">
+  <ul>
+    <li class="toplinks"><a href="../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="index.html">Writing your own components</a> &raquo;</li>
+      
+    <li class="toplinks">Writing a custom AST Provider</li>
+      <li class="breadcrumb__aside toplinks">
+        
+          <a href="../_sources/components/providers.txt" rel="nofollow"> View page source</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+    <div role="main" class="layout__item document">
+      
+  <div class="section" id="writing-a-custom-ast-provider">
+<span id="writing-a-custom-ast-provider"></span><h1>Writing a custom AST Provider<a class="headerlink" href="#writing-a-custom-ast-provider" title="Permalink to this headline">¶</a></h1>
+<p>AST Providers in NEAL are responsible for adding support for a new language. They must conform to a small interface, and have complete ownership over the analysis to be done.</p>
+<p>They can either do take care of parsing internally, e.g. using a parser written in OCaml (like the <a class="reference external" href="link/to/swift_provider.ml">Swift provider</a>) or call out to an external parser (like the <a class="reference external" href="link/to/python_provider.ml">Python provider</a>).</p>
+<p>Either way, they must conform to the following interface:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>module type PROVIDER = sig val name: string
+  val extensions: string list
+  val parse: filename -&gt; source -&gt; Absyn.absyn
+  val exports : (function_name * exported_function) list
+end
+</pre></div>
+</div>
+<p>With the following type aliases:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>type exported_function = Ctx.ctx -&gt; Rule.literal list -&gt; Rule.literal
+type filename = string
+type source = string
+type function_name = string
+</pre></div>
+</div>
+<div class="section" id="using-a-custom-provider">
+<span id="using-a-custom-provider"></span><h2>Using a custom provider<a class="headerlink" href="#using-a-custom-provider" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Custom providers must be compiled to a <code class="docutils literal"><span class="pre">.cmxs</span></code> file, which is OCaml&#8217;s dynamic library format (as described <a class="reference external" href="../components#plugins">here</a>);</li>
+<li>They must have <code class="docutils literal"><span class="pre">.provider</span></code> suffix before the <code class="docutils literal"><span class="pre">.cmxs</span></code> extension, e.g. <code class="docutils literal"><span class="pre">swift.provider.cmxs</span></code>;</li>
+<li>You must tell NEAL the path to your provider (using the <code class="docutils literal"><span class="pre">-p</span></code>/<code class="docutils literal"><span class="pre">--provider</span></code> <a class="reference external" href="../configuration.html#flags">configuration flag</a>).</li>
+</ul>
+<p>After that NEAL should already be able to parse files using your new provider and evaluate rules that target it.</p>
+</div>
+<div class="section" id="examples">
+<span id="examples"></span><h2>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h2>
+<p>Here we&#8217;ll use the two providers currently available with NEAL to illustrate the two use cases:</p>
+<div class="section" id="swift-provider">
+<span id="swift-provider"></span><h3><a class="reference external" href="link/to/swift_provider.ml">Swift provider</a><a class="headerlink" href="#swift-provider" title="Permalink to this headline">¶</a></h3>
+<p>Here&#8217;s the current implementation (we&#8217;ll discuss it below):</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>Provider.register(module struct
+  let name = &quot;Swift&quot;
+  let extensions = [&quot;.swift&quot;]
+  let parse filename source = Parser.parse filename source
+  let exports = [
+    (&quot;inheritsFrom&quot;, inherits_from)
+  ]
+end)
+</pre></div>
+</div>
+<p>What this provider is saying is:</p>
+<ul class="simple">
+<li>Its name is <code class="docutils literal"><span class="pre">Swift</span></code>, i.e. the provider name you&#8217;ll use in a <a class="reference external" href="..//rules.html">rule</a> to reference to this provider is <code class="docutils literal"><span class="pre">Swift</span></code>.</li>
+<li>It can parse files that have the <code class="docutils literal"><span class="pre">.swift</span></code> extension. (It should always include the <code class="docutils literal"><span class="pre">.</span></code>)</li>
+<li>Parsing is delegate to <code class="docutils literal"><span class="pre">Parser.parse</span></code>, which in this case is a Swift parser implemented in OCaml.</li>
+<li>It exports a function called <code class="docutils literal"><span class="pre">inheritsFrom</span></code>, and its implementation is the OCaml function <code class="docutils literal"><span class="pre">inherits_from</span></code>. (Which should have the <code class="docutils literal"><span class="pre">exported_function</span></code> type from above.)</li>
+</ul>
+</div>
+<div class="section" id="python-provider">
+<span id="python-provider"></span><h3><a class="reference external" href="link/to/python_provider.ml">Python provider</a><a class="headerlink" href="#python-provider" title="Permalink to this headline">¶</a></h3>
+<p>The actual Python provider module looks very similar to the Swift one:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>let () = Provider.register(module struct
+  let name = &quot;Python&quot;
+  let extensions = [&quot;.py&quot;]
+  let parse = parse
+  let exports = []
+end)
+</pre></div>
+</div>
+<p>The main different is the <code class="docutils literal"><span class="pre">parse</span></code> function. Here, instead of actually parsing the file and generating the AST all in OCaml, it calls out to a script which uses the parser built into the python interpreter to generate the AST and dumps it as JSON using the <a class="reference external" href="https://github.com/Psycojoker/ast2json"><code class="docutils literal"><span class="pre">ast2json</span></code> package</a>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>let exec_name = Neal.Utils.relative_path &quot;providers/helpers/dump_python_ast.py&quot;
+
+let parse filename _ =
+  let cmd = Printf.sprintf &quot;%s %s&quot; exec_name filename in
+  let stdout = Unix.open_process_in cmd in
+  let json = Yojson.Safe.from_channel stdout in
+  let _ = Unix.close_process_in stdout in
+  absyn_of_json json
+</pre></div>
+</div>
+<p>The implementation of <code class="docutils literal"><span class="pre">absyn_of_json</span></code> simply takes the JSON parsed using <a class="reference external" href="https://github.com/mjambon/yojson">yojson</a> and converts it to NEAL&#8217;s AST type. You can check the <a class="reference external" href="link/to/python_provider.ml">source code</a>, but here will ignore it as an implementation detail.</p>
+<!-- TODO: update links --></div>
+</div>
+</div>
+
+
+    </div>
+    <footer class="layout">
+  <div class="layout__item">
+    
+      <div class="footer-navigation" role="navigation" aria-label="footer navigation">
+        
+          <a href="../developing.html" class="btn btn--small float-right" title="Contributing">Next <span class="fa fa-arrow-circle-right"></span></a>
+        
+        
+          <a href="reporters.html" class="btn btn--small" title="Writing a custom Reporter"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        
+      </div>
+    
+
+    <hr/>
+
+    <div role="contentinfo">
+      <p>
+          &copy; Copyright 2017, Uber Technologies, Inc.
+      </p>
+    </div>
+
+    <div class="footer-attribution">
+      Built with <a href="http://sphinx-doc.org/">Sphinx</a>
+      using <a href="https://web-platform.uberinternal.com/docs/superfine">Superfine</a>.
+    </div>
+  </div>
+</footer>
+  </div>
+
+  
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'1.0.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+   
+
+
+</body>
+</html>

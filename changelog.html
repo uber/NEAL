@@ -1,0 +1,247 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Changelog &mdash; NEAL 1.0.0 documentation</title>
+  
+
+  
+  
+
+  
+  <link rel="stylesheet" href="_static/css/main.css" type="text/css" />
+  
+
+  
+  
+    
+
+  
+    <link rel="top" title="NEAL 1.0.0 documentation" href="index.html"/>
+        <link rel="prev" title="Contributing" href="developing.html"/>
+  
+    <script type="text/javascript" src="https://use.typekit.net/jem5umq.js"></script>
+    <script>try{Typekit.load();}catch(e){}</script>
+   
+</head>
+
+<body role="document">
+  <input type="checkbox" id="navbar-checkbox" class="navbar-checkbox"> <!-- TOGGLE Nav bar -->
+  <nav class="doc-dashboard-drawer dashboard-drawer">
+    <div class="dashboard-search">
+      
+        <a href="index.html" class="dashboard-search__title fa fa-home"> NEAL</a>
+      
+      <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input class="text-input" type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+    </div>
+
+    <div class="dashboard-nav" role="navigation" aria-label="main navigation">
+      
+      
+        <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="index.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rules.html">Tutorial: Writing a new rule</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="testing_rules.html">Testing your rules</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="reference.html">Rule Language Reference</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="basics.html">How it works?</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="components/index.html">Writing your own components</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="components/index.html">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="components/reporters.html">Writing a custom Reporter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="components/providers.html">Writing a custom AST Provider</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="developing.html">Contributing</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Changelog</a><ul class="simple">
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+    &nbsp;
+     <label for="navbar-checkbox" class="navbar-handle"></label>
+  </nav>
+
+  
+  <nav class="dashboard-nav-header" role="navigation" aria-label="top navigation">
+    <i class="fa fa-bars"></i>
+    <a href="index.html">NEAL</a>
+  </nav>
+
+  
+  <div class="layout doc-content-container soft-large">
+    <div class="layout__item doc-content-nav" role="navigation" aria-label="breadcrumbs navigation">
+  <ul>
+    <li class="toplinks"><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li class="toplinks">Changelog</li>
+      <li class="breadcrumb__aside toplinks">
+        
+          <a href="_sources/changelog.txt" rel="nofollow"> View page source</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+    <div role="main" class="layout__item document">
+      
+  <div class="section" id="changelog">
+<span id="changelog"></span><h1>Changelog<a class="headerlink" href="#changelog" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="unreleased">
+<span id="unreleased"></span><h2>0.2.3 (Unreleased)<a class="headerlink" href="#unreleased" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="">
+<span id="id1"></span><h2>0.2.2<a class="headerlink" href="#" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Fix rule file capturing during parsing (used for relative paths in rule tests)</li>
+<li>Fix tests being execute per matcher instead of per rule</li>
+<li>Add support for Swift 3.2 keypath syntax</li>
+<li>Fix crash when there&#8217;s a config file deeper than other files to be analysed</li>
+</ul>
+</div>
+<div class="section" id="">
+<span id="id2"></span><h2>0.2.1<a class="headerlink" href="#" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Add support for sibling patterns through conditional variables</li>
+<li>Add support for &#8220;exclude&#8221; globs in the configuration file</li>
+<li>Fix bug where the same configuration file was being considered multiple files</li>
+<li>Fix rule tests targeting Python</li>
+</ul>
+</div>
+<div class="section" id="">
+<span id="id3"></span><h2>0.2.0<a class="headerlink" href="#" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Add support for importing rules from other files</li>
+<li>Add support for testing rules</li>
+<li>New command line interface</li>
+<li>Minor fixes in the Swift parser</li>
+<li>New testing infrastructure</li>
+</ul>
+</div>
+<div class="section" id="">
+<span id="id4"></span><h2>0.1.6<a class="headerlink" href="#" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Fix stats - number of violations should be counted after filtering</li>
+<li>Add a simple progress indicator when running from the terminal</li>
+</ul>
+</div>
+<div class="section" id="">
+<span id="id5"></span><h2>0.1.5<a class="headerlink" href="#" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Proper grammar for disabling rules via comment directives</li>
+<li>(Temporary) Support for SwiftLint directives</li>
+<li>Several performance improvements</li>
+<li>Add runtime flag for dumping GC statistics</li>
+</ul>
+</div>
+<div class="section" id="">
+<span id="id6"></span><h2>0.1.4<a class="headerlink" href="#" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Fix parsing of Swift functions that have a newline after the arrow in the result type</li>
+<li>Improve wstring heuristic (<code class="docutils literal"><span class="pre">_0</span></code> shouldn&#8217;t be treated as <code class="docutils literal"><span class="pre">_</span></code>)</li>
+<li>Fix duplicate comments showing up in the Swift ast</li>
+<li>Initial support for disabling rules with comments</li>
+</ul>
+</div>
+<div class="section" id="">
+<span id="id7"></span><h2>0.1.3<a class="headerlink" href="#" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Fix precedence of logical operators</li>
+<li>Exit 1 when any rules fail</li>
+<li>Fix rule not being found when a path to a file was passed to <code class="docutils literal"><span class="pre">--rules</span></code></li>
+<li>Add &#8211;strict flag to treat warnings as errors</li>
+<li>Parse errors don&#8217;t exit 1 anymore, unless explicitly requested via &#8211;strict-parse</li>
+<li>Add &#8211;filelist option to the CLI</li>
+</ul>
+</div>
+<div class="section" id="">
+<span id="id8"></span><h2>0.1.2<a class="headerlink" href="#" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Better regular expressions</li>
+<li>Support for comments in rules</li>
+<li>Support for linting comments in Swift</li>
+<li>Rule names are now identifiers instead of strings</li>
+<li>Python node names and properties are now capitalised</li>
+<li>Separate reporting from evaluation</li>
+</ul>
+</div>
+<div class="section" id="">
+<span id="id9"></span><h2>0.1.1<a class="headerlink" href="#" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Initial release on engdocs</li>
+</ul>
+</div>
+</div>
+
+
+    </div>
+    <footer class="layout">
+  <div class="layout__item">
+    
+      <div class="footer-navigation" role="navigation" aria-label="footer navigation">
+        
+        
+          <a href="developing.html" class="btn btn--small" title="Contributing"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        
+      </div>
+    
+
+    <hr/>
+
+    <div role="contentinfo">
+      <p>
+          &copy; Copyright 2017, Uber Technologies, Inc.
+      </p>
+    </div>
+
+    <div class="footer-attribution">
+      Built with <a href="http://sphinx-doc.org/">Sphinx</a>
+      using <a href="https://web-platform.uberinternal.com/docs/superfine">Superfine</a>.
+    </div>
+  </div>
+</footer>
+  </div>
+
+  
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1.0.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+   
+
+
+</body>
+</html>
