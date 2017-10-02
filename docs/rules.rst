@@ -88,7 +88,7 @@ We add the name of the AST node we just inspected:
 
 Now all we need to do is add an action for when this pattern is matched.
 
-The two builtin actions are `fail` and `warn`, and both of them take a explanation message. Let's use `fail` for this example:
+The two builtin actions are ``fail`` and ``warn``, and both of them take a explanation message. Let's use ``fail`` for this example:
 
 .. code-block:: rust
 
@@ -138,7 +138,7 @@ Given the following snippet:
     }
   }
 
-Let's create a rule that checks for subclasses of `B` that make to calls to `expensive` from initialisers.
+Let's create a rule that checks for subclasses of ``B`` that make to calls to ``expensive`` from initialisers.
 
 Just like in our simpler example, we start by inspecting the AST of a snippet that violates our rule-to-be:
 
@@ -174,7 +174,7 @@ Let's start writing our rule: again we start by giving it a name and choosing a 
     Swift::
   }
 
-Now, from looking at a notes above, the top node in our rule needs to be a `ClassDeclaration` that inherits from `B`:
+Now, from looking at a notes above, the top node in our rule needs to be a ``ClassDeclaration`` that inherits from ``B``:
 
 .. code-block:: rust
 
@@ -203,7 +203,7 @@ Next we need to look inside the ``InitializerDeclaration``, so we add it to our 
     }
   }
 
-Now, to the part that actually violates our rule, we check that there exists a call to `expensive`:
+Now, to the part that actually violates our rule, we check that there exists a call to ``expensive``:
 
 .. code-block:: rust
 
@@ -235,6 +235,9 @@ Now we can test our rule:
 .. code-block:: bash
 
   $ neal --rules test.rules test.swift
+
+.. code-block:: text
+
   [1 of 1]: Analysing test.swift
   On file test.swift: (NoExpensiveSubclassesOfB)
 
@@ -247,4 +250,4 @@ Now we can test our rule:
 
   error: Don't call `expensive` from initialisers of subclasses of `B` because <...>. Use <...> instead.
 
-Done, now your code base is safe from expensive subclass of `B`!
+Done, now your code base is safe from expensive subclass of ``B``!

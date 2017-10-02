@@ -3,7 +3,6 @@ Writing your own components
 
 .. toctree::
   :hidden:
-  :maxdepth: 0
   :titlesonly:
 
   Introduction <self>

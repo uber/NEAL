@@ -102,6 +102,6 @@ For a list of CLI options, runtime options and configuration attributes see the 
   reference
   configuration
   basics
-  components/index
+  components/index.rst
   developing
   changelog
