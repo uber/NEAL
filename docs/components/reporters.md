@@ -45,10 +45,8 @@ module Arc = struct
 end
 ```
 
-<!-- TODO: update links to reporters -->
-
-[1]: link/to/cli_reporter.ml
-[2]: link/to/arc_reporter.ml
+[1]: https://github.com/uber/NEAL/blob/master/src/reporters/cli/cli_reporter.ml
+[2]: https://github.com/uber/NEAL/blob/master/src/reporters/arc/arc_reporter.ml
 
 [3]: https://secure.phabricator.com/book/phabricator/article/arcanist/
 [4]: ../components#plugins

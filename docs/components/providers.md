@@ -83,10 +83,8 @@ let parse filename _ =
 
 The implementation of `absyn_of_json` simply takes the JSON parsed using [yojson][7] and converts it to NEAL's AST type. You can check the [source code][2], but here will ignore it as an implementation detail.
 
-<!-- TODO: update links -->
-
-[1]: link/to/swift_provider.ml
-[2]: link/to/python_provider.ml
+[1]: https://github.com/uber/NEAL/blob/master/src/providers/swift/swift_provider.ml
+[2]: https://github.com/uber/NEAL/blob/master/src/providers/python/python.ml
 
 [3]: ..//rules.html
 [4]: ../components#plugins
