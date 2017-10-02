@@ -5,16 +5,17 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
+  
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Writing a custom Reporter &mdash; NEAL 1.0.0 documentation</title>
+  <title>Writing a custom Reporter &mdash; NEAL 0.2.2 documentation</title>
   
 
   
   
-
   
-  <link rel="stylesheet" href="../_static/css/main.css" type="text/css" />
+  
+
   
 
   
@@ -22,189 +23,269 @@
     
 
   
-    <link rel="top" title="NEAL 1.0.0 documentation" href="../index.html"/>
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="NEAL 0.2.2 documentation" href="../index.html"/>
         <link rel="up" title="Writing your own components" href="index.html"/>
         <link rel="next" title="Writing a custom AST Provider" href="providers.html"/>
-        <link rel="prev" title="Writing your own components" href="index.html"/>
+        <link rel="prev" title="Writing your own components" href="index.html"/> 
+
   
-    <script type="text/javascript" src="https://use.typekit.net/jem5umq.js"></script>
-    <script>try{Typekit.load();}catch(e){}</script>
-   
+  <script src="../_static/js/modernizr.min.js"></script>
+
 </head>
 
-<body role="document">
-  <input type="checkbox" id="navbar-checkbox" class="navbar-checkbox"> <!-- TOGGLE Nav bar -->
-  <nav class="doc-dashboard-drawer dashboard-drawer">
-    <div class="dashboard-search">
-      
-        <a href="../index.html" class="dashboard-search__title fa fa-home"> NEAL</a>
-      
-      <div role="search">
-  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input class="text-input" type="text" name="q" placeholder="Search docs" />
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> NEAL
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.2.2
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-    </div>
 
-    <div class="dashboard-nav" role="navigation" aria-label="main navigation">
-      
-      
-        <ul class="current">
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../index.html">Getting Started</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../rules.html">Tutorial: Writing a new rule</a><ul class="simple">
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../testing_rules.html">Testing your rules</a><ul class="simple">
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../reference.html">Rule Language Reference</a><ul class="simple">
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../configuration.html">Configuration</a><ul class="simple">
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../basics.html">How it works?</a><ul class="simple">
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="../rules.html">Tutorial: Writing a new rule</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../testing_rules.html">Testing your rules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference.html">Rule Language Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configuration.html">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../basics.html">How it works?</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Writing your own components</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="index.html">Introduction</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="">Writing a custom Reporter</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Writing a custom Reporter</a></li>
 <li class="toctree-l2"><a class="reference internal" href="providers.html">Writing a custom AST Provider</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../developing.html">Contributing</a><ul class="simple">
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a><ul class="simple">
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="../developing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
 </ul>
 
-      
-    </div>
-    &nbsp;
-     <label for="navbar-checkbox" class="navbar-handle"></label>
-  </nav>
+            
+          
+        </div>
+      </div>
+    </nav>
 
-  
-  <nav class="dashboard-nav-header" role="navigation" aria-label="top navigation">
-    <i class="fa fa-bars"></i>
-    <a href="../index.html">NEAL</a>
-  </nav>
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
-  
-  <div class="layout doc-content-container soft-large">
-    <div class="layout__item doc-content-nav" role="navigation" aria-label="breadcrumbs navigation">
-  <ul>
-    <li class="toplinks"><a href="../index.html">Docs</a> &raquo;</li>
       
-          <li><a href="index.html">Writing your own components</a> &raquo;</li>
-      
-    <li class="toplinks">Writing a custom Reporter</li>
-      <li class="breadcrumb__aside toplinks">
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
         
-          <a href="../_sources/components/reporters.txt" rel="nofollow"> View page source</a>
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">NEAL</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">Writing your own components</a> &raquo;</li>
+        
+      <li>Writing a custom Reporter</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/components/reporters.rst.txt" rel="nofollow"> View page source</a>
+          
         
       </li>
+    
   </ul>
+
+  
   <hr/>
 </div>
-    <div role="main" class="layout__item document">
-      
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
   <div class="section" id="writing-a-custom-reporter">
-<span id="writing-a-custom-reporter"></span><h1>Writing a custom Reporter<a class="headerlink" href="#writing-a-custom-reporter" title="Permalink to this headline">¶</a></h1>
-<p>Reporters are the components who take the all the violations found in the files analysed and output them in an appropriate format. As an example, NEAL ships with two builtin formatters: <a class="reference external" href="link/to/cli_reporter.ml">CLI</a> and <a class="reference external" href="link/to/arc_reporter.ml">ARC</a>, the former to pretty print the errors in the command line and the latter to integrate with <a class="reference external" href="https://secure.phabricator.com/book/phabricator/article/arcanist/">Arcanist</a> (Phabricator&#8217;s command line interface).</p>
+<h1>Writing a custom Reporter<a class="headerlink" href="#writing-a-custom-reporter" title="Permalink to this headline">¶</a></h1>
+<p>Reporters are the components who take the all the violations found in the files analysed and output them in an appropriate format. As an example, NEAL ships with two builtin formatters: <a class="reference external" href="https://github.com/uber/NEAL/blob/master/src/reporters/cli/cli_reporter.ml">CLI</a> and <a class="reference external" href="https://github.com/uber/NEAL/blob/master/src/reporters/arc/arc_reporter.ml">ARC</a>, the former to pretty print the errors in the command line and the latter to integrate with <a class="reference external" href="https://secure.phabricator.com/book/phabricator/article/arcanist/">Arcanist</a> (Phabricator’s command line interface).</p>
 <p>The interface for creating a reporter currently consists of a single method:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>module type REPORTER = sig
-  val name : string
-  val report : severity -&gt; Ctx.ctx -&gt; fix -&gt; unit
-end
+<div class="highlight-ocaml"><div class="highlight"><pre><span></span><span class="k">module</span> <span class="k">type</span> <span class="nc">REPORTER</span> <span class="o">=</span> <span class="k">sig</span>
+  <span class="k">val</span> <span class="n">name</span> <span class="o">:</span> <span class="kt">string</span>
+  <span class="k">val</span> <span class="n">report</span> <span class="o">:</span> <span class="n">severity</span> <span class="o">-&gt;</span> <span class="nn">Ctx</span><span class="p">.</span><span class="n">ctx</span> <span class="o">-&gt;</span> <span class="n">fix</span> <span class="o">-&gt;</span> <span class="kt">unit</span>
+<span class="k">end</span>
 </pre></div>
 </div>
-<p>And the definition for the <code class="docutils literal"><span class="pre">sevirity</span></code> and <code class="docutils literal"><span class="pre">fix</span></code> types is as follows:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>type severity =
-  | Error
-  | Warning
-  | Other
+<p>And the definition for the <cite>sevirity</cite> and <cite>fix</cite> types is as follows:</p>
+<div class="highlight-ocaml"><div class="highlight"><pre><span></span><span class="k">type</span> <span class="n">severity</span> <span class="o">=</span>
+  <span class="o">|</span> <span class="nc">Error</span>
+  <span class="o">|</span> <span class="nc">Warning</span>
+  <span class="o">|</span> <span class="nc">Other</span>
 
-type fix =
-  | Suggestion of string
+<span class="k">type</span> <span class="n">fix</span> <span class="o">=</span>
+  <span class="o">|</span> <span class="nc">Suggestion</span> <span class="k">of</span> <span class="kt">string</span>
 </pre></div>
 </div>
 <div class="section" id="using-a-custom-reporter">
-<span id="using-a-custom-reporter"></span><h2>Using a custom reporter<a class="headerlink" href="#using-a-custom-reporter" title="Permalink to this headline">¶</a></h2>
+<h2>Using a custom reporter<a class="headerlink" href="#using-a-custom-reporter" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li>Custom reporters must be compiled to a <code class="docutils literal"><span class="pre">.cmxs</span></code> file, which is OCaml&#8217;s dynamic library format (as described <a class="reference external" href="../components#plugins">here</a>);</li>
-<li>They must have <code class="docutils literal"><span class="pre">.reporter</span></code> suffix before the <code class="docutils literal"><span class="pre">.cmxs</span></code> extension, e.g. <code class="docutils literal"><span class="pre">arc.reporter.cmxs</span></code>;</li>
-<li>You must tell NEAL the path to your reporter (using the <code class="docutils literal"><span class="pre">-f</span></code>/<code class="docutils literal"><span class="pre">--reporter</span></code> <a class="reference external" href="../configuration.md#flags">configuration flag</a>).</li>
+<li>Custom reporters must be compiled to a <cite>.cmxs</cite> file, which is OCaml’s dynamic library format (as described <a class="reference external" href="../components#plugins">here</a>);</li>
+<li>They must have <cite>.reporter</cite> suffix before the <cite>.cmxs</cite> extension, e.g. <cite>arc.reporter.cmxs</cite>;</li>
+<li>You must tell NEAL the path to your reporter (using the <cite>-f</cite>/<cite>–reporter</cite> <a class="reference external" href="../configuration.html#flags">configuration flag</a>).</li>
 </ul>
 <p>After that NEAL should already be report violations using your new reporter.</p>
 </div>
 <div class="section" id="sample-reporter-arc">
-<span id="sample-reporter-arc"></span><h2>Sample reporter (ARC)<a class="headerlink" href="#sample-reporter-arc" title="Permalink to this headline">¶</a></h2>
-<p>As example, here&#8217;s the simplest reporter so far, the ARC reporter mentioned above:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>module Arc = struct
-  let name = &quot;arc&quot;
+<h2>Sample reporter (ARC)<a class="headerlink" href="#sample-reporter-arc" title="Permalink to this headline">¶</a></h2>
+<p>As example, here’s the simplest reporter so far, the ARC reporter mentioned above:</p>
+<div class="highlight-ocaml"><div class="highlight"><pre><span></span><span class="k">module</span> <span class="nc">Arc</span> <span class="o">=</span> <span class="k">struct</span>
+  <span class="k">let</span> <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;arc&quot;</span>
 
-  let report severity ctx (R.Suggestion fix) =
-    let line = Loc.get_line ctx in
-    let severity&#39; = R.string_of_severity severity in
-    Printf.printf &quot;%s:%d %s\n&quot; severity&#39; line fix
-end
+  <span class="k">let</span> <span class="n">report</span> <span class="n">severity</span> <span class="n">ctx</span> <span class="o">(</span><span class="nn">R</span><span class="p">.</span><span class="nc">Suggestion</span> <span class="n">fix</span><span class="o">)</span> <span class="o">=</span>
+    <span class="k">let</span> <span class="n">line</span> <span class="o">=</span> <span class="nn">Loc</span><span class="p">.</span><span class="n">get_line</span> <span class="n">ctx</span> <span class="k">in</span>
+    <span class="k">let</span> <span class="n">severity&#39;</span> <span class="o">=</span> <span class="nn">R</span><span class="p">.</span><span class="n">string_of_severity</span> <span class="n">severity</span> <span class="k">in</span>
+    <span class="nn">Printf</span><span class="p">.</span><span class="n">printf</span> <span class="s2">&quot;%s:%d %s</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="n">severity&#39;</span> <span class="n">line</span> <span class="n">fix</span>
+<span class="k">end</span>
 </pre></div>
 </div>
-<!-- TODO: update links to reporters --></div>
+</div>
 </div>
 
 
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="providers.html" class="btn btn-neutral float-right" title="Writing a custom AST Provider" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral" title="Writing your own components" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
     </div>
-    <footer class="layout">
-  <div class="layout__item">
-    
-      <div class="footer-navigation" role="navigation" aria-label="footer navigation">
-        
-          <a href="providers.html" class="btn btn--small float-right" title="Writing a custom AST Provider">Next <span class="fa fa-arrow-circle-right"></span></a>
-        
-        
-          <a href="index.html" class="btn btn--small" title="Writing your own components"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-        
-      </div>
-    
+  
 
-    <hr/>
+  <hr/>
 
-    <div role="contentinfo">
-      <p>
-          &copy; Copyright 2017, Uber Technologies, Inc.
-      </p>
-    </div>
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Tadeu Zagallo.
 
-    <div class="footer-attribution">
-      Built with <a href="http://sphinx-doc.org/">Sphinx</a>
-      using <a href="https://web-platform.uberinternal.com/docs/superfine">Superfine</a>.
-    </div>
+    </p>
   </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
 </footer>
+
+        </div>
+      </div>
+
+    </section>
+
   </div>
+  
+
 
   
+
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'1.0.0',
+            VERSION:'0.2.2',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="../_static/jquery.js"></script>
       <script type="text/javascript" src="../_static/underscore.js"></script>
       <script type="text/javascript" src="../_static/doctools.js"></script>
 
-   
+  
 
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
 
 </body>
 </html>

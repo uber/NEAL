@@ -5,16 +5,17 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
+  
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>How it works? &mdash; NEAL 1.0.0 documentation</title>
+  <title>How it works? &mdash; NEAL 0.2.2 documentation</title>
   
 
   
   
-
   
-  <link rel="stylesheet" href="_static/css/main.css" type="text/css" />
+  
+
   
 
   
@@ -22,160 +23,233 @@
     
 
   
-    <link rel="top" title="NEAL 1.0.0 documentation" href="index.html"/>
-        <link rel="next" title="Writing your own components" href="components/index.html"/>
-        <link rel="prev" title="Configuration" href="configuration.html"/>
+
   
-    <script type="text/javascript" src="https://use.typekit.net/jem5umq.js"></script>
-    <script>try{Typekit.load();}catch(e){}</script>
-   
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="NEAL 0.2.2 documentation" href="index.html"/>
+        <link rel="next" title="Writing your own components" href="components/index.html"/>
+        <link rel="prev" title="Configuration" href="configuration.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
 </head>
 
-<body role="document">
-  <input type="checkbox" id="navbar-checkbox" class="navbar-checkbox"> <!-- TOGGLE Nav bar -->
-  <nav class="doc-dashboard-drawer dashboard-drawer">
-    <div class="dashboard-search">
-      
-        <a href="index.html" class="dashboard-search__title fa fa-home"> NEAL</a>
-      
-      <div role="search">
-  <form id ="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input class="text-input" type="text" name="q" placeholder="Search docs" />
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> NEAL
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.2.2
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-    </div>
 
-    <div class="dashboard-nav" role="navigation" aria-label="main navigation">
-      
-      
-        <ul class="current">
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="index.html">Getting Started</a></li>
-<li class="toctree-l1"><a class="reference internal" href="rules.html">Tutorial: Writing a new rule</a><ul class="simple">
+<li class="toctree-l1"><a class="reference internal" href="rules.html">Tutorial: Writing a new rule</a></li>
+<li class="toctree-l1"><a class="reference internal" href="testing_rules.html">Testing your rules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference.html">Rule Language Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">How it works?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="components/index.html">Writing your own components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
 </ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="testing_rules.html">Testing your rules</a><ul class="simple">
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="reference.html">Rule Language Reference</a><ul class="simple">
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration</a><ul class="simple">
-</ul>
-</li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">How it works?</a><ul class="simple">
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="components/index.html">Writing your own components</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="components/index.html">Introduction</a></li>
-<li class="toctree-l2"><a class="reference internal" href="components/reporters.html">Writing a custom Reporter</a></li>
-<li class="toctree-l2"><a class="reference internal" href="components/providers.html">Writing a custom AST Provider</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="developing.html">Contributing</a><ul class="simple">
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a><ul class="simple">
-</ul>
-</li>
-</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-    </div>
-    &nbsp;
-     <label for="navbar-checkbox" class="navbar-handle"></label>
-  </nav>
-
-  
-  <nav class="dashboard-nav-header" role="navigation" aria-label="top navigation">
-    <i class="fa fa-bars"></i>
-    <a href="index.html">NEAL</a>
-  </nav>
-
-  
-  <div class="layout doc-content-container soft-large">
-    <div class="layout__item doc-content-nav" role="navigation" aria-label="breadcrumbs navigation">
-  <ul>
-    <li class="toplinks"><a href="index.html">Docs</a> &raquo;</li>
-      
-    <li class="toplinks">How it works?</li>
-      <li class="breadcrumb__aside toplinks">
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
         
-          <a href="_sources/basics.txt" rel="nofollow"> View page source</a>
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">NEAL</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>How it works?</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/basics.rst.txt" rel="nofollow"> View page source</a>
+          
         
       </li>
+    
   </ul>
+
+  
   <hr/>
 </div>
-    <div role="main" class="layout__item document">
-      
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
   <div class="section" id="how-it-works">
-<span id="how-it-works"></span><h1>How it works?<a class="headerlink" href="#how-it-works" title="Permalink to this headline">¶</a></h1>
-<p>The two key principles of NEAL&#8217;s design are <strong>composability</strong> and <strong>flexibility</strong>.</p>
-<p><strong>Composability</strong>: Since it&#8217;s just impossible for NEAL to have built-in support for every language out there, it has to be highly composable. In order to achieve this level of composition, language support is handled by components in NEAL, and this components are called <em>AST providers</em> (or <em>providers</em> for short).</p>
-<p><strong>Flexibility</strong>: On the other hand, at the same time that it&#8217;d be great to be effortless to add a new language, this should compromise NEAL&#8217;s analysis capabilities. In order to achieve this level of flexibility, the complexity of the analysis one can perform using NEAL should only be bound by the <em>provider</em> it targets, and not the platform itself.</p>
-<div class="section" id="architecture">
-<span id="architecture"></span><h2>Architecture<a class="headerlink" href="#architecture" title="Permalink to this headline">¶</a></h2>
-<p>In order to keep the whole system highly composable, it&#8217;s broken into four types on components:</p>
+<h1>How it works?<a class="headerlink" href="#how-it-works" title="Permalink to this headline">¶</a></h1>
+<p>The two key principles of NEAL’s design are <strong>composability</strong> and <strong>flexibility</strong>.</p>
+<p><strong>Composability</strong>: Since it’s just impossible for NEAL to have built-in support for every language out there, it has to be highly composable. In order to achieve this level of composition, language support is handled by components in NEAL, and this components are called <em>AST providers</em> (or <em>providers</em> for short).</p>
+<p><strong>Flexibility</strong>: On the other hand, at the same time that it’d be great to be effortless to add a new language, this should compromise NEAL’s analysis capabilities. In order to achieve this level of flexibility, the complexity of the analysis one can perform using NEAL should only be bound by the <em>provider</em> it targets, and not the platform itself.</p>
+<p>## Architecture</p>
+<p>In order to keep the whole system highly composable, it’s broken into four types on components:</p>
 <ul class="simple">
 <li>Driver (Core): The core piece of NEAL, responsible for controlling the overall execution and selecting the necessary components.</li>
 <li>AST Providers:</li>
 <li>Rules:</li>
 <li>Reporters:</li>
 </ul>
-<p>Here&#8217;s a small diagram illustrating how all of the components interact with each other:</p>
-<p><img alt="Diagram of the interactions between all of NEAL's components" src="_images/neal_diagram.png" /></p>
+<p>Here’s a small diagram illustrating how all of the components interact with each other:</p>
+<img alt="Diagram of the interactions between all of NEAL's components" src="_images/neal_diagram.png" />
 </div>
-</div>
 
 
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="components/index.html" class="btn btn-neutral float-right" title="Writing your own components" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="configuration.html" class="btn btn-neutral" title="Configuration" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
     </div>
-    <footer class="layout">
-  <div class="layout__item">
-    
-      <div class="footer-navigation" role="navigation" aria-label="footer navigation">
-        
-          <a href="components/index.html" class="btn btn--small float-right" title="Writing your own components">Next <span class="fa fa-arrow-circle-right"></span></a>
-        
-        
-          <a href="configuration.html" class="btn btn--small" title="Configuration"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-        
-      </div>
-    
+  
 
-    <hr/>
+  <hr/>
 
-    <div role="contentinfo">
-      <p>
-          &copy; Copyright 2017, Uber Technologies, Inc.
-      </p>
-    </div>
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Tadeu Zagallo.
 
-    <div class="footer-attribution">
-      Built with <a href="http://sphinx-doc.org/">Sphinx</a>
-      using <a href="https://web-platform.uberinternal.com/docs/superfine">Superfine</a>.
-    </div>
+    </p>
   </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
 </footer>
+
+        </div>
+      </div>
+
+    </section>
+
   </div>
+  
+
 
   
+
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'1.0.0',
+            VERSION:'0.2.2',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
 
-   
+  
 
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
 
 </body>
 </html>

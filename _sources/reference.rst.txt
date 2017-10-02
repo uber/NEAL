@@ -18,6 +18,8 @@ A quick reference to all the builtin functions, operators and actions.
 
 In the sample matcher above, :code:`not` is a function, :code:`&&` is an operator and :code:`fail` is an action.
 
+----
+
 Functions
 ---------
 
@@ -35,6 +37,8 @@ Converts the value of :code:`Expression` to a boolean value and performs a logic
 +++++++++++++++++++
 
 Converts the value of `List` to a list and returns the number of elements in the list. Returns :code:`0` if :code:`List` is not an actual list.
+
+----
 
 Operators
 ---------
@@ -59,11 +63,13 @@ Converts both :code:`Expression1` and :code:`Expression2` to boolean values and 
 
 Converts both :code:`Expression1` and :code:`Expression2` to boolean values and performs a boolean "or".
 
+----
+
 Actions
 -------
 
-:code:`fail(Explanation)` <fail>
-++++++++++++++++++++++++++++++++
+:code:`fail(Explanation)`
++++++++++++++++++++++++++
 
 Reports that an error was found in the current node being matched. :code:`Explanation` should be a string explaining why is this is a violation and, ideally, how to correct it.
 
@@ -71,6 +77,8 @@ Reports that an error was found in the current node being matched. :code:`Explan
 +++++++++++++++++++++++++
 
 Similar to :code:`fail(Explanation)`, but reports a warning instead of an error.
+
+----
 
 AST Providers
 -------------
