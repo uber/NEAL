@@ -14,8 +14,8 @@ NEAL is written in OCaml_, and all the plugins must have at least a thin OCaml_ 
 
 Currently, there are two kinds of components:
 
-* `Reporters <reporters.html>`_
-* `AST Providers <providers.html>`_
+* `Reporters <reporters.rst>`_
+* `AST Providers <providers.rst>`_
 
 Compiling and loading components
 --------------------------------
