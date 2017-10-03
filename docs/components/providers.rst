@@ -29,7 +29,7 @@ Using a custom provider
 
 * Custom providers must be compiled to a ``.cmxs`` file, which is OCaml's dynamic library format (as described `here <../components#plugins>`_);
 * They must have ``.provider`` suffix before the ``.cmxs`` extension, e.g. ``swift.provider.cmxs``;
-* You must tell NEAL the path to your provider (using the ``-p``/``--provider`` `configuration flag <../configuration.html#flags>`_).
+* You must tell NEAL the path to your provider (using the ``-p``/``--provider`` `configuration flag <../configuration.rst#flags>`_).
 
 After that NEAL should already be able to parse files using your new provider and evaluate rules that target it.
 
@@ -54,7 +54,7 @@ Here's the current implementation (we'll discuss it below):
   end)
 
 What this provider is saying is:
-* Its name is `Swift`, i.e. the provider name you'll use in a `rule <../rules.html>`_ to reference to this provider is `Swift`.
+* Its name is `Swift`, i.e. the provider name you'll use in a `rule <../rules.rst>`_ to reference to this provider is `Swift`.
 * It can parse files that have the `.swift` extension. (It should always include the `.`)
 * Parsing is delegate to `Parser.parse`, which in this case is a Swift parser implemented in OCaml.
 * It exports a function called `inheritsFrom`, and its implementation is the OCaml function `inherits_from`. (Which should have the `exported_function` type from above.)
