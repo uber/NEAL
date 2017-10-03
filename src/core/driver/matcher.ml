@@ -38,23 +38,50 @@ let mk_rule name path rules = function
       Rule.Set.add (Rule.Rule (name, path, matcher)) rules
   | _ -> failwith "internal error"
 
+let scope_matches (scope : Rule.scope) (prop : string) : bool =
+  match scope with
+  | Rule.Child p when p = prop -> true
+  | Rule.Descendant p when p = prop -> true
+  | Rule.Unscoped -> true
+  | _ -> false
+
+
+let get_rule (ctx : Ctx.ctx) : Rule.rule option =
+  let Rule.Rule (name, path, matcher) as rule = ctx.Ctx.rule in
+  let prop = ctx.Ctx.prop in
+  match matcher.Rule.scope with
+  | Rule.Descendant p when p = prop ->
+      let matcher' = { matcher with Rule.scope = Rule.Unscoped } in
+      Some (Rule.Rule (name, path, matcher'))
+  | Rule.Unscoped -> Some rule
+  | _ -> None
+
 let matcher ctx =
   let Rule.Rule (name, path, matcher) as rule = ctx.Ctx.rule in
 
-  if matcher.Rule.node = ctx.Ctx.kind
-  && Evaluator.eval_predicate ctx matcher.Rule.predicate
-  then begin
-      debug ~depth:ctx.Ctx.depth ~sep:"* " ("Rule `" ^ name ^ "` matched");
+  begin
+    if matcher.Rule.node = ctx.Ctx.kind
+    && scope_matches matcher.Rule.scope ctx.Ctx.prop
+    && Evaluator.eval_predicate ctx matcher.Rule.predicate
+    then begin
+        debug ~depth:ctx.Ctx.depth ~sep:"* " ("Rule `" ^ name ^ "` matched");
 
-      Evaluator.eval_actions ctx matcher.Rule.body;
+        Evaluator.eval_actions ctx matcher.Rule.body;
 
-      let rules = List.filter is_matcher matcher.Rule.body
-        |> List.fold_left (mk_rule name path) Rule.Set.empty
-      in
-      let conditions = List.fold_left get_condition [] matcher.Rule.body in
-      let vars = List.fold_left get_var [] matcher.Rule.body
-        |> List.map (fun (k, v) -> (k, ref v))
-      in
-      (rules, conditions, vars)
-  end
-  else (Rule.Set.empty, [], [])
+        let rules = List.filter is_matcher matcher.Rule.body
+          |> List.fold_left (mk_rule name path) Rule.Set.empty
+        in
+        let conditions = List.fold_left get_condition [] matcher.Rule.body in
+        let vars = List.fold_left get_var [] matcher.Rule.body
+          |> List.map (fun (k, v) -> (k, ref v))
+        in
+
+        (rules, conditions, vars)
+    end
+    else
+      (Rule.Set.empty, [], [])
+  end |> fun (rules, conditions, vars) ->
+    let rules' = match get_rule ctx with
+    | None -> rules
+    | Some r -> Rule.Set.add r rules
+    in (rules', conditions, vars)

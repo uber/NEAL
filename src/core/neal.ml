@@ -39,7 +39,12 @@ module Rule = struct
     file : string;
   }
 
-  type matcher = { node: string; predicate: exp option; body: stmt list; _uid: int }
+  type scope =
+    | Child of string
+    | Descendant of string
+    | Unscoped
+
+  type matcher = { scope: scope; node: string; predicate: exp option; body: stmt list; _uid: int }
 
   and stmt =
     | Action of call
@@ -105,6 +110,7 @@ module rec Ctx : sig
     provider: (module Provider.PROVIDER);
     reporters: (module Reporter.REPORTER) list;
     kind: string;
+    prop: string;
     props: (string * Absyn.absyn) list;
     depth: int;
     file: string;

@@ -1,0 +1,19 @@
+rule Child {
+  Swift::ClassDeclaration {
+    ClassBody > ConstantDeclaration {
+      SelfExpression {
+        fail("Child")
+      }
+    }
+  }
+}
+
+rule Descendant {
+  Swift::ClassDeclaration {
+    ClassBody >> ConstantDeclaration {
+      SelfExpression {
+        fail("Descendant")
+      }
+    }
+  }
+}
