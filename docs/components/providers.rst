@@ -29,7 +29,7 @@ Using a custom provider
 
 * Custom providers must be compiled to a ``.cmxs`` file, which is OCaml's dynamic library format (as described `here <../components#plugins>`_);
 * They must have ``.provider`` suffix before the ``.cmxs`` extension, e.g. ``swift.provider.cmxs``;
-* You must tell NEAL the path to your provider (using the ``-p``/``--provider`` `configuration flag <../configuration.rst#flags>`_).
+* You must tell NEAL the path to your provider (using the ``-p``/``--provider`` `configuration flag <../configuration.rst>`_).
 
 After that NEAL should already be able to parse files using your new provider and evaluate rules that target it.
 

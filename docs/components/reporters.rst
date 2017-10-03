@@ -29,7 +29,7 @@ Using a custom reporter
 
 * Custom reporters must be compiled to a `.cmxs` file, which is OCaml's dynamic library format (as described `here <../components#plugins>`_);
 * They must have `.reporter` suffix before the `.cmxs` extension, e.g. `arc.reporter.cmxs`;
-* You must tell NEAL the path to your reporter (using the `-f`/`--reporter` configuration flag).
+* You must tell NEAL the path to your reporter (using the `-f`/`--reporter` `configuration flag <../configuration.rst>`_).
 
 After that NEAL should already be report violations using your new reporter.
 
