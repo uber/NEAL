@@ -57,7 +57,7 @@ After that you can get the same result by simply running:
 
   $ neal .
 
-For a more comprehensive guide to writing your own rules check out `Writing a new rule <rules.html>`_.
+For a more comprehensive guide to writing your own rules check out `Writing a new rule <https://uber.github.io/NEAL/rules.html>`_.
 
 Installation
 ------------
@@ -88,7 +88,7 @@ NEAL has builtin support for Python and Swift, but it's highly extensible, and c
 
   $ neal [options] [path to files or directories]
 
-For a list of CLI options, runtime options and configuration attributes see the `Configuration <configuration.html>`_ guide.
+For a list of CLI options, runtime options and configuration attributes see the `Configuration <https://uber.github.io/NEAL/configuration.html>`_ guide.
 
 .. _brew: https://brew.sh
 
