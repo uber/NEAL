@@ -109,7 +109,7 @@ let collect_rules file rules = function
   | _ -> rules
 
 let visitor (module P : Provider.PROVIDER) reporters file source rules absyn =
-  let rec visitor (nested_rules, vars) depth (kind, props, loc) =
+  let rec visitor (nested_rules, vars) depth prop (kind, props, loc) =
     debug ~depth:depth ~sep:"| " ("looking at node " ^ kind);
     let d = depth + 1 in
     let aux rule (rules, conditions, vars) =
@@ -117,6 +117,7 @@ let visitor (module P : Provider.PROVIDER) reporters file source rules absyn =
         Ctx.provider = (module P);
         Ctx.reporters;
         Ctx.kind;
+        Ctx.prop;
         Ctx.props;
         Ctx.depth;
         Ctx.file;
@@ -126,24 +127,24 @@ let visitor (module P : Provider.PROVIDER) reporters file source rules absyn =
         Ctx.vars;
       } in
       let (rules', conditions', vars') = Matcher.matcher ctx in
-      (RuleSet.union rules' rules, (ctx, conditions') :: conditions, vars' @ vars)
+      (Rule.Set.union rules rules', (ctx, conditions') :: conditions, vars' @ vars)
     in
     let (nested_rules', conditions, vars') = RuleSet.fold aux nested_rules (RuleSet.empty, [], vars) in
-    let rec callback = fun visitor node ->
+    let rec callback = fun visitor (prop, node) ->
       match node with
       | Absyn.List nodes ->
-          List.iter (fun node -> callback visitor node) nodes
+          List.iter (fun node -> callback visitor (prop, node)) nodes
       | Absyn.Node(kind, loc, props) ->
-          visitor (kind, props, Some loc)
+          visitor prop (kind, props, Some loc)
       | _ -> ()
     in
-    List.iter (callback (visitor (RuleSet.union nested_rules nested_rules', vars') d)) (List.map snd props);
+    List.iter (callback (visitor (nested_rules', vars') d)) props;
 
     List.iter (fun (ctx, conditions) ->
       Evaluator.eval_conditions { ctx with Ctx.vars=vars' } conditions
     ) conditions
   in
-  visitor (rules, []) (~-1) ("$root", [("$root",absyn)], None)
+  visitor (rules, []) (~-1) "" ("$root", [("$root",absyn)], None)
 
 let parse (module P : Provider.PROVIDER) file source =
   try

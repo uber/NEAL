@@ -4,7 +4,7 @@ import Foundation
 
 class Foo {
   init() {
-    let _ = DisposeBag()
+    let _ = DisposeBag() // CHECK-NOT: error
   }
 }
 

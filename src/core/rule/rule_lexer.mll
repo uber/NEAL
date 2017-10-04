@@ -46,6 +46,9 @@ rule read = parse
 | "*" { STAR }
 | ":=" { ASGN }
 
+| ">>" { GTGT }
+| ">" { GT }
+
 | "true" { BOOL(true) }
 | "false" { BOOL(false) }
 

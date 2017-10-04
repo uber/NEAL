@@ -88,6 +88,8 @@ let mk_ruleset rules =
 %token EOF
 %token STAR
 %token ASGN
+%token GT
+%token GTGT
 
 %token AND
 %token OR
@@ -131,12 +133,24 @@ provider_matcher: IDENTIFIER COLONCOLON matcher {
   ($1, ($3 []))
 }
 
+scoped_matcher:
+  | IDENTIFIER GT matcher {
+    fun ctx ->
+      { ($3 ctx) with Rule.scope = Rule.Child $1  }
+  }
+  | IDENTIFIER GTGT matcher {
+    fun ctx ->
+      { ($3 ctx) with Rule.scope = Rule.Descendant $1  }
+  }
+  | matcher { $1 }
+
 matcher: IDENTIFIER where? stmts {
   fun ctx ->
     let predicate = match $2 with
     | None -> None
     | Some f -> Some (f ctx)
     in {
+      Rule.scope = Rule.Unscoped;
       Rule.node=$1;
       Rule.predicate;
       Rule.body=($3 ctx);
@@ -170,7 +184,7 @@ stmt:
         raise (Neal.Rule.SyntaxError ("Unknown conditional variable: " ^ $1))
   }
   | call { fun ctx -> Rule.Action($1 ctx), ctx }
-  | matcher { fun ctx -> Rule.Matcher($1 ctx), ctx }
+  | scoped_matcher { fun ctx -> Rule.Matcher($1 ctx), ctx }
   | condition { fun ctx -> ($1 ctx), ctx }
 
 call: IDENTIFIER LPAREN separated_list(COMMA, exp) RPAREN {

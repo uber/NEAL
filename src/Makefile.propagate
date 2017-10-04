@@ -1,5 +1,6 @@
 SELF_DIR = $(dir $(lastword $(MAKEFILE_LIST)))
-SUBDIRS = $(wildcard */Makefile)
+SUBDIRS_ = $(wildcard */Makefile)
+SUBDIRS = $(filter-out docs/Makefile,$(SUBDIRS_))
 
 include $(SELF_DIR)/Makefile.consts
 
