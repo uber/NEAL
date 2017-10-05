@@ -53,11 +53,7 @@ rule read = parse
 | "false" { BOOL(false) }
 
 | ['a'-'z' 'A'-'Z' '_']['a'-'z' 'A'-'Z' '0'-'9' '_']* { IDENTIFIER(Lexing.lexeme lexbuf) }
-| '"' [^'"']+ '"' {
-  let str = Lexing.lexeme lexbuf in
-  let str' = String.sub str 1 (String.length str - 2) in
-  STRING(str')
-}
+| '"'  { read_string (Buffer.create 17) lexbuf }
 | "&&" { AND }
 | "||" { OR }
 | ['!' '=' '<' '>' '|' '&']+ { OP(Lexing.lexeme lexbuf) }
@@ -132,3 +128,15 @@ and multiline_comment = parse
 | "*/" { read lexbuf }
 | '\n' { Lexing.new_line lexbuf; multiline_comment lexbuf }
 | _ { multiline_comment lexbuf }
+
+and read_string buf =
+  parse
+  | '"'      { STRING (Buffer.contents buf) }
+  | '\\' '"' { Buffer.add_char buf '"'; read_string buf lexbuf }
+  | [^ '"' '\\' '\n']+
+    { Buffer.add_string buf (Lexing.lexeme lexbuf);
+      read_string buf lexbuf
+    }
+  | '\n'
+  | eof  { raise (Neal.Rule.SyntaxError ("String is not terminated")) }
+  | _    { raise (Neal.Rule.SyntaxError ("Illegal string character: " ^ Lexing.lexeme lexbuf)) }
