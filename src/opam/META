@@ -1,5 +1,5 @@
-description = "Not Exactly A Linter"
-version = "0.1.0"
+description = "Automate your code reviews with custom syntactic rules"
+version = "0.2.2"
 
 package "fs" (
   requires = "core str"

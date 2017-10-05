@@ -2,7 +2,7 @@ opam-version: "1.2"
 name: "neal"
 version: "0.2.2"
 maintainer: "Tadeu Zagallo <tadeu@uber.com>"
-authors: [ "Tadeu Zagallo <tadeu@uber.com>" ]
+author: "Tadeu Zagallo <tadeu@uber.com>"
 license: "MIT"
 dev-repo: "https://github.com/uber/NEAL.git"
 bug-reports: "https://github.com/uber/neal/issues"
