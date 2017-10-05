@@ -19,10 +19,10 @@ depends: [
   "bisect_ppx"
 ]
 build: [
-  ["make" "-C" "core" "build" "LIB_PATH=%{prefix}%/lib/neal" "NATIVE=1"]
-  ["make" "register" "LIB_PATH=%{prefix}%/lib/neal" "NATIVE=1"]
-  ["make" "-C" "providers" "build" "LIB_PATH=%{prefix}%/lib/neal" "NATIVE=1"]
-  ["make" "-C" "reporters" "build" "LIB_PATH=%{prefix}%/lib/neal" "NATIVE=1"]
+  [make "-C" "core" "build" "LIB_PATH=%{prefix}%/lib/neal" "NATIVE=1"]
+  [make "register" "LIB_PATH=%{prefix}%/lib/neal" "NATIVE=1"]
+  [make "-C" "providers" "build" "LIB_PATH=%{prefix}%/lib/neal" "NATIVE=1"]
+  [make "-C" "reporters" "build" "LIB_PATH=%{prefix}%/lib/neal" "NATIVE=1"]
 ]
 install: [
   [ "mkdir" "-p"  "%{prefix}%/lib/neal/providers/helpers" ]
