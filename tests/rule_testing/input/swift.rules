@@ -27,6 +27,17 @@ rule ExpectOk {
   }
 }
 
+rule SyntaxOkString {
+  Swift::Identifier {
+    fail("\"\"\"")
+  }
+
+  tests {
+    // CHECK: ✓ Test `testSyntaxOkString' of rule `SyntaxOkString' passed
+    testSyntaxOkString: expect_ok("")
+  }
+}
+
 rule ExpectFail {
   Swift::Identifier {
     fail("_")
@@ -235,4 +246,4 @@ rule TwoMatchers {
   }
 }
 
-// CHECK: ✓ 10 tests passed, ⅹ 10 tests failed, ! 3 tests errors
+// CHECK: ✓ 11 tests passed, ⅹ 10 tests failed, ! 3 tests errors
