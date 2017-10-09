@@ -4,6 +4,9 @@ Changelog
 0.2.3 (Unreleased)
 ------------------
 
+- Support for child and descendant operators (PR#4)
+- Parse empty strings and escaped double quotes in rules (PR#7)
+
 
 0.2.2
 -----
