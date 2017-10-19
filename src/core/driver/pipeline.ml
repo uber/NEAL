@@ -31,7 +31,7 @@ type provider = (module Neal.Provider.PROVIDER)
 type reporter = (module Neal.Reporter.REPORTER)
 
 type config = {
-  print_ast: bool;
+  print_ast: [ `No | `Json | `Pretty ];
   strict: bool;
   strict_parse: bool;
   rules_paths: string list;
@@ -58,9 +58,14 @@ let print_list p outx l =
 
 let id x = x
 
+let print_ast_to_string = function
+  | `No -> "`No"
+  | `Json -> "`Json"
+  | `Pretty -> "`Pretty"
+
 let print_config (config : config) : unit =
   Printf.printf "Config {\n";
-  Printf.printf "\tprint_ast = %B;\n" config.print_ast;
+  Printf.printf "\tprint_ast = %s;\n" (print_ast_to_string config.print_ast);
   Printf.printf "\tstrict = %B;\n" config.strict;
   Printf.printf "\tstrict_parse = %B;\n" config.strict_parse;
   Printf.printf "\trules_paths = %a;\n" (print_list id) config.rules_paths;
@@ -70,7 +75,7 @@ let print_config (config : config) : unit =
   Printf.printf "}\n"
 
 let default_config = {
-  print_ast = false;
+  print_ast = `No;
   strict = false;
   strict_parse = false;
   rules_paths = [];

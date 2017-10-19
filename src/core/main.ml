@@ -36,8 +36,11 @@ let reporters =
   let doc = "Name or path of the reporter to use for messages" in Arg.(value & opt_all string [] & info ["reporter"] ~docv:"<path>" ~doc)
 
 let print_ast =
-  let doc = "Print the AST for each source file to stdout" in
-  Arg.(value & flag & info ["print-ast"] ~doc)
+  let doc = "Pretty print the AST for each source file to stdout" in
+  let print_ast = (`Pretty, Arg.info ["print-ast"] ~doc) in
+  let doc = "Print a JSON serialized AST for each source file to stdout" in
+  let print_json_ast = (`Json, Arg.info ["print-json-ast"] ~doc) in
+  Arg.(value & vflag `No [print_ast; print_json_ast])
 
 let strict =
   let doc = "Treat warnings as errors" in

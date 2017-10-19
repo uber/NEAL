@@ -166,7 +166,7 @@ let check' config file ext read_source =
     end |> select_rules P.name
   in
 
-  if RuleSet.is_empty rules' && not config.print_ast then
+  if RuleSet.is_empty rules' && config.print_ast = `No then
     raise (Done (file, Stats.No_rules_found));
 
   begin (* debug *)
@@ -177,8 +177,8 @@ let check' config file ext read_source =
   let source = read_source () in
   let absyn = parse (module P) file source in
 
-  if config.print_ast then begin
-    Prabsyn.print absyn;
+  if config.print_ast <> `No then begin
+    Prabsyn.print config.print_ast absyn;
     raise (Done (file, Stats.Parsing_ok))
   end;
 

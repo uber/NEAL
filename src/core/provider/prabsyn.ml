@@ -25,7 +25,36 @@ let to_absyn = function
   | Off o -> Int o
   | Pos (line, column) -> String (sprintf "(%d, %d)" line column)
 
-let print ast =
+let loc_to_json = function
+  | Off o -> `Int o
+  | Pos (line, column) -> `Assoc [
+    ("line", `Int line);
+    ("col", `Int column);
+  ]
+
+let filter =
+  let f = function
+    | (k, Null) -> false
+    | _ -> true
+  in List.filter f
+
+let rec to_json = function
+    | Null -> `Null
+    | String s -> `String s
+    | Bool b -> `Bool b
+    | Int i -> `Int i
+    | List l -> `List (List.map to_json l)
+    | Node (kind, loc, props) ->
+        `Assoc (
+          ("$kind", `String kind) ::
+          ("$loc", loc_to_json loc) ::
+          List.map (fun (k, v) -> (k, to_json v)) (filter props)
+        )
+
+let print_json ast =
+  to_json ast |> Yojson.Safe.to_channel stdout
+
+let pretty_print ast =
   let rec indent = function
     | 0 -> ()
     | n -> printf "  "; indent (n-1)
@@ -36,6 +65,7 @@ let print ast =
     | Bool true -> printf "true"
     | String s -> printf "\"%s\"" s
     | Int i -> printf "%d" i
+    | List [] -> printf "[]"
     | List l ->
         printf "[\n";
         let first = ref true in
@@ -57,7 +87,12 @@ let print ast =
           printf "%s = " pname;
           aux (d+1) pval;
           printf "\n"
-        ) (("location", to_absyn loc)::props);
+        ) (filter (("location", to_absyn loc)::props));
         indent d;
         printf "}"
   in aux 0 ast; printf "\n"
+
+let print = function
+  | `Pretty -> pretty_print
+  | `Json -> print_json
+  | `No -> failwith "should not have called Prabsyn.print"

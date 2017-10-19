@@ -6,7 +6,7 @@ Changelog
 
 - Support for child and descendant operators (PR#4)
 - Parse empty strings and escaped double quotes in rules (PR#7)
-
+- Add support for dumping ASTs as JSON
 
 0.2.2
 -----
