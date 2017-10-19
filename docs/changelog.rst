@@ -1,8 +1,12 @@
 Changelog
 =========
 
-0.2.3 (Unreleased)
+0.2.4 (Unreleased)
 ------------------
+
+
+0.2.3
+-----
 
 - Support for child and descendant operators (PR#4)
 - Parse empty strings and escaped double quotes in rules (PR#7)

@@ -110,7 +110,7 @@ let main rules providers reporters stdin filelist print_ast strict strict_parse 
 let neal =
   let doc = "Not Exactly A Linter" in
   Term.(ret (const main $ rules $ providers $ reporters $ stdin $ filelist $ print_ast $ strict $ strict_parse $ files)),
-  Term.info "neal" ~version:"0.2.2" ~doc
+  Term.info "neal" ~version:"0.2.3" ~doc
 
 let test =
   let doc = "A list of rules to be tested" in
