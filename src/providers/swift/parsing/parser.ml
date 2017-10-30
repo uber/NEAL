@@ -2078,7 +2078,7 @@ and setterClause () =
   <:> mkOptPropE "Attributes" attributes
   <:> mkOptPropEmptyE mutationModifier
   <* wstring "set"
-  <:> mkPropE "Name" setterName
+  <:> mkOptPropE "Name" setterName
   <:> mkPropE "Body" codeBlock
 
 (*| setter-name -> "(" identifier ")" |*)
