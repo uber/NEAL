@@ -1,5 +1,5 @@
 description = "Automate your code reviews with custom syntactic rules"
-version = "0.2.3"
+version = "0.2.4"
 
 package "fs" (
   requires = "core str"

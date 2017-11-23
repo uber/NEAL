@@ -22,6 +22,12 @@ install-brew:
 		cp $$(find $$reporter/_build -name '*.reporter.cmxs') $$dest; \
 	done
 
+brew: setup-buildonly
+	make -C src/core
+	make -C src/providers
+	make -C src/reporters
+	make install-brew
+
 setup: setup-buildonly
 	virtualenv env
 	source $$PWD/env/bin/activate; \

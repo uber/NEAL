@@ -1,9 +1,13 @@
 Changelog
 =========
 
-0.2.4 (Unreleased)
+0.2.5 (Unreleased)
 ------------------
 
+0.2.4
+-----
+
+- Fix dependencies and bump version to publish to OPAM and Homebrew
 
 0.2.3
 -----

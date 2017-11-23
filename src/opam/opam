@@ -1,6 +1,6 @@
 opam-version: "1.2"
 name: "neal"
-version: "0.2.3"
+version: "0.2.4"
 maintainer: "Tadeu Zagallo <tadeu@uber.com>"
 author: "Tadeu Zagallo <tadeu@uber.com>"
 license: "MIT"
@@ -12,7 +12,7 @@ depends: [
   "ocamlfind"  { build }
   "camlp4"  { build }
   "cmdliner" { >= "1.0.0" }
-  "angstrom"
+  "angstrom" { = "0.6.0" }
   "core"
   "menhir"
   "yojson"

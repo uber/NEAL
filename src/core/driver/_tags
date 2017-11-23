@@ -1,2 +1,2 @@
-"fs.ml": package(Core)
+"fs.ml": package(core)
 "config.ml": package(yojson)
