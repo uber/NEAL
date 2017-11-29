@@ -62,6 +62,15 @@ For a more comprehensive guide to writing your own rules check out `Writing a ne
 Installation
 ------------
 
+The recommended way of installing NEAL is through `Homebrew <https://brew.sh>`_, using the following command:
+
+.. code-block:: bash
+
+  $ brew install neal
+
+Installing from source
+++++++++++++++++++++++
+
 To build and install NEAL from source, make sure you have `OPAM`__ installed and that you're using OCaml 4.04 or later.
 
 .. code-block:: bash

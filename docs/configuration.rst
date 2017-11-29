@@ -4,7 +4,7 @@ Configuration
 Configuration File
 ------------------
 
-NEAL allows to put all the configuration for your project in one by using a configuration file, `neal.json`. The options available for the configuration file are:
+NEAL allows you to put all the configuration for your project in one place by using a configuration file, `neal.json`. The options available for the configuration file are:
 
 ========================================= =========================================================================================================================================
 Flag                                      Value
