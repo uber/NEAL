@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>NEAL &mdash; NEAL 0.2.2 documentation</title>
+  <title>NEAL &mdash; NEAL 0.2.4 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="NEAL 0.2.2 documentation" href="#"/>
+    <link rel="top" title="NEAL 0.2.4 documentation" href="#"/>
         <link rel="next" title="Tutorial: Writing a new rule" href="rules.html"/> 
 
   
@@ -65,7 +65,7 @@
             
             
               <div class="version">
-                0.2.2
+                0.2.4
               </div>
             
           
@@ -204,10 +204,16 @@ error: No forced unwrapping allowed
 <div class="highlight-bash"><div class="highlight"><pre><span></span>$ neal .
 </pre></div>
 </div>
-<p>For a more comprehensive guide to writing your own rules check out <a class="reference external" href="rules.html">Writing a new rule</a>.</p>
+<p>For a more comprehensive guide to writing your own rules check out <a class="reference external" href="https://uber.github.io/NEAL/rules.html">Writing a new rule</a>.</p>
 </div>
 <div class="section" id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<p>The recommended way of installing NEAL is through <a class="reference external" href="https://brew.sh">Homebrew</a>, using the following command:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ brew install neal
+</pre></div>
+</div>
+<div class="section" id="installing-from-source">
+<h3>Installing from source<a class="headerlink" href="#installing-from-source" title="Permalink to this headline">¶</a></h3>
 <p>To build and install NEAL from source, make sure you have <a class="reference external" href="https://opam.ocaml.org/">OPAM</a> installed and that you’re using OCaml 4.04 or later.</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>$ brew install opam
 $ opam init
@@ -220,13 +226,14 @@ $ <span class="nb">eval</span> <span class="s2">&quot;</span><span class="k">$(<
 </pre></div>
 </div>
 </div>
+</div>
 <div class="section" id="basic-usage">
 <h2>Basic usage<a class="headerlink" href="#basic-usage" title="Permalink to this headline">¶</a></h2>
 <p>NEAL has builtin support for Python and Swift, but it’s highly extensible, and can be used with any language.</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>$ neal <span class="o">[</span>options<span class="o">]</span> <span class="o">[</span>path to files or directories<span class="o">]</span>
 </pre></div>
 </div>
-<p>For a list of CLI options, runtime options and configuration attributes see the <a class="reference external" href="configuration.html">Configuration</a> guide.</p>
+<p>For a list of CLI options, runtime options and configuration attributes see the <a class="reference external" href="https://uber.github.io/NEAL/configuration.html">Configuration</a> guide.</p>
 <div class="toctree-wrapper compound">
 </div>
 </div>
@@ -274,7 +281,7 @@ $ <span class="nb">eval</span> <span class="s2">&quot;</span><span class="k">$(<
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'0.2.2',
+            VERSION:'0.2.4',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

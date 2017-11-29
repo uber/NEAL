@@ -1,9 +1,20 @@
 Changelog
 =========
 
-0.2.3 (Unreleased)
+0.2.5 (Unreleased)
 ------------------
 
+0.2.4
+-----
+
+- Fix dependencies and bump version to publish to OPAM and Homebrew
+
+0.2.3
+-----
+
+- Support for child and descendant operators (PR#4)
+- Parse empty strings and escaped double quotes in rules (PR#7)
+- Add support for dumping ASTs as JSON
 
 0.2.2
 -----
