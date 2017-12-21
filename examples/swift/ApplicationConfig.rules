@@ -1,0 +1,42 @@
+import * from "./LibraryConfig.rules"
+
+rule Concurrency {
+  Swift::CallExpression where Callee == "asyncUserInteractive"
+    || Callee == "asyncUserInitiated"
+    || Callee == "asyncUtility"
+  {
+    warn("Use Rx Schedulers for any concurrent code")
+  }
+}
+
+rule ObjcSync {
+  Swift::Identifier where Value == "objc_sync_enter"
+    || Value == "objc_sync_exit"
+  {
+    warn("Use RecursiveSyncLock instead")
+  }
+}
+
+rule RTLSupport {
+  Swift::ExplicitMemberExpresison where Member == "left"
+    || Member == "right"
+    || Member == "snp_left"
+    || Member == "snp_right"
+  {
+    warn("Please use leading/trailing instead of left/right for SnapKit")
+  }
+}
+
+rule UIViewAnimate {
+  Swift::ExplicitMemberExpression where
+    Object == "UIView" && Member == "animate"
+  {
+    warn("Use Animation.animate instead")
+  }
+}
+
+rule Webviews {
+  Swift::CallExpression where Callee == "UIWebView" {
+    warn("Use WKWebView instead.")
+  }
+}

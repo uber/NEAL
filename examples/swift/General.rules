@@ -1,0 +1,5 @@
+rule ByLine {
+  Swift::Comment where match(Value, /Created By/) {
+    warn("Do not include 'created by' comments")
+  }
+}

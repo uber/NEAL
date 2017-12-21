@@ -1,0 +1,141 @@
+import * from "./General.rules"
+
+rule Bang {
+  Swift::ForcedValueExpression {
+    fail("No forced unwrapping allowed")
+  }
+
+  Swift::TypeIdentifier where ImplicitlyUnwrappedOptional == true {
+    fail("No forced unwrapping allowed")
+  }
+}
+
+rule Colors {
+  Swift::Identifier where Value == "ColorPalette" {
+    warn("Use semantic colors via themes (Theme.swift primary, secondary, positive etc.)")
+  }
+}
+
+rule DelayedPluginPointNoCustomPublic {
+  Swift::ClassDeclaration where inheritsFrom("DelayedPluginPoint") {
+    FunctionDeclaration where Public && not(Override) {
+      fail("DelayedPluginPoint subclass should not expose any non-override public methods.")
+    }
+
+    VariableDeclaration where Public && not(Override) {
+      fail("DelayedPluginPoint subclass should not expose any non-override public variables.")
+    }
+
+    ConstantDeclaration where Public && not(Override) {
+      fail("DelayedPluginPoint should not expose any non-override public constants.")
+    }
+  }
+}
+
+rule ExtendExperimentKeying {
+  Swift::ClassDeclaration where inheritsFrom("ExtendExperimentKeying") {
+    warn("Extending ExperimentKeying is not allowed.")
+  }
+
+  Swift::StructDeclaration where inheritsFrom("ExtendExperimentKeying") {
+    warn("Extending ExperimentKeying is not allowed.")
+  }
+
+  Swift::ProtocolDeclaration where inheritsFrom("ExtendExperimentKeying") {
+    warn("Extending ExperimentKeying is not allowed.")
+  }
+}
+
+rule NoDisposeOnDeinit {
+  fail::Identifier where Value == "disposeOnDeinit" {
+    pass("disposeOnDeinit is deprecated. Please create Rx subscriptions by overriding the createUISubscriptions method, and return the Disposable(s).")
+  }
+}
+
+rule ObservableCreate {
+  Swift::ExplicitMemberExpression where
+    Object == "Observable" && Member == "create"
+  {
+    warn("Observable.create() is disallowed except in special circumstances. If you think you need this, consult a Platform Engineer before overriding the linter rule.")
+  }
+}
+
+rule ReactivePluginPointNoCustomPublic {
+  Swift::ClassDeclaration where inheritsFrom("ReactivePluginPoint") {
+    FunctionDeclaration where Public && not(Override) {
+      fail("ReactivePluginPoint subclass should not expose any non-override public methods.")
+    }
+
+    VariableDeclaration where Public && not(Override) {
+      fail("ReactivePluginPoint subclass should not expose any non-override public variables.")
+    }
+
+    ConstantDeclaration where Public && not(Override) {
+      fail("ReactivePluginPoint should not expose any non-override public constants.")
+    }
+  }
+}
+
+rule SynchronousPluginPointNoCustomPublic {
+  Swift::ClassDeclaration where inheritsFrom("SynchronousPluginPoint") {
+    FunctionDeclaration where Public && not(Override) {
+      fail("SynchronousPluginPoint subclass should not expose any non-override public methods.")
+    }
+
+    VariableDeclaration where Public && not(Override) {
+      fail("SynchronousPluginPoint subclass should not expose any non-override public variables.")
+    }
+
+    ConstantDeclaration where Public && not(Override) {
+      fail("SynchronousPluginPoint should not expose any non-override public constants.")
+    }
+  }
+}
+
+rule UserInterfaceLayoutDirection {
+  Swift::Identifier where Value == "userInterfaceLayoutDirection" {
+    warn("Use UIView.isUsingRTLLayout property instead.")
+  }
+}
+
+rule NoPluginManagerSubclass {
+  Swift::ClassDeclaration where inheritsFrom("PluginManager") {
+    warn("PluginManager is deprecated. Please use Xcode's PluginPoint template to create new plugin points.")
+  }
+
+  Swift::ClassDeclaration where inheritsFrom("ReactivePluginManager") {
+    warn("ReactivePluginManager is deprecated. Please use ReactivePluginPoint base classes to create new reactive plugin points.")
+  }
+}
+
+rule NoPluginRegistrySubclass {
+  Swift::ClassDeclaration where inheritsFrom("PluginRegistry") {
+    warn("PluginRegistry is deprecated. Please use Xcode's PluginPoint template to create new plugin points.")
+  }
+
+  Swift::ClassDeclaration where inheritsFrom("ReactivePluginRegistry") {
+    warn("ReactivePluginRegistry is deprecated. Please use ReactivePluginPoint base classes to create new reactive plugin points.")
+  }
+}
+
+rule NoForceCasting {
+  Swift::TypeCastingExpresion where Operator == "as!" {
+    fail("Force-casting can easily crash the app, therefore, not allowed.")
+  }
+}
+
+rule NoUnowned {
+  Swift::CaptureItem where Unowned {
+    fail("Be an owner, not an unowned reference! Seriously though, unowned capture can result in undefined behavior, likely crashing the app. Use weak or strong capture instead.")
+  }
+}
+
+rule NoSelfInClassMemberLets {
+  Swift::ClassDeclaration {
+    ClassBody > ConstantDeclaration {
+      SelfExpression {
+        fail("You can't capture a self instance in a class's `let` property. You're probably capturing a function called `self` on the NSObjectProtocol, not a self instance.")
+      }
+    }
+  }
+}
