@@ -22,8 +22,12 @@ endif
 
 NEAL := $(SELF_DIR)/core/main$(COV_SUFFIX).$(EXEC_EXT)
 
+ifdef RELATIVE_LIB_PATH
+	_LIB_PATH := -cflags -ppopt,-DRELATIVE_LIB_PATH="\"$(RELATIVE_LIB_PATH)\""
+else
 ifdef LIB_PATH
 	_LIB_PATH := -cflags -ppopt,-DLIB_PATH="\"$(LIB_PATH)\""
+endif
 endif
 
 OCAMLBUILD := $(COVERAGE) ocamlbuild $(_LIB_PATH) -use-ocamlfind -plugin-tag 'package(bisect_ppx.ocamlbuild)'
