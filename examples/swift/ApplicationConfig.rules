@@ -18,7 +18,7 @@ rule ObjcSync {
 }
 
 rule RTLSupport {
-  Swift::ExplicitMemberExpresison where Member == "left"
+  Swift::ExplicitMemberExpression where Member == "left"
     || Member == "right"
     || Member == "snp_left"
     || Member == "snp_right"
