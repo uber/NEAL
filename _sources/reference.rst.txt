@@ -7,6 +7,8 @@ A quick reference to all the builtin functions, operators and actions.
 * Operators_ can be used to combine multiple expressions within predicates.
 * Actions_ can be taken in the body of match.
 * `AST Providers`_ can also export Functions and Actions.
+* `Variables & Conditions`_ can be used for expressing pre-conditions
+* `Scoped Matchers`_ can be used to restrict a matcher's breadth and depth.
 
 **Example:**
 
@@ -63,6 +65,11 @@ Converts both :code:`Expression1` and :code:`Expression2` to boolean values and 
 
 Converts both :code:`Expression1` and :code:`Expression2` to boolean values and performs a boolean "or".
 
+:code:`node.property`
+++++++++++++++++++++++++++++++++++
+
+Access ``property`` of the AST ``node``. If the ``node`` is actually a list of nodes, the property access works like flatMap: the property access is computed for every node in the list and then compacted into a new list.
+
 ----
 
 Actions
@@ -96,3 +103,88 @@ Python
 ++++++
 
 The Python provider currently does not export any function or action.
+
+----
+
+Variables & Conditions
+----------------------
+
+NEAL allows you to declare boolean variables inside a matcher. Those variables can be mutated from nested matchers and used in ``where`` clauses and conditions.
+
+Declaring a new variable
+++++++++++++++++++++++++
+
+Variable declarations must be prefix with ``var`` and have a initial value assigned to it.
+
+.. code-block:: swift
+  :emphasize-lines: 2,3
+
+  Provider::Matcher {
+    var is_valid := true
+    var did_match := false
+  }
+
+Mutating a variable
++++++++++++++++++++
+
+Variables are block-scoped and can be mutated from nested matchers at any depth.
+
+.. code-block:: swift
+  :emphasize-lines: 6,10
+
+  Provider::Matcher {
+    var is_valid := true
+    var did_match := false
+
+    NestedMatcher {
+      did_match := true
+    }
+
+    OtherMatcher {
+      is_valid := false
+    }
+  }
+
+Conditions
+++++++++++
+
+Conditions are evaluated when exiting the node and can be used in conjunction with variables to check that a series of pre-conditions within that node.
+
+.. code-block:: swift
+  :emphasize-lines: 5-7
+
+  Provider::Matcher {
+    var is_valid := true
+    var did_match := false
+
+    condition (is_valid && did_match) {
+      fail("....")
+    }
+
+    NestedMatcher where is_valid {
+      did_match := true
+    }
+
+    OtherMatcher {
+      is_valid := false
+    }
+  }
+
+----
+
+Scoped Matchers
+---------------
+
+Any matcher can be scoped to a given property of it's parent matcher, thus restricting in breadth: instead of searching through all the properties of the current AST node, restrict it to a single property. The choice of the operator used for scoping (``>`` vs ``>>``) can be used to restrict in depth: ``>`` will match only immediate children nodes, ``>>`` will nodes at any depth.
+
+For example, the following matcher will match ``class C { var x: String = "" }`` but not ``class C { func f() { var x: String = "" } }``
+
+.. code-block:: swift
+
+  Swift::Class {
+    ClassBody > VariableDeclaration {
+      fail("...")
+    }
+  }
+
+Replacing the ``>`` operator with ``>>`` would lead to matching both cases.

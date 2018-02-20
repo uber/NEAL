@@ -43,7 +43,7 @@ Now if you run NEAL you should see something like the following:
 
   error: No forced unwrapping allowed
 
-Alternatively you can create a minimal configuration file as follows:
+Alternatively, you can create a minimal configuration file called ``neal.json``:
 
 .. code-block:: json
 

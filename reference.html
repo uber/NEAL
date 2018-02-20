@@ -171,6 +171,8 @@
 <li><a class="reference internal" href="#operators">Operators</a> can be used to combine multiple expressions within predicates.</li>
 <li><a class="reference internal" href="#actions">Actions</a> can be taken in the body of match.</li>
 <li><a class="reference internal" href="#ast-providers">AST Providers</a> can also export Functions and Actions.</li>
+<li><a class="reference internal" href="#variables-conditions">Variables &amp; Conditions</a> can be used for expressing pre-conditions</li>
+<li><a class="reference internal" href="#scoped-matchers">Scoped Matchers</a> can be used to restrict a matcher’s breadth and depth.</li>
 </ul>
 <p><strong>Example:</strong></p>
 <div class="highlight-swift"><div class="highlight"><pre><span></span><span class="n">Function</span> <span class="k">where</span> <span class="n">not</span><span class="p">(</span><span class="n">Public</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="n">Override</span> <span class="p">{</span>
@@ -214,6 +216,10 @@
 <h3><code class="code docutils literal"><span class="pre">Expression1</span> <span class="pre">||</span> <span class="pre">Expression2</span></code><a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
 <p>Converts both <code class="code docutils literal"><span class="pre">Expression1</span></code> and <code class="code docutils literal"><span class="pre">Expression2</span></code> to boolean values and performs a boolean “or”.</p>
 </div>
+<div class="section" id="node-property">
+<h3><code class="code docutils literal"><span class="pre">node.property</span></code><a class="headerlink" href="#node-property" title="Permalink to this headline">¶</a></h3>
+<p>Access <code class="docutils literal"><span class="pre">property</span></code> of the AST <code class="docutils literal"><span class="pre">node</span></code>. If the <code class="docutils literal"><span class="pre">node</span></code> is actually a list of nodes, the property access works like flatMap: the property access is computed for every node in the list and then compacted into a new list.</p>
+</div>
 </div>
 <hr class="docutils" />
 <div class="section" id="actions">
@@ -240,6 +246,75 @@
 <h3>Python<a class="headerlink" href="#python" title="Permalink to this headline">¶</a></h3>
 <p>The Python provider currently does not export any function or action.</p>
 </div>
+</div>
+<hr class="docutils" />
+<div class="section" id="variables-conditions">
+<h2>Variables &amp; Conditions<a class="headerlink" href="#variables-conditions" title="Permalink to this headline">¶</a></h2>
+<p>NEAL allows you to declare boolean variables inside a matcher. Those variables can be mutated from nested matchers and used in <code class="docutils literal"><span class="pre">where</span></code> clauses and conditions.</p>
+<div class="section" id="declaring-a-new-variable">
+<h3>Declaring a new variable<a class="headerlink" href="#declaring-a-new-variable" title="Permalink to this headline">¶</a></h3>
+<p>Variable declarations must be prefix with <code class="docutils literal"><span class="pre">var</span></code> and have a initial value assigned to it.</p>
+<div class="highlight-swift"><div class="highlight"><pre><span></span><span class="n">Provider</span><span class="p">::</span><span class="n">Matcher</span> <span class="p">{</span>
+<span class="hll">  <span class="kd">var</span> <span class="nv">is_valid</span> <span class="p">:=</span> <span class="kc">true</span>
+</span><span class="hll">  <span class="kd">var</span> <span class="nv">did_match</span> <span class="p">:=</span> <span class="kc">false</span>
+</span><span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="mutating-a-variable">
+<h3>Mutating a variable<a class="headerlink" href="#mutating-a-variable" title="Permalink to this headline">¶</a></h3>
+<p>Variables are block-scoped and can be mutated from nested matchers at any depth.</p>
+<div class="highlight-swift"><div class="highlight"><pre><span></span><span class="n">Provider</span><span class="p">::</span><span class="n">Matcher</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nv">is_valid</span> <span class="p">:=</span> <span class="kc">true</span>
+  <span class="kd">var</span> <span class="nv">did_match</span> <span class="p">:=</span> <span class="kc">false</span>
+
+  <span class="n">NestedMatcher</span> <span class="p">{</span>
+<span class="hll">    <span class="n">did_match</span> <span class="p">:=</span> <span class="kc">true</span>
+</span>  <span class="p">}</span>
+
+  <span class="n">OtherMatcher</span> <span class="p">{</span>
+<span class="hll">    <span class="n">is_valid</span> <span class="p">:=</span> <span class="kc">false</span>
+</span>  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="conditions">
+<h3>Conditions<a class="headerlink" href="#conditions" title="Permalink to this headline">¶</a></h3>
+<p>Conditions are evaluated when exiting the node and can be used in conjunction with variables to check that a series of pre-conditions within that node.</p>
+<div class="highlight-swift"><div class="highlight"><pre><span></span><span class="n">Provider</span><span class="p">::</span><span class="n">Matcher</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nv">is_valid</span> <span class="p">:=</span> <span class="kc">true</span>
+  <span class="kd">var</span> <span class="nv">did_match</span> <span class="p">:=</span> <span class="kc">false</span>
+
+<span class="hll">  <span class="n">condition</span> <span class="p">(</span><span class="n">is_valid</span> <span class="o">&amp;&amp;</span> <span class="n">did_match</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="hll">    <span class="n">fail</span><span class="p">(</span><span class="s">&quot;....&quot;</span><span class="p">)</span>
+</span><span class="hll">  <span class="p">}</span>
+</span>
+  <span class="n">NestedMatcher</span> <span class="k">where</span> <span class="n">is_valid</span> <span class="p">{</span>
+    <span class="n">did_match</span> <span class="p">:=</span> <span class="kc">true</span>
+  <span class="p">}</span>
+
+  <span class="n">OtherMatcher</span> <span class="p">{</span>
+    <span class="n">is_valid</span> <span class="p">:=</span> <span class="kc">false</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<hr class="docutils" />
+<div class="section" id="scoped-matchers">
+<h2>Scoped Matchers<a class="headerlink" href="#scoped-matchers" title="Permalink to this headline">¶</a></h2>
+<p>Any matcher can be scoped to a given property of it’s parent matcher, thus restricting in breadth: instead of searching through all the properties of the current AST node, restrict it to a single property. The choice of the operator used for scoping (<code class="docutils literal"><span class="pre">&gt;</span></code> vs <code class="docutils literal"><span class="pre">&gt;&gt;</span></code>) can be used to restrict in depth: <code class="docutils literal"><span class="pre">&gt;</span></code> will match only immediate children nodes, <code class="docutils literal"><span class="pre">&gt;&gt;</span></code> will nodes at any depth.</p>
+<p>For example, the following matcher will match <code class="docutils literal"><span class="pre">class</span> <span class="pre">C</span> <span class="pre">{</span> <span class="pre">var</span> <span class="pre">x:</span> <span class="pre">String</span> <span class="pre">=</span> <span class="pre">&quot;&quot;</span> <span class="pre">}</span></code> but not <code class="docutils literal"><span class="pre">class</span> <span class="pre">C</span> <span class="pre">{</span> <span class="pre">func</span> <span class="pre">f()</span> <span class="pre">{</span> <span class="pre">var</span> <span class="pre">x:</span> <span class="pre">String</span> <span class="pre">=</span> <span class="pre">&quot;&quot;</span> <span class="pre">}</span> <span class="pre">}</span></code></p>
+<div class="highlight-swift"><div class="highlight"><pre><span></span><span class="n">Swift</span><span class="p">::</span><span class="n">Class</span> <span class="p">{</span>
+  <span class="n">ClassBody</span> <span class="o">&gt;</span> <span class="n">VariableDeclaration</span> <span class="p">{</span>
+    <span class="n">fail</span><span class="p">(</span><span class="s">&quot;...&quot;</span><span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Replacing the <code class="docutils literal"><span class="pre">&gt;</span></code> operator with <code class="docutils literal"><span class="pre">&gt;&gt;</span></code> would lead to matching both cases.</p>
 </div>
 </div>
 
