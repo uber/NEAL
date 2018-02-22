@@ -1,6 +1,6 @@
 // RUN: %not %neal %args | %check
 
-//CHECK: error:\d+ Header doc typo
+//CHECK: error: Header doc typo
 
 /// header doc
 //

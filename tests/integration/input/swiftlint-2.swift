@@ -3,4 +3,4 @@
 // swiftlint:disable:next custom_rules
 print("")
 
-x! // CHECK: error:\d+ No force unwrap
+x! // CHECK: error: No force unwrap

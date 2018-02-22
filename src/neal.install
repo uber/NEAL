@@ -6,5 +6,5 @@ lib: [
   "providers/python/_build/python.provider.cmxs" { "providers/python.provider.cmxs" }
 
   "reporters/cli/_build/cli.cmxs" { "reporters/cli/cli.reporter.cmxs" }
-  "reporters/arc/_build/arc.cmxs" { "reporters/arc/arc.reporter.cmxs" }
+  "reporters/compact/_build/compact.cmxs" { "reporters/compact/compact.reporter.cmxs" }
 ]

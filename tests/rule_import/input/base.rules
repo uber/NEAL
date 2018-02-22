@@ -2,7 +2,7 @@
 
 rule no_random {
   Swift::CallExpression where Callee == "arc4random" {
-    warn("No random numbers") // CHECK: warning:\d+ No random numbers
+    warn("No random numbers") // CHECK: warning: No random numbers
   }
 
   tests {
@@ -13,6 +13,6 @@ rule no_random {
 
 rule bang {
   Swift::ForcedValueExpression {
-    fail("No force unwrap") // CHECK: error:\d+ No force unwrap
+    fail("No force unwrap") // CHECK: error: No force unwrap
   }
 }

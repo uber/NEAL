@@ -2,6 +2,6 @@
 
 class C : Bar {
   init() {
-    foo() // CHECK: error:\d+ Explanation
+    foo() // CHECK: error: Explanation
   }
 }

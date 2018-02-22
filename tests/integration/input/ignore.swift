@@ -14,4 +14,4 @@ x!
 x!
 // NEAL: skip X, Y and Bang on the previous line because I need to test it
 
-x! // CHECK: error:\d+ No force unwrap
+x! // CHECK: error: No force unwrap

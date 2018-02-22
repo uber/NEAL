@@ -22,10 +22,12 @@ module Ctx = Neal.Ctx
 module R = Neal.Reporter
 
 let () = R.register(module struct
-  let name = "arc"
+  let name = "compact"
 
   let report severity ctx (R.Suggestion fix) =
+    let Neal.Rule.Rule(name, _, _) = ctx.Ctx.rule in
     let line = Loc.get_line ctx in
     let severity' = R.string_of_severity severity in
-    Printf.printf "%s:%d %s\n" severity' line fix
+
+    Printf.printf "%s:%d: %s: %s (%s)\n" ctx.Ctx.file line severity' fix name
 end)

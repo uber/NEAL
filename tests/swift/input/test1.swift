@@ -2,4 +2,4 @@
 
 import Foundation
 
-print(arc4random()) // CHECK: error:\d+ Explanation
+print(arc4random()) // CHECK: error: Explanation
