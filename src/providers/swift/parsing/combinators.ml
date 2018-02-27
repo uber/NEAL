@@ -265,6 +265,7 @@ let wchar c = pos >>= fun pos ->
   | ','
   | ':'
   | '?'
+  | '&'
   | '=' -> anyspace
   | _ -> whitespace
   )
@@ -277,6 +278,7 @@ let wchar c = pos >>= fun pos ->
   | ','
   | '?'
   | ':'
+  | '&'
   | '=' -> anyspace
   | _ -> return ()
   )

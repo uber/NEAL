@@ -7,28 +7,54 @@ Foo
     static
     func
     bar
-    (
+    <
+    T
+    :
+      Any
+      &
+      Foo
+    > (
+      value
+      v
+      :
+        T
+      ,
       completion
       :
         @convention(swift)
         @escaping
-        ()
+        (
+        T
+        )
         ->
         Void
     )
     {
       completion(
+        v
       )
     }
 }
+
 Foo
 .
 bar(
+  value
+  :
+    Foo(
+    )
+  ,
   completion
   :
   {
+    (
+      value
+    :
+      Foo
+      )
+      in
   print(
-    "HERE"
+  value
   )
   }
 )

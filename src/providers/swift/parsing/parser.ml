@@ -108,11 +108,6 @@ and identifier' keywords =
       <|> backtickIdentifier p
     )
 
-    (*| String "true"*)
-    (*| String "false"*)
-    (*| String "default"*)
-    (*| String "case" ->*)
-
 and paramKeywords = ["inout"; "var"; "let"]
 
 and paramName () = identifier' paramKeywords
@@ -158,7 +153,6 @@ and keywords = [
  "where";
  "while";
  "as";
- "Any";
  "catch";
  "false";
  "is";
@@ -166,7 +160,6 @@ and keywords = [
  "rethrows";
  "super";
  "self";
- "Self";
  "throw";
  "throws";
  "true";
@@ -2396,6 +2389,7 @@ and functionDeclaration () =
   mkNode "FunctionDeclaration"
   <:> functionHead ()
   <:> functionName ()
+  <:> mkOptPropE "genericParameterClause" genericParameterClause
   <:> functionSignature ()
   <:> mkOptPropE "GenericWhereClause" genericWhereClause
   <:> mkOptPropE "FunctionBody" functionBody
@@ -2644,6 +2638,7 @@ and protocolMethodDeclaration () =
   mkNode "ProtocolMethodDeclaration"
   <:> functionHead ()
   <:> functionName ()
+  <:> mkOptPropE "GenericParameterClause" genericParameterClause
   <:> functionSignature ()
   <:> mkOptPropE "GenericWhereClause" genericWhereClause
 
@@ -3228,7 +3223,9 @@ and genericParameterClause () =
   wchar '<'
   *> mkNode "GenericParameterClause"
   <:> mkPropE "GenericParameterList" genericParameterList
+  <* anyspace
   <* wchar '>'
+  <* anyspace
 
 (*| generic-parameter-list -> generic-parameter | generic-parameter "," generic-parameter-list |*)
 and genericParameterList () =
