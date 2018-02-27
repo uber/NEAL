@@ -1257,12 +1257,12 @@ and postfixExpression' ~allowTrailingClosure exp =
   option exp (
     (
       explicitMemberExpression exp
+      <|> optionalChainingExpression exp
       <|> postfixOperator exp
       <|> postfixSelfExpression exp
       <|> initializerExpression exp
       <|> subscriptExpression exp
       <|> forcedValueExpression exp
-      <|> optionalChainingExpression exp
       <|> functionCallExpression ~allowTrailingClosure exp
     ) >>= postfixExpression' ~allowTrailingClosure
   )
@@ -2972,7 +2972,6 @@ _
     (wildcardPattern () <:> typeAnnot)
     <|> (tuplePattern () <:> typeAnnot)
     <|> fix (valueBindingPattern ~allowTrailingClosure ~allowTypeAnnotation ~allowExpression)
-    <|> optionalPattern ()
     <|> isPattern ()
     <|> (
       if allowExpression
@@ -3051,9 +3050,9 @@ and enumCasePattern () =
 (*| GRAMMAR OF AN OPTIONAL PATTERN |*)
 
 (*| optional-pattern -> identifier-pattern "?" |*)
-and optionalPattern () =
-  identifierPattern ()
-  <:> mkBoolProp "Optional" (char '?')
+
+(* actually parsed by the Swift compiler as an expression-pattern with
+ * optional-chaining-expression inside *)
 
 (*| GRAMMAR OF A TYPE CASTING PATTERN |*)
 
