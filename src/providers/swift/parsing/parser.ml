@@ -82,24 +82,98 @@ and identifierCharacters () =
   many1 identifierCharacter
 
 (*| identifier -> identifier-head identifier-characters ??? |*)
-(*| identifier -> "`" identifier-head identifier-characters ??? "`" |*)
+(*| identifier -> backtick-identifier (not a separate production in the original grammar) |*)
 (*| identifier -> implicit-parameter-name |*)
-and identifier () =
-  let aux pos =
-    (
-      (List.cons <$> identifierHead () <*> (option [] (identifierCharacters ())))
-      <|> (char '`' *> (List.cons <$> identifierHead () <*> (option [] (identifierCharacters()))) <* char '`')
-    ) >>= fun chars ->
-    match string_of_chars chars with
-    | String "true"
-    | String "false"
-    | String "case" ->
-        fail "Keyword can't be used as identifier"
-    | str ->
-        return (NodeHolder (pos, Node ("Identifier", Off pos, [("Value", str)])))
-  in pos >>= fun p ->
-    anyspace *> aux p
-    <|> implicitParameterName ()
+
+and nonReservedIdentifier pos keywords =
+  (
+    (List.cons <$> identifierHead () <*> (option [] (identifierCharacters ())))
+  ) >>= fun chars ->
+  match string_of_chars chars with
+  | String l when List.mem l keywords ->
+      fail "Keyword can't be used as identifier"
+  | str ->
+      return (NodeHolder (pos, Node ("Identifier", Off pos, [("Value", str)])))
+
+(*| backtick-identifier -> "`" identifier-head identifier-characters ??? "`" |*)
+and backtickIdentifier pos =
+  (char '`' *> (List.cons <$> identifierHead () <*> (option [] (identifierCharacters()))) <* char '`') >>= fun str ->
+    return (NodeHolder (pos, Node ("Identifier", Off pos, [("Value", string_of_chars str)])))
+
+and identifier' keywords =
+  pos >>= fun p ->
+    anyspace *> (
+      nonReservedIdentifier p keywords
+      <|> implicitParameterName ()
+      <|> backtickIdentifier p
+    )
+
+    (*| String "true"*)
+    (*| String "false"*)
+    (*| String "default"*)
+    (*| String "case" ->*)
+
+and paramKeywords = ["inout"; "var"; "let"]
+
+and paramName () = identifier' paramKeywords
+
+and keywords = [
+ "associatedtype";
+ "class";
+ "deinit";
+ "enum";
+ "extension";
+ "fileprivate";
+ "func";
+ "import";
+ "init";
+ "inout";
+ "internal";
+ "let";
+ "open";
+ "operator";
+ "private";
+ "protocol";
+ "public";
+ "static";
+ "struct";
+ "subscript";
+ "typealias";
+ "var";
+ " break";
+ "case";
+ "continue";
+ "default";
+ "defer";
+ "do";
+ "else";
+ "fallthrough";
+ "for";
+ "guard";
+ "if";
+ "in";
+ "repeat";
+ "return";
+ "switch";
+ "where";
+ "while";
+ "as";
+ "Any";
+ "catch";
+ "false";
+ "is";
+ "nil";
+ "rethrows";
+ "super";
+ "self";
+ "Self";
+ "throw";
+ "throws";
+ "true";
+ "try";
+]
+
+and identifier () = identifier' keywords
 
 (*| identifier-list -> identifier | identifier "," identifier-list |*)
 and identifierList () =
@@ -2203,10 +2277,10 @@ and functionResult () =
 and functionBody () = codeBlock ()
 
 (*| external-parameter-name -> identifier |*)
-and externalParameterName () = identifier ()
+and externalParameterName () = paramName ()
 
 (*| local-parameter-name -> identifier |*)
-and localParameterName () = identifier ()
+and localParameterName () = paramName ()
 
 (*| default-argument-clause -> "=" expression |*)
 and defaultArgumentClause () =
