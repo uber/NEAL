@@ -974,6 +974,7 @@ and typeCastingOperator () =
 (*| primary-expression -> wildcard-expression |*)
 (*| primary-expression -> selector-expression |*)
 (*| primary-expression -> key-path-expression |*)
+(*| primary-expression -> key-path-string-expression |*)
 and primaryExpression () =
   literalExpression ()
   <!> selfExpression
@@ -1278,15 +1279,45 @@ and selectorExpression () =
 
 (*| GRAMMAR OF A KEY-PATH EXPRESSION |*)
 
-(*| key-path-expression → \­type­opt­.­key-path-components­|*)
-(*| key-path-components → key-path-component­| key-path-component­.­key-path-components­|*)
-(*| key-path-component → identifier­|*)
+(*| key-path-expression -> "\\" type? "." key-path-components |*)
 and keyPathExpression () =
   mkNode "KeyPathExpression"
-  <* wstring "\\"
-  <:> mkOptProp "Type" (fix type')
-  <* wchar '.'
-  <:> mkProp "KeyPathComponents" (sepBy1 '.' identifier >>= toList)
+  <* wchar '\\'
+  <:> mkProp "Expression" (fix expression)
+  <:> mkOptProp "KeyPathComponents" (wchar '.' *> keyPathComponents ())
+
+(*| key-path-components -> key-path-component | key-path-component . key-path-components |*)
+and keyPathComponents () =
+  sepBy1 '.' keyPathComponent >>= toList
+
+(*| key-path-component -> identifier key-path-postfixes? | key-path-postfixes |*)
+and keyPathComponent () =
+  mkNode "KeyPathComponent"
+  <:> ((
+    mkPropHolder
+    <:> mkPropE "Identifier" identifier
+    <:> mkOptPropE "Postfixes" keyPathPostfixes
+  ) <|> (
+    mkPropHolder
+    <:> mkPropE "Postfixes" keyPathPostfixes
+  ))
+
+(*| key-path-postfixes -> key-path-postfix key-path-postfixes? |*)
+and keyPathPostfixes () =
+  many1 keyPathPostfix >>= toList
+
+(*| key-path-postfix -> "?" | "!" | "[" function-call-argument-list "]" |*)
+and keyPathPostfix () =
+  (
+    wchar '?' *> mkNode "KeyPathOptionalPostfix"
+  ) <|> (
+    wchar '!' *> mkNode "KeyPathForcedPostfix"
+  ) <|> (
+    mkNode "KeyPathSubscriptPostfix"
+    <* wchar '['
+    <:> mkPropE "Arguments" functionCallArgumentList
+    <* wchar ']'
+  )
 
 (*| key-path-string-expression -> "#keyPath" "(" expression ")" |*)
 and keyPathStringExpression () =
