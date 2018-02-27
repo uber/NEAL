@@ -2326,6 +2326,7 @@ and functionHead () =
 and functionName () =
   (
     mkPropE "FunctionName" identifier
+    <* anyspace
     <:> mkOptPropE "GenericParameterClause" genericParameterClause
   ) <|> operatorWithGenerics ()
 
@@ -3049,7 +3050,7 @@ and attributeArgumentClause () =
 
 (*| attributes -> attribute attributes ??? |*)
 and attributes () =
-  mkList1 attribute
+  mkList1 attribute <* anyspace
 
 (*| balanced-tokens -> balanced-token balanced-tokens ??? |*)
 and balancedTokens _ =

@@ -1,0 +1,34 @@
+// RUN: %neal-swift
+
+final
+class
+Foo
+{
+    static
+    func
+    bar
+    (
+      completion
+      :
+        @convention(swift)
+        @escaping
+        ()
+        ->
+        Void
+    )
+    {
+      completion(
+      )
+    }
+}
+Foo
+.
+bar(
+  completion
+  :
+  {
+  print(
+    "HERE"
+  )
+  }
+)
