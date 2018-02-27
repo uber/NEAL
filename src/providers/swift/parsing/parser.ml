@@ -408,12 +408,62 @@ and sign () =
 (*| GRAMMAR OF A STRING LITERAL |*)
 
 (*| string-literal -> static-string-literal | interpolated-string-literal |*)
-and stringLiteral () =
-  staticStringLiteral ()
-  <!> interpolatedStringLiteral
+(*| static-string-literal -> "\"" quoted-text? "\"" |*)
+(*| static-string-literal -> "\"\"\"" multiline-quoted-text? "\"\"\"" |*)
+(*| interpolated-string-literal -> "\"" interpolated-text? "\"" |*)
+(*| interpolated-string-literal -> "\"\"\"" multiline-interpolated-text ? "\"\"\"" |*)
 
-(*| static-string-literal -> "\"" "quoted-text ???" "\"" |*)
+(* NOTE: this diverges from the original grammar as the static-string-literal
+ * and interpolated-string-literal productions had to be inline so that we are
+ * able to mix static and interpolated strings to always check for multiline
+ * strings first
+ *)
+and stringLiteral () =
+  multilineStaticStringLiteral ()
+  <!> multilineInterpolatedStringLiteral
+  <!> singleLineStaticStringLiteral
+  <!> singleLineInterpolatedStringLiteral
+
 and staticStringLiteral () =
+  multilineStaticStringLiteral ()
+  <!> singleLineStaticStringLiteral
+
+
+and multilineStaticStringLiteral () =
+  mkNode "StaticStringLiteral"
+  <* anyspace
+  <* string "\"\"\""
+  <:> mkOptPropE "Value" multilineQuotedText
+  <* string "\"\"\""
+
+(*| multiline-quoted-text -> multiline-quoted-text-item multiline-quoted-text? |*)
+and multilineQuotedText () =
+  pos >>= fun pos ->
+    many1 multilineQuotedTextItem >>| fun strs ->
+      NodeHolder (pos, String (String.concat "" strs))
+
+(*| multiline-quoted-text-item -> escaped-character |*)
+(*| multiline-quoted-text-item -> Any Unicode scalar value except \ |*)
+(*| multiline-quoted-text-item -> escaped-newline|*)
+and multilineQuotedTextItem () =
+  (
+    (string "\"\"\"")
+    <|> escapedCharacter ()
+    <|> (
+      satisfy (function
+      | '\\' -> false
+      | _ -> true
+      ) >>| String.make 1
+    )
+    <|> escapedNewline ()
+  ) >>= function
+    | "\"\"\"" -> fail "end of multiline string"
+    | str -> return str
+
+and escapedNewline () =
+  char '\\' *> anyspace *> char 'n' *> return "\n"
+
+and singleLineStaticStringLiteral () =
   mkNode "StaticStringLiteral"
   <* anyspace
   <* char '"'
@@ -422,8 +472,8 @@ and staticStringLiteral () =
 
 (*| quoted-text -> quoted-text-item quoted-text ??? |*)
 and quotedText () =
-  many1 quotedTextItem >>= fun strs ->
-    pos >>| fun pos ->
+  pos >>= fun pos ->
+    many1 quotedTextItem >>| fun strs ->
       NodeHolder (pos, String (String.concat "" strs))
 
 (*| quoted-text-item -> escaped-character |*)
@@ -439,8 +489,18 @@ and quotedTextItem () =
     -> false
     | _ -> true) >>| String.make 1)
 
-(*| interpolated-string-literal -> "" "interpolated-text ??? "" " |*)
-and interpolatedStringLiteral () =
+and multilineInterpolatedStringLiteral () =
+  mkNode "InterpolatedStringLiteral"
+  <* anyspace
+  <* string "\"\"\""
+  <:> mkOptPropE "Fragments" multilineInterpolatedText
+  <* string "\"\"\""
+
+
+(*| multiline-interpolated-text -> multiline-interpolated-text-item multiline-interpolated-text? |*)
+and multilineInterpolatedText () = interpolatedText' multilineQuotedTextItem
+
+and singleLineInterpolatedStringLiteral () =
   mkNode "InterpolatedStringLiteral"
   <* anyspace
   <* char '"'
@@ -448,31 +508,34 @@ and interpolatedStringLiteral () =
   <* char '"'
 
 (*| interpolated-text -> interpolated-text-item interpolated-text ??? |*)
-and interpolatedText () =
-  many1 interpolatedTextItem >>= fun l ->
+(*| interpolated-text-item -> "\(" expression ")" | quoted-text-item |*)
+and interpolatedText () = interpolatedText' quotedTextItem
+
+and interpolatedText' textItem =
+  many1 (fun () -> interpolatedTextItem' textItem) >>= fun l ->
     List.fold_left (fun acc i ->
       match acc,i with
       | (InterpolatedCodePoints cs)::rest, (InterpolatedCodePoints [c]) ->
           InterpolatedCodePoints (c::cs) :: rest
       | (InterpolatedCodePoints cs)::rest, (InterpolatedExp e) ->
-          (InterpolatedExp e)::(InterpolatedCodePoints (List.rev cs))::rest
+          (InterpolatedExp e)::(InterpolatedCodePoints cs)::rest
       | l,e ->
           e::l
     ) [] l
     |> List.rev
     |> List.map (function
-      | InterpolatedCodePoints cs -> NodeHolder (0, String (String.concat "" cs))
+      | InterpolatedCodePoints cs -> NodeHolder (0, String (String.concat "" (List.rev cs)))
       | InterpolatedExp e -> e)
     |> toList
 
-(*| interpolated-text-item -> "\(" expression ")" | quoted-text-item |*)
-and interpolatedTextItem () =
+and interpolatedTextItem' textItem =
   (
     string "\\("
+    *> anyspace
     *> (expressionList () >>| fun e -> InterpolatedExp e)
     <* wchar ')'
   ) <|> (
-    (quotedTextItem () >>| fun c -> InterpolatedCodePoints [c])
+    (textItem () >>| fun c -> InterpolatedCodePoints [c])
   )
 
 (*| escaped-character -> "\0" | "\\" | "\t" | "\n" | "\r" | "\"" | "\'" |*)
