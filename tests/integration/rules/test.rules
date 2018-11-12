@@ -19,3 +19,14 @@ rule Print {
     test2: expect_warn("print()")
   }
 }
+
+rule NSLog {
+  Swift::CallExpression where Callee == "NSLog" {
+    warn("Don't call `NSLog`")
+  }
+
+  tests {
+    test1: expect_ok("print(\"astr\")")
+    test2: expect_warn("NSLog(\"astr\")")
+  }
+}

@@ -46,6 +46,8 @@ let is_ignored ctx line directives =
     | Some line, (l, Skip (AllRules, Local d, _)) when direction l d = line -> true
     | _, (_, Skip (SomeRules rules, Global, _)) when List.mem rule_name rules -> true
     | Some line, (l, Skip (SomeRules rules, Local d, _)) when List.mem rule_name rules && direction l d = line -> true
+    | _, (_, RunOnly (SomeRules rules, Global, _)) when not (List.mem rule_name rules) -> true
+    | Some line, (l, RunOnly (SomeRules rules, Local d, _)) when (not (List.mem rule_name rules)) && direction l d = line -> true
     | _, (_, s) -> false
   in List.exists aux directives
 

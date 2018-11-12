@@ -22,7 +22,7 @@ type direction = This | Next | Prev
 type scope = Global | Local of direction
 type rules = AllRules | SomeRules of string list
 type excuse = string
-type skip = Skip of rules * scope * excuse
+type action = Skip of rules * scope * excuse | RunOnly of rules * scope * excuse
 type line_number = int
 type 'a directive = (line_number * 'a)
 
@@ -47,5 +47,6 @@ let print_scope out = function
   | Global -> Printf.fprintf out "this file"
   | Local d -> Printf.fprintf out "%a line" print_direction d
 
-let print_skip (Skip (rules, scope, excuse)) =
-  Printf.printf "NEAL: skip %a on %a because %s\n" print_rules rules print_scope scope excuse
+let print_skip action = function
+  | Skip (rules, scope, excuse) -> Printf.printf "NEAL: skip %a on %a because %s\n" print_rules rules print_scope scope excuse
+  | RunOnly (rules, scope, excuse) -> Printf.printf "NEAL: runonly %a on %a because %s\n" print_rules rules print_scope scope excuse

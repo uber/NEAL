@@ -35,6 +35,7 @@ rule read = parse
 | "previous" { PREV }
 | "rules" { RULES }
 | "skip" { SKIP }
+| "runonly" { RUNONLY }
 | "the" { THE }
 | "this" { THIS }
 

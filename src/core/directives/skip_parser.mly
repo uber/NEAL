@@ -33,6 +33,7 @@
 %token LINE
 %token FILE
 %token SKIP
+%token RUNONLY
 %token COLON
 %token NEAL
 %token THE
@@ -41,7 +42,7 @@
 %token <string> ID
 %token <string> BECAUSE
 
-%start <Skip_absyn.skip> parse
+%start <Skip_absyn.action> parse
 
 %%
 
@@ -71,4 +72,6 @@ global_context: THIS FILE { Global }
 
 context: line_context | global_context { $1 }
 
-parse: NEAL COLON SKIP pattern ON context BECAUSE EOF { Skip ($4, $6, $7) }
+parse:
+  | NEAL COLON SKIP pattern ON context BECAUSE EOF { Skip ($4, $6, $7) }
+  | NEAL COLON RUNONLY pattern ON context BECAUSE EOF { RunOnly ($4, $6, $7) }
