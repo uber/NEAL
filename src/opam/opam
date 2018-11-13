@@ -17,6 +17,7 @@ depends: [
   "menhir"
   "yojson"
   "bisect_ppx"
+  "bisect_ppx-ocamlbuild"
 ]
 build: [
   [make "-C" "core" "build" "LIB_PATH=%{prefix}%/lib/neal" "NATIVE=1"]
