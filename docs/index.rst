@@ -99,6 +99,11 @@ NEAL has builtin support for Python and Swift, but it's highly extensible, and c
 
 For a list of CLI options, runtime options and configuration attributes see the `Configuration <https://uber.github.io/NEAL/configuration.html>`_ guide.
 
+Acknowledgements
+----------------
+
+- OCaml CI Scripts (https://github.com/ocaml/ocaml-ci-scripts)
+
 .. _brew: https://brew.sh
 
 .. toctree::
