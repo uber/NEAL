@@ -30,7 +30,7 @@ brew: setup-buildonly
 
 setup: setup-buildonly
 	virtualenv env
-	source $$PWD/env/bin/activate; \
+	. $$PWD/env/bin/activate; \
 	pip install -r tests/requirements.txt
 
 trim:
