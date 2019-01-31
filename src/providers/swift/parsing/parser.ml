@@ -1339,7 +1339,7 @@ and trailingClosure ~allowTrailingClosure () =
 (*| function-call-argument -> operator | identifier ":" operator |*)
 and functionCallArgument () =
   mkNode "FunctionCallArgument"
-  <:> mkOptProp "Label" (identifier () <* wchar ':')
+  <:> mkOptProp "Label" (paramName () <* wchar ':')
   <:> (
     mkProp "Expression" (fix expression)
     <|> mkPropE "Operator" operator
