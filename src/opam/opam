@@ -16,7 +16,7 @@ depends: [
   "core"
   "menhir"
   "yojson"
-  "bisect_ppx"
+  "bisect_ppx" { = "1.3.4" }
   "bisect_ppx-ocamlbuild"
 ]
 build: [
