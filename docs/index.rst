@@ -8,7 +8,7 @@ Example
 
 One of the simplest rules we have at Uber is to restrict the use of `Forced-Values in Swift`__. (`This post`__ explains some of the risks of abusing forced-values.)
 
-__ https://developer.apple.com/library/content/documentation/Swift/Conceptual/Swift_Programming_Language/Expressions.html#//apple_ref/doc/uid/TP40014097-CH32-ID404
+__ https://docs.swift.org/swift-book/ReferenceManual/Expressions.html#ID404
 __ https://www.andrewcbancroft.com/2016/06/13/force-unwrapping-swift-optionals-code-smell/
 
 A forced-value consists of any expression that results in an optional value followed by the forced-unwrapping operator (``!``). Here's a contrived example that would result in a runtime crash.
