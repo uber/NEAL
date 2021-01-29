@@ -7,5 +7,5 @@
 "neal.ml": syntax(camlp4o), package(camlp4.macro), opaque
 "main.ml": package(cmdliner)
 
-true: package(core, dynlink, angstrom), thread, use_menhir, coverage, warn_a, profile, annot, bin_annot
+true: package(core, dynlink, angstrom), thread, use_menhir, coverage, warn_a, annot, bin_annot
 "main.p.native" or "main.native" or "main.byte": debug, linkall, package(yojson, str, cmdliner)
