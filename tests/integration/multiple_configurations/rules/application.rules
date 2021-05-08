@@ -1,0 +1,5 @@
+rule NoForceCasting {
+  Swift::TypeCastingExpresion where Operator == "as!" {
+    fail("Force-casting can easily crash the app, therefore, not allowed.")
+  }
+}

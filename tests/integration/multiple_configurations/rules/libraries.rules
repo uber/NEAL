@@ -1,0 +1,5 @@
+rule UIColors {
+  Swift::ImplicitMemberExpression where match(Property, /\b(white|black|lightGray|gray|clear|darkGray|orange|clear|yellow|blue|red)$/) {
+    fail("Dont use default UIColors")
+  }
+}
