@@ -6,4 +6,4 @@ endif
 
 test::
 	. "$(SELF_DIR)/../env/bin/activate"; \
-	NEAL=$(NEAL) lit -v $(F) .
+	NEAL=$(NEAL) opam exec -- lit -v $(F) .
