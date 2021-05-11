@@ -4,7 +4,7 @@ jobs:
   execute-tests:
     runs-on: macos-latest
     steps:
-      - uses: fangyi-zhou/actions-ocaml@v1
+      - uses: tapthaker/actions-ocaml@0.1
         with:
           ocaml_version: 4.04.2
       - run: eval `opam config env`
