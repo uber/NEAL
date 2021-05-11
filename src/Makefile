@@ -1,9 +1,11 @@
+PWD = $(pwd)
+
 include Makefile.propagate
 
+
 register:
-	SELF_DIR = $(pwd)
-	opam exec -- pushd $(SELF_DIR) && ocamlfind remove neal
-	opam exec -- pushd $(SELF_DIR) && ocamlfind install neal \
+	opam exec -- pushd $(PWD) && ocamlfind remove neal
+	opam exec -- pushd $(PWD) && ocamlfind install neal \
 		opam/META \
 		core/_build/neal.cmi \
 		core/_build/driver/fs.cmo \
