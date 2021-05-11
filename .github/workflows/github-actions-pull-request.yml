@@ -2,12 +2,16 @@ name: Validate Pull Request
 on: pull_request
 jobs:
   execute-tests:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     steps:
       - name: Setup Ocaml
         uses: avsm/setup-ocaml@v1.1.10
         with:
           ocaml-version: 4.04.2
+      - name: Setup Python 2.7
+        uses: actions/setup-python@v2
+        with:
+          python-version: '2.7'
       - run: eval `opam config env`
       - run: make setup
       - run: make coverage
