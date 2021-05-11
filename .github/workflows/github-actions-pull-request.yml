@@ -13,10 +13,11 @@ jobs:
         uses: avsm/setup-ocaml@v1.1.10
         with:
           ocaml-version: 4.04.2
+      - run: eval `opam config env`
       - name: Setup Python 2.7
         uses: actions/setup-python@v2
         with:
           python-version: '2.7'
-      - run: eval `opam config env`
+      - run: pip install virtualenv
       - run: make setup
       - run: make coverage
