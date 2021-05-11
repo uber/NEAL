@@ -4,6 +4,11 @@ jobs:
   execute-tests:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout PR
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          clean: false # Prevent removing files in 'path/to/base' folder.
       - name: Setup Ocaml
         uses: avsm/setup-ocaml@v1.1.10
         with:
