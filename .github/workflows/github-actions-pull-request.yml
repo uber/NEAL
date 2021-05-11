@@ -1,0 +1,12 @@
+name: Validate Pull Request
+on: pull_request
+jobs:
+  execute-tests:
+    runs-on: macos-11.0
+    steps:
+      - uses: fangyi-zhou/actions-ocaml@v1
+        with:
+          ocaml_version: 4.04
+      - run: opam config env
+      - run: make setup
+      - run: make coverage
