@@ -12,6 +12,7 @@ endif
 build::
 	@true
 ifneq ($(MAIN_FILE),)
+	eval `opam config env`
 	$(OCAMLBUILD) $(MAIN_FILE)$(PROFILE).$(EXEC_EXT)
 endif
 ifneq ($(LIBRARY),)
