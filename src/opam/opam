@@ -32,6 +32,6 @@ install: [
 remove: [
   ["rm" "-r" "%{prefix}%/lib/neal/providers"]
   ["rm" "-r" "%{prefix}%/lib/neal/reporters"]
-  ["ocamlfind" "remove" "neal"]
+  ["opam" "exec" "--" "ocamlfind" "remove" "neal"]
 ]
 available: [ ocaml-version >= "4.04.0" ]
