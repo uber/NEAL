@@ -4,9 +4,10 @@ jobs:
   execute-tests:
     runs-on: macos-latest
     steps:
-      - uses: tapthaker/actions-ocaml@0.4
+      - name: Setup Ocaml
+        uses: avsm/setup-ocaml@v1.1.10
         with:
-          ocaml_version: 4.04.2
+          ocaml-version: 4.04.2
       - run: eval `opam config env`
       - run: make setup
       - run: make coverage
