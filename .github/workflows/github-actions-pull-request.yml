@@ -6,7 +6,7 @@ jobs:
     steps:
       - uses: fangyi-zhou/actions-ocaml@v1
         with:
-          ocaml_version: 4.04
+          ocaml_version: 4.04.2
       - run: opam config env
       - run: make setup
       - run: make coverage
