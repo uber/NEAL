@@ -19,4 +19,6 @@ jobs:
           python-version: '2.7'
       - run: pip install virtualenv
       - run: make setup
+          env:
+            OPAMSOLVERTIMEOUT: 300
       - run: make coverage
