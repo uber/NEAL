@@ -1,4 +1,4 @@
-PWD = $(pwd)
+SRC_DIR = $(shell pwd)
 
 
 include Makefile.propagate
@@ -6,10 +6,10 @@ include Makefile.propagate
 register:
 	opam exec -- ocamlfind remove neal
 	opam exec -- ocamlfind install neal \
-		$(PWD)/opam/META \
-		$(PWD)/core/_build/neal.cmi \
-		$(PWD)/core/_build/driver/fs.cmo \
-		$(PWD)/core/_build/driver/fs.cmi \
-		$(PWD)/core/_build/provider/prabsyn.cmo \
-		$(PWD)/core/_build/provider/prabsyn.cmi
+		$(SRC_DIR)/opam/META \
+		$(SRC_DIR)/core/_build/neal.cmi \
+		$(SRC_DIR)/core/_build/driver/fs.cmo \
+		$(SRC_DIR)/core/_build/driver/fs.cmi \
+		$(SRC_DIR)/core/_build/provider/prabsyn.cmo \
+		$(SRC_DIR)/core/_build/provider/prabsyn.cmi
 
