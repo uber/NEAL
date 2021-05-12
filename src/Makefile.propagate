@@ -15,6 +15,7 @@ test: $(NEAL) $(patsubst %/Makefile,%.test,$(SUBDIRS))
 	@true
 
 %.build:
+	[ "$*" != "providers" ] || sleep 1
 	@$(MAKE) -C $* build
 
 %.clean:
