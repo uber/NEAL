@@ -48,5 +48,5 @@ install:
 
 coverage:
 	@COVERAGE=1 $(MAKE) test
-	@bisect-ppx-report -html src/core/_build/coverage/ $$(find . -name _build -type d -exec echo -I {} \;) $$(find . -name 'bisect*.out')
+	@opam exec -- bisect-ppx-report -html src/core/_build/coverage/ $$(find . -name _build -type d -exec echo -I {} \;) $$(find . -name 'bisect*.out')
 	@find . -name 'bisect*out' | xargs rm
