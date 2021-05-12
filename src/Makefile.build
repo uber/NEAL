@@ -21,7 +21,7 @@ endif
 
 .PHONY: clean
 clean::
-	ocamlbuild -clean
+	opam exec -- ocamlbuild -clean
 
 .PHONY: test
 test:: $(NEAL)
