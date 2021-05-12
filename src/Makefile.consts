@@ -30,7 +30,8 @@ ifdef LIB_PATH
 endif
 endif
 
-OCAMLBUILD := $(COVERAGE) ocamlbuild $(_LIB_PATH) -use-ocamlfind -plugin-tag 'package(bisect_ppx-ocamlbuild)'
+OCAMLBUILD := ocamlbuild $(_LIB_PATH) -use-ocamlfind -plugin-tag 'package(bisect_ppx-ocamlbuild)'
+OCAMLENV := $(COVERAGE)
 
 $(NEAL):
 	@make -C $(SELF_DIR) build
