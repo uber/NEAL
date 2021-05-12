@@ -4,7 +4,7 @@ PWD = $(pwd)
 include Makefile.propagate
 
 register:
-  opam exec -- ocamlfind remove neal
+	opam exec -- ocamlfind remove neal
 	opam exec -- ocamlfind install neal \
 		$(PWD)/opam/META \
 		$(PWD)/core/_build/neal.cmi \
