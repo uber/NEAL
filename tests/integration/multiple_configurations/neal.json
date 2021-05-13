@@ -1,0 +1,31 @@
+{
+  "rule-map": [
+    {
+      "name": "APPLICATION_CONFIG",
+      "glob": [
+        "apps/.*"
+      ],
+      "rules": [
+        "./rules/application.rules"
+      ]
+    },
+    {
+      "name": "LIBRARY_CONFIG",
+      "glob": [
+        "libraries/.*"
+      ],
+      "rules": [
+        "./rules/libraries.rules"
+      ]
+    },
+    {
+      "name": "COMMON_RULES",
+      "glob": [
+        ".*"
+      ],
+      "rules": [
+        "./rules/common.rules"
+      ]
+    }
+  ]
+}

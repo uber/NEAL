@@ -105,7 +105,7 @@ let scope_matches { includes; ignores } file =
 exception Break of Neal.Rule.ruleset list
 let collect_rules file rules = function
   | (`Global, rs) -> rs @ rules
-  | (`Scoped scope, rs) when scope_matches scope file -> raise (Break rs)
+  | (`Scoped scope, rs) when scope_matches scope file -> rs @ rules
   | _ -> rules
 
 let visitor (module P : Provider.PROVIDER) reporters file source rules absyn =

@@ -1,0 +1,8 @@
+// RUN: %not %neal %p | %check
+
+// Make sure that there are only 3 errors emitted
+// RUN: %not %neal %p | test $(wc -l) -eq 3
+
+// CHECK-L:apps/Application.swift:12: error: Force-casting can easily crash the app, therefore, not allowed. (NoForceCasting)
+// CHECK-L:libraries/Libraries.swift:5: error: Use `PresidioFoundation.DispatchQueue` instead of GCD to allow unit testing. (GCD)
+// CHECK-L:libraries/Libraries.swift:9: error: Dont use default UIColors (UIColors)

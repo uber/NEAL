@@ -1,0 +1,7 @@
+
+rule GCD {
+  Swift::ExplicitMemberExpression where Object == "Foundation" && Member == "DispatchQueue" {
+    fail("Use `PresidioFoundation.DispatchQueue` instead of GCD to allow unit testing.")
+  }
+}
+
