@@ -783,19 +783,27 @@ and tupleTypeElement () =
 and elementName () =
   identifier ()
 
-(*| GRAMMAR OF A FUNCTION TYPE |*)
-
-(*| function-type -> attributes ??? function-type-argument-clause "throws ???" "->" type |*)
-(*| function-type -> attributes ??? function-type-argument-clause "rethrows" "->" type |*)
-and functionType () =
-  mkNode "FunctionType"
-  <:> mkOptPropE "Attributes" attributes
-  <:> mkPropE "FunctionTypeArgumentClause" functionTypeArgumentClause
+(*| function-properties -> async ??? throws ??? |*)
+(*| function-properties -> async ??? rethrows ??? |*)
+and functionProperties () = 
+  mkPropHolder
+  <:> mkOptPropEmpty (
+    mkBoolProp "Async" (wstring "async")
+  )
   <:> mkOptPropEmpty (
     mkBoolProp "Throws" (wstring "throws")
     <|>
     mkBoolProp "Rethrows" (wstring "rethrows")
   )
+
+(*| GRAMMAR OF A FUNCTION TYPE |*)
+
+(*| function-type -> attributes ??? function-type-argument-clause function-properties "->" type |*)
+and functionType () =
+  mkNode "FunctionType"
+  <:> mkOptPropE "Attributes" attributes
+  <:> mkPropE "FunctionTypeArgumentClause" functionTypeArgumentClause
+  <:> functionProperties ()
   <* wfstring "->"
   <:> mkProp "ReturnType" (fix type')
 
@@ -2403,16 +2411,11 @@ and parameterClause () =
   wchar '(' *> mkOptE parameterList <* wchar ')'
 
 
-(*| function-signature -> parameter-clause "throws ???" function-result??? |*)
-(*| function-signature -> parameter-clause "rethrows" function-result??? |*)
+(*| function-signature -> parameter-clause function-properties function-result??? |*)
 and functionSignature () =
   mkPropHolder
   <:> mkPropE "ParameterClause" parameterClause
-  <:> mkOptPropEmpty (
-    mkBoolProp "Throws" (wstring "throws")
-    <|>
-    mkBoolProp "Rethrows" (wstring "rethrows")
-  )
+  <:> functionProperties ()
   <:> mkOptPropE "FunctionResult" functionResult
 
 (*| function-declaration -> function-head function-name generic-parameter-clause ??? function-signature generic-where-clause ??? function-body ??? |*)
@@ -2675,18 +2678,13 @@ and protocolMethodDeclaration () =
 
 (*| GRAMMAR OF A PROTOCOL INITIALIZER DECLARATION |*)
 
-(*| protocol-initializer-declaration -> initializer-head generic-parameter-clause ??? parameter-clause "throws ???" generic-where-clause ??? |*)
-(*| protocol-initializer-declaration -> initializer-head generic-parameter-clause ??? parameter-clause "rethrows" generic-where-clause ??? |*)
+(*| protocol-initializer-declaration -> initializer-head generic-parameter-clause ??? parameter-clause function-properties generic-where-clause ??? |*)
 and protocolInitializerDeclaration () =
   mkNode "ProtocolInitializerDeclaration"
   <:> initializerHead ()
   <:> mkOptPropE "GenericParameterClause" genericParameterClause
   <:> mkPropE "ParameterClause" parameterClause
-  <:> mkOptPropEmpty (
-    mkBoolProp "Throws" (wstring "throws")
-    <|>
-    mkBoolProp "Rethrows" (wstring "rethrows")
-  )
+  <:> functionProperties ()
   <:> mkOptPropE "GenericWhereClause" genericWhereClause
 
 (*| GRAMMAR OF A PROTOCOL SUBSCRIPT DECLARATION |*)
@@ -2712,8 +2710,7 @@ and protocolAssociatedTypeDeclaration () =
 
 (*| GRAMMAR OF AN INITIALIZER DECLARATION |*)
 
-(*| initializer-declaration -> initializer-head generic-parameter-clause ??? parameter-clause "throws ???" generic-where-clause ??? initializer-body |*)
-(*| initializer-declaration -> initializer-head generic-parameter-clause ??? parameter-clause "rethrows" generic-where-clause ??? initializer-body |*)
+(*| initializer-declaration -> initializer-head generic-parameter-clause ??? parameter-clause function-properties generic-where-clause ??? initializer-body |*)
 and initializerDeclaration () =
   mkNode "InitializerDeclaration"
   <:> initializerHead ()
@@ -2724,6 +2721,7 @@ and initializerDeclaration () =
     <|>
     mkBoolProp "Rethrows" (wstring "rethrows")
   )
+  <:> functionProperties ()
   <:> mkOptPropE "GenericWhereClause" genericWhereClause
   <:> mkPropE "InitializerBody" initializerBody
 
