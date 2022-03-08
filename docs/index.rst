@@ -71,13 +71,13 @@ The recommended way of installing NEAL is through `Homebrew <https://brew.sh>`_,
 Installing from source
 ++++++++++++++++++++++
 
-To build and install NEAL from source, make sure you have `OPAM`__ installed and that you're using OCaml 4.04 or later.
+To build and install NEAL from source, make sure you have `OPAM`__ installed and that you're using OCaml 4.13.1 or later.
 
 .. code-block:: bash
 
   $ brew install opam
   $ opam init
-  $ opam switch 4.04.2
+  $ opam switch 4.13.1
   $ eval "$(opam config env)"
 
 __ https://opam.ocaml.org/

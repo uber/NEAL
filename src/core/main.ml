@@ -68,7 +68,7 @@ let main rules providers reporters stdin filelist print_ast strict strict_parse 
   let files' =
     match filelist with
     | None -> files
-    | Some file -> Core.Std.In_channel.read_lines file
+    | Some file -> Core.In_channel.read_lines file
   in
   let rule_step =
     match rules with
@@ -110,7 +110,7 @@ let main rules providers reporters stdin filelist print_ast strict strict_parse 
 let neal =
   let doc = "Not Exactly A Linter" in
   Term.(ret (const main $ rules $ providers $ reporters $ stdin $ filelist $ print_ast $ strict $ strict_parse $ files)),
-  Term.info "neal" ~version:"0.2.4" ~doc
+  Term.info "neal" ~version:"0.2.6" ~doc
 
 let test =
   let doc = "A list of rules to be tested" in

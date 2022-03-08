@@ -1,8 +1,13 @@
 Changelog
 =========
 
-0.2.5 (Unreleased)
-------------------
+0.2.5
+------
+- Updates Ocaml to 4.13.1 to support building on arm64
+
+0.2.5
+------
+- Add support for parsing Swift concurrency syntax
 
 0.2.4
 -----

@@ -20,7 +20,7 @@
 
 module StringSet = Set.Make(String)
 
-let realpath = Core.Std.Filename.realpath
+let realpath = Core.Filename.realpath
 
 let join_path dir path =
   Filename.concat dir path |> realpath
