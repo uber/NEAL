@@ -164,6 +164,7 @@ and keywords = [
  "throws";
  "true";
  "try";
+ "await";
 ]
 
 and identifier () = identifier' keywords
@@ -937,6 +938,12 @@ and tryOperator () =
     <|> wstring "try"
   ) >>= mkString
 
+(*| await-operator -> "await" |*)
+and awaitOperator () =
+  (
+    wstring "await"
+  ) >>= mkString
+
 (*| GRAMMAR OF AN ASSIGNMENT OPERATOR |*)
 
 (*| assignment-operator -> "=" |*)
@@ -1466,11 +1473,13 @@ and binaryExpression ~allowAssignment ~allowTrailingClosure ~allowTypeAnnotation
     mkNode "AssignmentExpression"
     <:> mkProp "Assignee" (return exp)
     <* assignmentOperator ()
+    <:> mkOptPropE "Await" awaitOperator
     <:> mkOptPropE "Try" tryOperator
     <:> mkPropE "Value" (prefixExpression ~allowTrailingClosure ~allowTypeAnnotation)
   and conditionalExpression () =
     mkNode "ConditionalExpression"
     <:> conditionalOperator ()
+    <:> mkOptPropE "Await" awaitOperator
     <:> mkOptPropE "AlternateTry" tryOperator
     <:> mkPropE "Alternate" (prefixExpression ~allowTrailingClosure ~allowTypeAnnotation)
   and typeCastingExpression () =
@@ -1510,17 +1519,25 @@ and binaryExpressions ~allowAssignment ~allowTrailingClosure ~allowTypeAnnotatio
 
 (*| GRAMMAR OF AN EXPRESSION |*)
 
-(*| expression -> try-operator ??? prefix-expression binary-expressions ??? |*)
+(*| expression -> await-operator ??? try-operator ??? prefix-expression binary-expressions ??? |*)
 and expression
 ?allowAssignment:(allowAssignment:bool = true)
 ?allowTrailingClosure:(allowTrailingClosure:bool = true)
 ?(allowTypeAnnotation=true)
 _
 =
-  mkOptE tryOperator >>= fun tryop ->
-  prefixExpression ~allowTrailingClosure ~allowTypeAnnotation () >>= fun pre ->
-    option pre (binaryExpressions ~allowAssignment ~allowTrailingClosure ~allowTypeAnnotation pre)
-    <:> mkProp "Try" (return tryop)
+  mkOptE tryOperator 
+  >>= 
+    fun tryop ->
+      mkOptE awaitOperator 
+  >>=
+    fun awaitop ->
+      prefixExpression ~allowTrailingClosure ~allowTypeAnnotation () 
+  >>= 
+    fun pre ->
+      option pre (binaryExpressions ~allowAssignment ~allowTrailingClosure ~allowTypeAnnotation pre)
+  <:> mkProp "Try" (return tryop)
+  <:> mkProp "Await" (return awaitop)
 
 (*| expression-list -> expression | expression "," expression-list |*)
 and expressionList () =
