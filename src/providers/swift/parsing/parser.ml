@@ -1647,11 +1647,18 @@ and loopStatement () =
 
 (*| GRAMMAR OF A FOR-IN STATEMENT |*)
 
+(*| async-sequence-operator -> "try ??? await" |*)
+and asyncSequenceOperator () =
+  (wstring  "await") <|> (wstring "try" *> anyspace *> wstring "await")
+
+
 (*| for-in-statement -> "for" "case ???" pattern "in" expression where-clause ??? code-block |*)
+(*| for-in-statement -> "for" async-sequence-operator ??? pattern "in" expression where-clause ??? code-block |*)
 and forInStatement () =
   mkNode "ForInStatement"
   <* wstring "for"
   <:> mkOptPropEmpty (mkBoolProp "Case" (wstring "case"))
+  <:> mkOptPropEmpty (mkBoolProp "AsyncSequence" (asyncSequenceOperator ()))
   <:> mkProp "Pattern" (fix (pattern ~allowExpression:false))
   <* wstring "in"
   <:> mkProp "Condition" (fix (expression ~allowTrailingClosure:false))
