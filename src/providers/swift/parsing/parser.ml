@@ -2975,6 +2975,8 @@ and declarationModifier () =
   <|>
   mkBoolProp "Weak" (wstring "weak")
   <|>
+  mkBoolProp "ParallelAsync" (wstring "async") 
+  <|>
   accessLevelModifier ()
   <|>
   mutationModifier ()

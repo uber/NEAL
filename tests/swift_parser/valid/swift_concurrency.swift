@@ -19,3 +19,8 @@ for try await line in handle.bytes.lines {
 for await line in handle.bytes.lines {
     print(line)
 }
+
+// Parallel execution
+async let firstPhoto = downloadPhoto(named: photoNames[0])
+async let secondPhoto = downloadPhoto(named: photoNames[1])
+async let thirdPhoto = downloadPhoto(named: photoNames[2])
