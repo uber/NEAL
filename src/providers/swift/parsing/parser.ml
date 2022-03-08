@@ -164,6 +164,7 @@ and keywords = [
  "throws";
  "true";
  "try";
+ "await";
 ]
 
 and identifier () = identifier' keywords
@@ -937,6 +938,12 @@ and tryOperator () =
     <|> wstring "try"
   ) >>= mkString
 
+(*| await-operator -> "await" |*)
+and awaitOperator () =
+  (
+    wstring "await"
+  ) >>= mkString
+
 (*| GRAMMAR OF AN ASSIGNMENT OPERATOR |*)
 
 (*| assignment-operator -> "=" |*)
@@ -1466,11 +1473,13 @@ and binaryExpression ~allowAssignment ~allowTrailingClosure ~allowTypeAnnotation
     mkNode "AssignmentExpression"
     <:> mkProp "Assignee" (return exp)
     <* assignmentOperator ()
+    <:> mkOptPropE "Await" awaitOperator
     <:> mkOptPropE "Try" tryOperator
     <:> mkPropE "Value" (prefixExpression ~allowTrailingClosure ~allowTypeAnnotation)
   and conditionalExpression () =
     mkNode "ConditionalExpression"
     <:> conditionalOperator ()
+    <:> mkOptPropE "Await" awaitOperator
     <:> mkOptPropE "AlternateTry" tryOperator
     <:> mkPropE "Alternate" (prefixExpression ~allowTrailingClosure ~allowTypeAnnotation)
   and typeCastingExpression () =
@@ -1510,17 +1519,25 @@ and binaryExpressions ~allowAssignment ~allowTrailingClosure ~allowTypeAnnotatio
 
 (*| GRAMMAR OF AN EXPRESSION |*)
 
-(*| expression -> try-operator ??? prefix-expression binary-expressions ??? |*)
+(*| expression -> await-operator ??? try-operator ??? prefix-expression binary-expressions ??? |*)
 and expression
 ?allowAssignment:(allowAssignment:bool = true)
 ?allowTrailingClosure:(allowTrailingClosure:bool = true)
 ?(allowTypeAnnotation=true)
 _
 =
-  mkOptE tryOperator >>= fun tryop ->
-  prefixExpression ~allowTrailingClosure ~allowTypeAnnotation () >>= fun pre ->
-    option pre (binaryExpressions ~allowAssignment ~allowTrailingClosure ~allowTypeAnnotation pre)
-    <:> mkProp "Try" (return tryop)
+  mkOptE tryOperator 
+  >>= 
+    fun tryop ->
+      mkOptE awaitOperator 
+  >>=
+    fun awaitop ->
+      prefixExpression ~allowTrailingClosure ~allowTypeAnnotation () 
+  >>= 
+    fun pre ->
+      option pre (binaryExpressions ~allowAssignment ~allowTrailingClosure ~allowTypeAnnotation pre)
+  <:> mkProp "Try" (return tryop)
+  <:> mkProp "Await" (return awaitop)
 
 (*| expression-list -> expression | expression "," expression-list |*)
 and expressionList () =
@@ -1630,11 +1647,18 @@ and loopStatement () =
 
 (*| GRAMMAR OF A FOR-IN STATEMENT |*)
 
+(*| async-sequence-operator -> "try ??? await" |*)
+and asyncSequenceOperator () =
+  (wstring  "await") <|> (wstring "try" *> anyspace *> wstring "await")
+
+
 (*| for-in-statement -> "for" "case ???" pattern "in" expression where-clause ??? code-block |*)
+(*| for-in-statement -> "for" async-sequence-operator ??? pattern "in" expression where-clause ??? code-block |*)
 and forInStatement () =
   mkNode "ForInStatement"
   <* wstring "for"
   <:> mkOptPropEmpty (mkBoolProp "Case" (wstring "case"))
+  <:> mkOptPropEmpty (mkBoolProp "AsyncSequence" (asyncSequenceOperator ()))
   <:> mkProp "Pattern" (fix (pattern ~allowExpression:false))
   <* wstring "in"
   <:> mkProp "Condition" (fix (expression ~allowTrailingClosure:false))
@@ -2591,6 +2615,13 @@ and classMembers () =
 and classBody () =
   wchar '{' *> mkOptE classMembers <* wchar '}'
 
+(*| reference-type -> class | actor |*)
+and referenceType () =
+  (
+    mkBoolProp "Actor" (wstring "actor")
+    <|> (wstring "class" *> mkPropHolder)
+  )
+
 (*| class-declaration -> attributes??? access-level-modifier??? "final"??? "class" class-name generic-parameter-clause??? type-inheritance-clause??? generic-where-clause??? class-body |*)
 (*| class-declaration -> attributes??? "final" access-level-modifier??? "class" class-name generic-parameter-clause??? type-inheritance-clause??? generic-where-clause??? class-body |*)
 and classDeclaration () =
@@ -2605,7 +2636,7 @@ and classDeclaration () =
       <:> mkOptPropEmpty (mkBoolProp "Final" (wstring "final"))
     )
   )
-  <* wstring "class"
+  <:> referenceType ()
   <:> mkPropE "ClassName" className
   <:> mkOptPropE "GenericParameterClause" genericParameterClause
   <:> mkOptPropE "TypeInheritanceClause" typeInheritanceClause
@@ -2950,6 +2981,8 @@ and declarationModifier () =
   mkBoolProp "UnownedUnsafe" (wstring "unowned" *> wchar '(' *> wstring "unsafe" *> wchar ')')
   <|>
   mkBoolProp "Weak" (wstring "weak")
+  <|>
+  mkBoolProp "ParallelAsync" (wstring "async") 
   <|>
   accessLevelModifier ()
   <|>
