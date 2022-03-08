@@ -24,3 +24,31 @@ for await line in handle.bytes.lines {
 async let firstPhoto = downloadPhoto(named: photoNames[0])
 async let secondPhoto = downloadPhoto(named: photoNames[1])
 async let thirdPhoto = downloadPhoto(named: photoNames[2])
+
+let photos = await [firstPhoto, secondPhoto, thirdPhoto]
+
+// Task Group
+await withTaskGroup(of: Data.self) { taskGroup in
+    let photoNames = await listPhotos(inGallery: "Summer Vacation")
+    for name in photoNames {
+        taskGroup.addTask { await downloadPhoto(named: name) }
+    }
+}
+
+let handle = Task {
+    return await add(newPhoto, toGalleryNamed: "Spring Adventures")
+}
+let result = await handle.value
+
+// Actor
+actor TemperatureLogger {
+    let label: String
+    var measurements: [Int]
+    private(set) var max: Int
+
+    init(label: String, measurement: Int) {
+        self.label = label
+        self.measurements = [measurement]
+        self.max = measurement
+    }
+}

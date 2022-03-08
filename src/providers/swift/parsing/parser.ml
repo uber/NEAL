@@ -2615,6 +2615,13 @@ and classMembers () =
 and classBody () =
   wchar '{' *> mkOptE classMembers <* wchar '}'
 
+(*| reference-type -> class | actor |*)
+and referenceType () =
+  (
+    mkBoolProp "Actor" (wstring "actor")
+    <|> (wstring "class" *> mkPropHolder)
+  )
+
 (*| class-declaration -> attributes??? access-level-modifier??? "final"??? "class" class-name generic-parameter-clause??? type-inheritance-clause??? generic-where-clause??? class-body |*)
 (*| class-declaration -> attributes??? "final" access-level-modifier??? "class" class-name generic-parameter-clause??? type-inheritance-clause??? generic-where-clause??? class-body |*)
 and classDeclaration () =
@@ -2629,7 +2636,7 @@ and classDeclaration () =
       <:> mkOptPropEmpty (mkBoolProp "Final" (wstring "final"))
     )
   )
-  <* wstring "class"
+  <:> referenceType ()
   <:> mkPropE "ClassName" className
   <:> mkOptPropE "GenericParameterClause" genericParameterClause
   <:> mkOptPropE "TypeInheritanceClause" typeInheritanceClause
