@@ -1,5 +1,8 @@
 // RUN: %not %neal %p | %check
 
-// CHECK-NEXT: error: Must use visibility = PRIVATE instead.
-// CHECK-NEXT: error: Call bar instead
+// Make sure that there are only 2 errors emitted
+// RUN: %not %neal %p | test $(wc -l) -eq 3
+
+// CHECK: error: Must use visibility = PRIVATE instead.
+// CHECK: error: Call bar instead
 // CHECK-NOT: .*
