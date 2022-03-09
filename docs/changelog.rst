@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.2.5
+0.2.6
 ------
 - Updates Ocaml to 4.13.1 to support building on arm64
 
