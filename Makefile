@@ -43,10 +43,9 @@ register:
 	$(MAKE) -C src register
 
 install:
-	@ln -fs $(NEAL) /usr/local/bin/neal
-	@echo installed at /usr/local/bin/neal
+	@echo neal is at $(NEAL)
 
 coverage:
 	@COVERAGE=1 $(MAKE) test
-	@opam exec -- bisect-ppx-report -html src/core/_build/coverage/ $$(find . -name _build -type d -exec echo -I {} \;) $$(find . -name 'bisect*.out')
-	@find . -name 'bisect*out' | xargs rm
+	@opam exec -- bisect-ppx-report html $$(find . -name '*.coverage') $$(find . -name _build -type d -exec echo --source-path {} \;)
+	@find . -name '*.coverage' | xargs rm -r
