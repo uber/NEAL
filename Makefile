@@ -43,7 +43,8 @@ register:
 	$(MAKE) -C src register
 
 install:
-	@echo neal is at $(NEAL)
+	@ln -fs $(NEAL) /usr/local/bin/neal
+	@echo installed at /usr/local/bin/neal
 
 coverage:
 	@COVERAGE=1 $(MAKE) test
