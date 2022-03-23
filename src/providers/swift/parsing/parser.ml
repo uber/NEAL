@@ -3119,19 +3119,23 @@ and balancedTokens _ =
 (*| balanced-token -> Any identifier, keyword, literal, or operator |*)
 (*| balanced-token -> Any punctuation except "(" , ")" , "[" , "]" , "{" , or "}" |*)
 and balancedToken _ =
-  wchar '(' *> fix balancedTokens <* wchar '*'
+  wchar '(' *> fix balancedTokens <* wchar ')'
   <|>
   wchar '[' *> fix balancedTokens <* wchar ']'
   <|>
   wchar '{' *> fix balancedTokens <* wchar '}'
+  <|>
+  identifier () (*| this includes keywords |*)
+  <|>
+  literal ()
+  <|>
+  operator ()
   <|> (
     pos >>= fun pos ->
       many1(fun () -> satisfy(function
-        | '(' | ')'
-        | '[' | ']'
-        | '{' | '}'
-        -> false
-        | _ -> true
+        | '.' | ',' | ':' | ';' | '=' | '@' | '#' | '&' | '`' | '?' | '!'
+        -> true
+        | _ -> false
       )) >>| fun chars ->
         NodeHolder(pos, string_of_chars chars)
   )
