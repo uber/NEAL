@@ -5,13 +5,13 @@ SUBDIRS = $(filter-out docs/Makefile,$(SUBDIRS_))
 include $(SELF_DIR)/Makefile.consts
 
 .PHONY: build
-build: $(patsubst %/Makefile,%.build,$(SUBDIRS))
+build:: $(patsubst %/Makefile,%.build,$(SUBDIRS))
 
 .PHONY: clean
-clean: $(patsubst %/Makefile,%.clean,$(SUBDIRS))
+clean:: $(patsubst %/Makefile,%.clean,$(SUBDIRS))
 
 .PHONY: test
-test: $(NEAL) $(patsubst %/Makefile,%.test,$(SUBDIRS))
+test:: $(NEAL) $(patsubst %/Makefile,%.test,$(SUBDIRS))
 	@true
 
 %.build:

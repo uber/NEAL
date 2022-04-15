@@ -4,6 +4,7 @@ setup-buildonly:
 	opam update
 	opam pin add neal src -n -y
 	opam install --deps-only neal -y
+	cd src/providers/javascript/helper && npm install
 
 install-brew:
 	# install the main binary
