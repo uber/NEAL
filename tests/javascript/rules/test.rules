@@ -1,0 +1,7 @@
+rule no_await_in_loops {
+  JavaScript::ForOfStatement {
+    AwaitExpression  {
+      fail("Do not use `await` inside loops")
+    }
+  }
+}

@@ -8,3 +8,4 @@ node_modules
 env*
 *.pickle
 _coverage/
+src/providers/helpers/dump_javascript_ast.js
