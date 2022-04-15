@@ -230,14 +230,14 @@ end
 module Utils = struct
   let neal_root =
   IFDEF RELATIVE_LIB_PATH THEN
-    let exec_path = Core.Filename.realpath Sys.executable_name in
+    let exec_path = Unix.realpath Sys.executable_name in
     let _build = Filename.dirname exec_path in
     Filename.concat _build RELATIVE_LIB_PATH
   ELSE
     IFDEF LIB_PATH THEN
       LIB_PATH
     ELSE
-      let exec_path = Core.Filename.realpath Sys.executable_name in
+      let exec_path = Unix.realpath Sys.executable_name in
       let _build = Filename.dirname exec_path in
       let neal = Filename.dirname _build in
       Filename.dirname neal
